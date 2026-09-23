@@ -1,0 +1,45 @@
+{
+  "index_counterexample": {
+    "n": 2,
+    "k": 17,
+    "prime": 17,
+    "irreducible_over_Q": true,
+    "T_mod_g_mod_17": "10*X + 8",
+    "gcd_T_g_mod_17": "X + 11",
+    "Dedekind_criterion_implies_17_divides_index": true
+  },
+  "embedding_diagnostic": {
+    "small_instance_numerical_checks": [
+      {
+        "n": 8,
+        "k": 1,
+        "maximum_absolute_singular_value_discrepancy": 1.7763568394002505e-15
+      },
+      {
+        "n": 8,
+        "k": 2,
+        "maximum_absolute_singular_value_discrepancy": 1.7763568394002505e-14
+      },
+      {
+        "n": 8,
+        "k": 5,
+        "maximum_absolute_singular_value_discrepancy": 1.509903313490213e-14
+      }
+    ],
+    "submitted_condition_numbers_from_formula": {
+      "1": 1.0,
+      "2": 1.7320499018613975,
+      "5": 2.408222670423614
+    }
+  },
+  "saved_witness": {
+    "rows": 5120,
+    "columns": 10240,
+    "modulus": 16777216,
+    "nonzero_coordinates": 7683,
+    "infinity_norm": 4194304,
+    "saved_witness_verified": true,
+    "valid_for_every_full_modulus_lift_of_saved_mod4_matrix": true,
+    "actual_signature_forgery": false
+  }
+}

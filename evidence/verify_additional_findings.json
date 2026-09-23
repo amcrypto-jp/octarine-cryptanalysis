@@ -1,0 +1,62 @@
+{
+  "sample_in_ball_source_checks": null,
+  "original_source_checked": false,
+  "two_adic_boundaries_and_challenge_parity": [
+    {
+      "level": 128,
+      "tau": 16,
+      "challenge_evaluation_at_y_1_mod_2": 0,
+      "challenge_is_unit_mod_2": false,
+      "suF_z_condition": "abs(z) < 524160",
+      "largest_accepted_integer_z_coefficient": 524159,
+      "nearby_q_over_power_of_two": 524288,
+      "threshold_gap_to_scale": 128,
+      "integer_gap_to_scale": 129,
+      "suF_r_bound": 524290,
+      "r_bound_minus_scale": 2
+    },
+    {
+      "level": 256,
+      "tau": 36,
+      "challenge_evaluation_at_y_1_mod_2": 0,
+      "challenge_is_unit_mod_2": false,
+      "suF_z_condition": "abs(z) < 1048432",
+      "largest_accepted_integer_z_coefficient": 1048431,
+      "nearby_q_over_power_of_two": 1048576,
+      "threshold_gap_to_scale": 144,
+      "integer_gap_to_scale": 145,
+      "suF_r_bound": 1048578,
+      "r_bound_minus_scale": 2
+    },
+    {
+      "level": 512,
+      "tau": 87,
+      "challenge_evaluation_at_y_1_mod_2": 1,
+      "challenge_is_unit_mod_2": true,
+      "suF_z_condition": "abs(z) < 4193956",
+      "largest_accepted_integer_z_coefficient": 4193955,
+      "nearby_q_over_power_of_two": 4194304,
+      "threshold_gap_to_scale": 348,
+      "integer_gap_to_scale": 349,
+      "suF_r_bound": 4194306,
+      "r_bound_minus_scale": 2
+    }
+  ],
+  "illustrative_odd_challenge_weights": [
+    {
+      "level": 128,
+      "illustrative_odd_tau": 21,
+      "challenge_entropy": 165.23243911015496,
+      "grover_query_exponent": 82.61621955507748,
+      "warning": "requires full parameter retuning"
+    },
+    {
+      "level": 256,
+      "illustrative_odd_tau": 37,
+      "challenge_entropy": 262.74655106316186,
+      "grover_query_exponent": 131.37327553158093,
+      "warning": "requires full parameter retuning"
+    }
+  ],
+  "parity_reason": "Over F_2, y^1024+1=(y+1)^1024 and signs +/-1 both equal 1; therefore c(1)=tau mod 2."
+}

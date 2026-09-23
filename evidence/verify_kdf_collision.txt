@@ -1,0 +1,3 @@
+state collision after 122 trials (12-bit toy state; birthday exponent 6)
+inputs: prefix=0xABC, blocks 0x4123 vs 0x5123, state 0x73f
+all 64 counter blocks identical: True (768 effective output bits)

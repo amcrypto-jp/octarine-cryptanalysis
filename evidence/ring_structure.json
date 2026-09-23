@@ -1,0 +1,64 @@
+{
+  "kind": "exact_algebra_and_projection_diagnostic_NOT_an_attack",
+  "n": 1024,
+  "q": 16777216,
+  "factorizations": [
+    {
+      "k": 1,
+      "factors_mod2": [
+        [
+          "T + 1",
+          1024
+        ]
+      ],
+      "unit_fraction": "1/2"
+    },
+    {
+      "k": 2,
+      "factors_mod2": [
+        [
+          "T + 1",
+          2048
+        ]
+      ],
+      "unit_fraction": "1/2"
+    },
+    {
+      "k": 5,
+      "factors_mod2": [
+        [
+          "T + 1",
+          1024
+        ],
+        [
+          "T^4 + T^3 + T^2 + T + 1",
+          1024
+        ]
+      ],
+      "unit_fraction": "15/32"
+    }
+  ],
+  "inverse_of_5_mod_2048": 1229,
+  "small_factor_identity": "(x-t)*(x^4+t*x^3+t^2*x^2+t^3*x+t^4)=2",
+  "a_power_24": {
+    "infinity": 8370000,
+    "squared_l2": 501868127870636,
+    "support": 24
+  },
+  "b_power_24": {
+    "infinity": 8260608,
+    "squared_l2": 2254602490145317,
+    "support": 96
+  },
+  "annihilator_product_zero": true,
+  "hensel_factorization_verified": true,
+  "lifted_factor_ranks": [
+    1024,
+    4096
+  ],
+  "projected_small_vector_max_abs": 8386517,
+  "projected_small_vector_rms": 4886563.522052773,
+  "unprojected_max_abs": 2,
+  "root_coefficients_max_abs": 8388608,
+  "seconds": 0.10208766100004141
+}

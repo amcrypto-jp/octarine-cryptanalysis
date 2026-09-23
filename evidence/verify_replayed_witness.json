@@ -1,0 +1,13 @@
+{
+  "rows": 5120,
+  "columns": 10240,
+  "q": 16777216,
+  "norm_infinity": 4194304,
+  "nonzero_coordinates": 7683,
+  "all_rows_verified": true,
+  "valid_for_every_lift_of_saved_mod4_matrix": true,
+  "changed_vector_rejected": true,
+  "response_block_norm": 4194304,
+  "strict_response_difference_limit": 4193956,
+  "actual_signature_forgery": false
+}

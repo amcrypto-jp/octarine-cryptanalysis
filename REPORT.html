@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Mounir IDRASSI" />
+  <meta name="dcterms.date" content="2026-09-23" />
+  <title>Security Analysis of ARCANE-Octarine</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">:root { color-scheme: light; --ink: #18242d; --accent: #174e67; }
+html { background: #f0f3f5; }
+body { box-sizing: border-box; max-width: 980px; margin: 2rem auto;
+padding: 3.4rem 4rem; background: white; color: var(--ink);
+font: 17px/1.65 Georgia, "DejaVu Serif", serif; }
+header { margin-bottom: 2.5rem; padding-bottom: 1.6rem; border-bottom: 2px solid var(--accent); }
+h1, h2, h3, .subtitle, .author, .date { font-family: "DejaVu Sans", Arial, sans-serif; }
+header h1 { font-size: 2rem; line-height: 1.23; letter-spacing: -0.03em; }
+.subtitle { color: var(--accent); font-size: 1.02rem; }
+.author { font-size: 1.05rem; font-weight: 700; margin-bottom: .2rem; }
+.date { font-size: .9rem; margin-top: .2rem; color: #4b5963; }
+h1:not(.title), h2 { font-size: 1.3rem; line-height: 1.35; margin-top: 2.3rem; color: var(--accent); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: #102e40; }
+p { margin: .9rem 0; }
+table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .86rem; line-height: 1.4; }
+th { color: var(--accent); text-align: left; border-top: 2px solid var(--accent); border-bottom: 1px solid #b1bfc8; }
+td, th { padding: .65rem .5rem; vertical-align: top; }
+tbody tr:nth-child(even) { background: #f4f7f9; }
+tbody tr:last-child { border-bottom: 1px solid #b1bfc8; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: .83em; overflow-wrap: anywhere; }
+pre { padding: 1rem; background: #f3f6f8; overflow-x: auto; line-height: 1.4; }
+.math.display, math[display="block"] { display: block; overflow-x: auto; margin: 1.1rem 0; padding: .2rem 0; }
+math { font-size: 1.03em; }
+li { margin: .7rem 0; }
+#TOC { padding: 1rem 1.25rem; background: #f3f6f8; font-size: .88rem; line-height: 1.4; }
+#TOC ul { columns: 2; padding-left: 1.2rem; margin: 0; }
+#TOC li { break-inside: avoid; margin: .3rem 0; }
+@media (max-width: 700px) {
+body { margin: 0; padding: 1.5rem; font-size: 16px; }
+header h1 { font-size: 1.7rem; }
+table { font-size: .76rem; }
+td, th { padding: .45rem .25rem; }
+#TOC ul { columns: 1; }
+}
+@media print {
+html { background: white; }
+body { max-width: none; margin: 0; padding: 0; font-size: 10.5pt; }
+a { color: inherit; }
+h1, h2, h3 { break-after: avoid; }
+tr, .math.display { break-inside: avoid; }
+}
+</style>
+  
+  
+  
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Security Analysis of ARCANE-Octarine</h1>
+<p class="subtitle">Concrete attack bounds, proof obligations, and
+specification consistency — Version 1.0.0</p>
+<p class="author">Mounir IDRASSI</p>
+<p class="date">23 September 2026</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#abstract" id="toc-abstract">Abstract</a></li>
+<li><a href="#scope-notation-and-interpretation" id="toc-scope-notation-and-interpretation">1. Scope, notation, and
+interpretation</a></li>
+<li><a href="#main-findings-and-their-scope" id="toc-main-findings-and-their-scope">2. Main findings and their
+scope</a></li>
+<li><a href="#hash-instantiation-and-chosen-message-signature-transfer" id="toc-hash-instantiation-and-chosen-message-signature-transfer">3.
+Hash instantiation and chosen-message signature transfer</a></li>
+<li><a href="#a-secret-free-challenge-search-forgery" id="toc-a-secret-free-challenge-search-forgery">4. A secret-free
+challenge-search forgery</a></li>
+<li><a href="#a-344-bit-descriptor-for-an-equivalent-sm3-signing-secret" id="toc-a-344-bit-descriptor-for-an-equivalent-sm3-signing-secret">5. A
+344-bit descriptor for an equivalent SM3 signing secret</a></li>
+<li><a href="#polynomial-solutions-of-the-relaxed-512-level-sis-instances" id="toc-polynomial-solutions-of-the-relaxed-512-level-sis-instances">6.
+Polynomial solutions of the relaxed 512-level SIS instances</a></li>
+<li><a href="#what-the-security-proof-still-needs" id="toc-what-the-security-proof-still-needs">7. What the security proof
+still needs</a></li>
+<li><a href="#ring-structure-basis-geometry-and-challenge-algebra" id="toc-ring-structure-basis-geometry-and-challenge-algebra">8. Ring
+structure, basis geometry, and challenge algebra</a></li>
+<li><a href="#public-transcript-information-and-functional-checks" id="toc-public-transcript-information-and-functional-checks">9. Public
+transcript information and functional checks</a></li>
+<li><a href="#specification-implementation-and-estimate-consistency" id="toc-specification-implementation-and-estimate-consistency">10.
+Specification, implementation, and estimate consistency</a></li>
+<li><a href="#disposition-and-requirements-for-a-revision" id="toc-disposition-and-requirements-for-a-revision">11. Disposition and
+requirements for a revision</a></li>
+<li><a href="#reproducibility-and-evidence" id="toc-reproducibility-and-evidence">12. Reproducibility and
+evidence</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="abstract">Abstract</h1>
+<p>ARCANE-Octarine is a Fiat–Shamir signature scheme using learning with
+rounding over a radical ring and a power-of-two modulus. This document
+analyzes the submitted 128-, 256-, and 512-level profiles, their
+concrete hash instantiations, the relations used in the security
+estimates, and the supplied implementations. It gives a chosen-message
+signature-transfer attack through the SM3 counter-mode hash
+construction, a secret-free challenge-search forgery, a 344-bit
+description of an equivalent signing secret in the SM3 family, and a
+polynomial-time solution of the relaxed homogeneous SIS instances used
+in the 512-level estimates. The last result is an attack on the
+estimated auxiliary problem; its witness violates the stricter response
+bound of the actual signature relation. The document also identifies
+missing quantitative proof arguments, modular structure requiring
+analysis, and deterministic disagreements between Algorithm 2 and all
+implementation families at levels 128 and 256.</p>
+<p>The evidence does not establish a practical forgery or recovery of an
+unknown signing key at the submitted parameters. It does establish that
+the advertised security claims are unsupported, with explicit generic
+attack bounds far below the 256- and 512-bit classical targets for the
+SM3 implementations. Neither supplied hash family supports 512-bit
+message-collision strength. Continued consideration requires revised
+primitives, parameters, normative specifications, and analysis of the
+actual verification relations.</p>
+<h1 id="scope-notation-and-interpretation">1. Scope, notation, and
+interpretation</h1>
+<h2 id="evaluated-artifact">1.1 Evaluated artifact</h2>
+<p>The subject is <em>ARCANE-Octarine: Algorithm Specifications and
+Supporting Documentation</em>, attributed in the submission to the
+ARCANE team [S], together with the supplied reference SM3, optimized
+SM3, and additional SHA3/SHAKE implementation families. The
+specification is a 53-page PDF, identified by SHA-256:</p>
+<pre class="text"><code>b88fbdd019beb8f0ae85c1554b48c87a42c5447b39171ce559ae30988c1bf09f</code></pre>
+<p>All specification page references below use printed page numbers; the
+corresponding one-based PDF page number is two greater. Findings apply
+to this snapshot and the source files identified in the evidence
+manifest [E9]. They do not presume that a future revision has the same
+behavior.</p>
+<p>Author contact: <a href="mailto:mounir@amcrypto.jp">mounir@amcrypto.jp</a>. Report and
+original results: CC BY 4.0; research software: MIT. The accompanying
+repository is <a href="https://github.com/amcrypto-jp/octarine-cryptanalysis">octarine-cryptanalysis</a>.
+The evidence inventory in Section 12 identifies the programs and data
+needed to reproduce the checks.</p>
+<p>An <em>exact construction</em> below is a mathematical algorithm with
+stated hypotheses. A <em>generic work bound</em> assumes the indicated
+idealized hash or search model. An <em>estimator output</em> describes a
+modeled attack, and does not lower-bound the cost of every possible
+attack. A <em>diagnostic</em> tests one property or example and does not
+establish security.</p>
+<h2 id="parameters-and-verification">1.2 Parameters and
+verification</h2>
+<p>Write</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>q</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>q</mi><mi mathvariant="double-struck">ℤ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">[</mo><mi>y</mi><mo stretchy="false" form="postfix">]</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>y</mi><mn>1024</mn></msup><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>S</mi><mi>q</mi></msub><mo>=</mo><msub><mi>R</mi><mi>q</mi></msub><mo stretchy="false" form="prefix">[</mo><mi>x</mi><mo stretchy="false" form="postfix">]</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>x</mi><mi>k</mi></msup><mo>−</mo><mi>y</mi><mo>−</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><mi>N</mi><mo>=</mo><mn>1024</mn><mi>k</mi><mo>,</mo></mrow><annotation encoding="application/x-tex">
+R_q=(\mathbb Z/q\mathbb Z)[y]/(y^{1024}+1),\qquad
+S_q=R_q[x]/(x^k-y-2),\qquad N=1024k,
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><msup><mn>2</mn><mn>24</mn></msup></mrow><annotation encoding="application/x-tex">q=2^{24}</annotation></semantics></math>.
+Norms refer to coefficient infinity norms in the submitted
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msup><mi>y</mi><mi>i</mi></msup><msup><mi>x</mi><mi>j</mi></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(y^i x^j)</annotation></semantics></math>
+representation. Put
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>=</mo><mi>q</mi><mi>/</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">g=q/p</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>=</mo><mn>2</mn><msub><mi>γ</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">m=2\gamma_2</annotation></semantics></math>.
+A challenge
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+is a polynomial in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>q</mi></msub><annotation encoding="application/x-tex">R_q</annotation></semantics></math>,
+embedded in the constant
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+component of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>q</mi></msub><annotation encoding="application/x-tex">S_q</annotation></semantics></math>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Octarine-128</th>
+<th style="text-align: right;">Octarine-256</th>
+<th style="text-align: right;">Octarine-512</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></td>
+<td style="text-align: right;">1024</td>
+<td style="text-align: right;">2048</td>
+<td style="text-align: right;">5120</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>21</mn></msup><annotation encoding="application/x-tex">2^{21}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>22</mn></msup><annotation encoding="application/x-tex">2^{22}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>22</mn></msup><annotation encoding="application/x-tex">2^{22}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><mi>q</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\eta=q/(2p)</annotation></semantics></math></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math></td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math></td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">87</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>γ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\gamma_1</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>18</mn></msup><annotation encoding="application/x-tex">2^{18}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>19</mn></msup><annotation encoding="application/x-tex">2^{19}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>21</mn></msup><annotation encoding="application/x-tex">2^{21}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>γ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\gamma_2</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>17</mn></msup><annotation encoding="application/x-tex">2^{17}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>18</mn></msup><annotation encoding="application/x-tex">2^{18}</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>20</mn></msup><annotation encoding="application/x-tex">2^{20}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mi>τ</mi><mi>η</mi></mrow><annotation encoding="application/x-tex">\beta=\tau\eta</annotation></semantics></math></td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">174</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math></td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">399</td>
+</tr>
+<tr>
+<td style="text-align: left;">Challenge-seed bytes</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">128</td>
+</tr>
+<tr>
+<td style="text-align: left;">Claimed classical / quantum bits</td>
+<td style="text-align: right;">128 / 80</td>
+<td style="text-align: right;">256 / 128</td>
+<td style="text-align: right;">512 / 256</td>
+</tr>
+</tbody>
+</table>
+<p>Key generation produces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>
+with coefficients in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mi>η</mi><mo>,</mo><mi>η</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-\eta,\eta-1]</annotation></semantics></math>,
+and defines</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mo stretchy="false" form="prefix">⌊</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mi>/</mi><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mi>A</mi><msub><mi>s</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">⌉</mo><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>s</mi><mn>2</mn></msub><mo>=</mo><mi>A</mi><msub><mi>s</mi><mn>1</mn></msub><mo>−</mo><mi>g</mi><mi>b</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>b</mi><mo>=</mo><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup><mo>+</mo><msub><mi>b</mi><mn>0</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+b=\lfloor(p/q)As_1\rceil,\qquad
+s_2=As_1-gb,\qquad b=b_1 2^d+b_0.
+</annotation></semantics></math></p>
+<p>The public key contains the seed for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+and the compressed value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>1</mn></msub><annotation encoding="application/x-tex">b_1</annotation></semantics></math>.
+For a message
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>,
+the verifier computes</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>r</mi><mo>=</mo><msub><mi>H</mi><mrow><mi>t</mi><mi>r</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mi>k</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="1.0em"></mspace><mi>μ</mi><mo>=</mo><msub><mi>H</mi><mi>μ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mi>r</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="1.0em"></mspace><mi>c</mi><mo>=</mo><mrow><mi mathvariant="normal">SampleInBall</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+tr=H_{tr}(pk),\quad \mu=H_\mu(tr,M),\quad
+c=\operatorname{SampleInBall}(\widetilde c),
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mi>A</mi><mi>z</mi><mo>−</mo><mi>c</mi><mi>g</mi><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>w</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">UseHint</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>h</mi><mo>,</mo><mi>v</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+v=Az-cgb_1 2^d,\qquad
+w_1=\operatorname{UseHint}(h,v,m).
+</annotation></semantics></math></p>
+<p>After canonical decoding, acceptance requires</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>z</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>1</mn></msub><mo>−</mo><mi>β</mi><mo>,</mo><mspace width="2.0em"></mspace><mrow><mi mathvariant="normal">HW</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>h</mi><mo stretchy="false" form="postfix">)</mo><mo>≤</mo><mi>ω</mi><mo>,</mo><mspace width="2.0em"></mspace><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo>=</mo><msub><mi>H</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\|z\|_\infty&lt;\gamma_1-\beta,\qquad
+\operatorname{HW}(h)\leq\omega,\qquad
+\widetilde c=H_{ch}(\mu,w_1).
+</annotation></semantics></math></p>
+<p>Domain labels, output lengths, and length-delimited fields are
+implicit in these hash expressions. All three profiles have 128-byte
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">tr</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+values. The stored challenge seed has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>λ</mi></mrow><annotation encoding="application/x-tex">2\lambda</annotation></semantics></math>
+bits, where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+is the profile label.</p>
+<p>EUF-CMA means existential unforgeability under chosen-message attack;
+SUF-CMA additionally prohibits a fresh signature on a previously signed
+message. Every EUF-CMA attack is also a SUF-CMA attack.</p>
+<h1 id="main-findings-and-their-scope">2. Main findings and their
+scope</h1>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Finding</th>
+<th style="text-align: left;">Established result</th>
+<th style="text-align: left;">Scope limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">SM3 message-hash construction</td>
+<td style="text-align: left;">An equal-length internal-state collision
+transfers a signature; generic classical work is about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>128</mn></msup><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math></td>
+<td style="text-align: left;">No full SM3 collision was computed</td>
+</tr>
+<tr>
+<td style="text-align: left;">Challenge search</td>
+<td style="text-align: left;">A fixed challenge with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>=</mo><mi>h</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">z=h=0</annotation></semantics></math>
+gives a complete generic forgery strategy</td>
+<td style="text-align: left;">Quantum figures count oracle queries, not
+logical gates</td>
+</tr>
+<tr>
+<td style="text-align: left;">SM3 secret expansion</td>
+<td style="text-align: left;">A 344-bit descriptor generates the
+complete
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>;
+equivalent-key search needs at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>344</mn></msup><annotation encoding="application/x-tex">2^{344}</annotation></semantics></math>
+candidates</td>
+<td style="text-align: left;">No unknown-key search was performed</td>
+</tr>
+<tr>
+<td style="text-align: left;">512-level relaxed SIS</td>
+<td style="text-align: left;">A nonzero
+norm-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">q/4</annotation></semantics></math>
+vector is found by binary linear algebra with constant success
+probability</td>
+<td style="text-align: left;">The vector fails the actual stricter
+response bound</td>
+</tr>
+<tr>
+<td style="text-align: left;">Proof instantiation</td>
+<td style="text-align: left;">Statistical terms, simulator behavior,
+seeded sampling, and relation modeling are not concretely
+discharged</td>
+<td style="text-align: left;">This does not prove that a suitable proof
+is impossible</td>
+</tr>
+<tr>
+<td style="text-align: left;">Ring structure</td>
+<td style="text-align: left;">Nonunit mass, a two-component
+decomposition at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>,
+and even-weight challenge restrictions are explicit</td>
+<td style="text-align: left;">A useful projection or transcript attack
+remains unestablished</td>
+</tr>
+<tr>
+<td style="text-align: left;">Specification conformance</td>
+<td style="text-align: left;">Algorithm 2 and every source family use
+different challenge maps at levels 128 and 256</td>
+<td style="text-align: left;">This alone does not show lower challenge
+entropy</td>
+</tr>
+</tbody>
+</table>
+<p>The central recommendation is to withhold endorsement of the
+submitted security levels and withdraw the present 512-bit claim.
+Sections 3–6 give the attack constructions and bounds. Sections 7–10
+distinguish the remaining proof, algebraic, and implementation issues
+from attacks.</p>
+<h1 id="hash-instantiation-and-chosen-message-signature-transfer">3.
+Hash instantiation and chosen-message signature transfer</h1>
+<h2 id="the-implemented-counter-construction">3.1 The implemented
+counter construction</h2>
+<p>The specification names an SM3-based pseudoXOF for the reference and
+optimized families, but does not give its full algorithm on pp. 16–17.
+The supplied function <em>pseudoXOF</em> in the corresponding
+<em>utils/auxfunc.c</em> files, starting at line 482, implements</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">XOF</mi><mo>⁡</mo></mrow><mi>ℓ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mrow><mi mathvariant="normal">prefix</mi><mo>⁡</mo></mrow><mi>ℓ</mi></msub><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mrow><mi mathvariant="normal">SM3</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">‖</mo><msub><mrow><mi mathvariant="normal">ctr</mi><mo>⁡</mo></mrow><mn>32</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">‖</mo><mrow><mi mathvariant="normal">SM3</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">‖</mo><msub><mrow><mi mathvariant="normal">ctr</mi><mo>⁡</mo></mrow><mn>32</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">‖</mo><mi>⋯</mi><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+\operatorname{XOF}_{\ell}(X)=
+\operatorname{prefix}_{\ell}\big(
+\operatorname{SM3}(X\Vert\operatorname{ctr}_{32}(1))
+\Vert\operatorname{SM3}(X\Vert\operatorname{ctr}_{32}(2))
+\Vert\cdots\big),
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ℓ</mi><annotation encoding="application/x-tex">\ell</annotation></semantics></math>
+is the output length in bits and the counter is encoded big-endian. The
+parameter macros bind this construction to the signature hash roles and
+to public, secret, mask, and challenge expansion.</p>
+<p>SM3 uses a 256-bit chaining value and 512-bit message blocks. Suppose
+two distinct equal-length strings reach the same chaining value at the
+same block boundary, before a common suffix. For every counter value,
+the subsequent input blocks and length padding are identical.
+Determinism then implies equality of every counter output block, and
+hence of the entire requested XOF output.</p>
+<p>This argument requires a collision before the common suffix. Equality
+of only the first final digest block, without equality of the relevant
+internal state, would not suffice.</p>
+<p>For an idealized 256-bit state map, birthday search gives about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>128</mn></msup><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math>
+classical evaluations. Generic quantum collision algorithms give an
+approximately
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mn>256</mn><mi>/</mi><mn>3</mn></mrow></msup><mo>=</mo><msup><mn>2</mn><mn>85.33</mn></msup></mrow><annotation encoding="application/x-tex">2^{256/3}=2^{85.33}</annotation></semantics></math>
+query bound, with substantial storage and coherent-computation
+requirements [BHT98]. These are generic resource bounds, not measured
+attack implementations. For an output shorter than 256 bits, its
+ordinary output-length collision bound must also be included.</p>
+<p>The toy program [E3] exhibits a state collision and its propagation
+through 64 output blocks. The C program [E4] checks SM3 continuation
+against the submitted implementation. It forces the same internal state
+to validate propagation; it does not find colliding SM3 messages.</p>
+<h2 id="consequence-for-unforgeability">3.2 Consequence for
+unforgeability</h2>
+<p>For a fixed public key, the signature uses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+only through
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><msub><mi>H</mi><mi>μ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mi>r</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mu=H_\mu(tr,M)</annotation></semantics></math>.
+An adversary can choose sufficiently long, equal-length messages with a
+common alignment prefix and vary a complete message block. The encoded
+length fields remain identical. A collision of the internal state after
+that block, followed by the same suffix, makes the complete 1024-bit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+equal.</p>
+<p>The attack is:</p>
+<ol type="1">
+<li>Find distinct messages
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mn>0</mn></msub><mo>,</mo><msub><mi>M</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">M_0,M_1</annotation></semantics></math>
+with the same
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+using the state-collision construction.</li>
+<li>Request a signature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mn>0</mn></msub><annotation encoding="application/x-tex">M_0</annotation></semantics></math>.</li>
+<li>Output
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>M</mi><mn>1</mn></msub><mo>,</mo><mi>σ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(M_1,\sigma)</annotation></semantics></math>.</li>
+</ol>
+<p>The verifier performs identical computations for the two messages, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+verifies for the never-signed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>M</mi><mn>1</mn></msub><annotation encoding="application/x-tex">M_1</annotation></semantics></math>.
+The construction breaks EUF-CMA and message binding at the
+collision-search cost. It needs one signing query. Length delimiters and
+domain separation prevent ambiguity between inputs; they do not prevent
+equal-length collisions within one domain.</p>
+<p>Consequently, the SM3 families have a generic classical
+signature-transfer bound near
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>128</mn></msup><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math>
+at every profile. This is at the 128-level target, and far below the
+256- and 512-level targets. It does not by itself establish an attack in
+a two-key exclusive-ownership game.</p>
+<h2 id="shake-and-per-role-requirements">3.3 SHAKE and per-role
+requirements</h2>
+<p>The additional implementation uses SHAKE256 for signature hashes and
+secret/challenge expansion, and SHAKE128 for public expansion. FIPS 202,
+Appendix A, gives SHAKE256 collision strength
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>d</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msub><mi>/</mi><mn>2</mn><mo>,</mo><mn>256</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\min(d_{\mathrm{out}}/2,256)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">t</mi></mrow></msub><annotation encoding="application/x-tex">d_{\mathrm{out}}</annotation></semantics></math>
+output bits [F202]. Thus the 1024-bit message representative has generic
+collision strength capped at 256 bits. Increasing its output length
+cannot supply the claimed 512-bit classical message-binding
+strength.</p>
+<p>The preimage entry in FIPS 202 is a lower bound. It should not be
+restated as a universal 256-bit upper bound on every SHAKE256 preimage
+problem. The conclusion here concerns collisions in the message-hash
+role.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Backend for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mi>μ</mi></msub><annotation encoding="application/x-tex">H_\mu</annotation></semantics></math></th>
+<th style="text-align: right;">Generic classical collision exponent</th>
+<th style="text-align: left;">Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">SM3 counter construction</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: left;">Insufficient for 256- and 512-bit
+claims</td>
+</tr>
+<tr>
+<td style="text-align: left;">SHAKE256, 1024-bit output</td>
+<td style="text-align: right;">256</td>
+<td style="text-align: left;">Insufficient for a 512-bit claim</td>
+</tr>
+</tbody>
+</table>
+<p>The specification’s generic requirement of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\lambda/2</annotation></semantics></math>
+collision bits and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+preimage bits is insufficient for this role. If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+denotes a claimed classical unforgeability work factor, the
+signature-transfer route must itself cost at least
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mi>λ</mi></msup><annotation encoding="application/x-tex">2^\lambda</annotation></semantics></math>
+in the chosen resource convention. A per-role security table is
+necessary; a long output is not evidence that the underlying
+construction meets that table.</p>
+<h1 id="a-secret-free-challenge-search-forgery">4. A secret-free
+challenge-search forgery</h1>
+<h2 id="construction">4.1 Construction</h2>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>τ</mi></msub><annotation encoding="application/x-tex">C_\tau</annotation></semantics></math>
+be the set of signed
+weight-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+polynomials in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>q</mi></msub><annotation encoding="application/x-tex">R_q</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>τ</mi></msub><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>1024</mn><mi>τ</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><msup><mn>2</mn><mi>τ</mi></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+|C_\tau|=\binom{1024}{\tau}2^\tau.
+</annotation></semantics></math></p>
+<p>Choose any fixed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>0</mn></msub><mo>∈</mo><msub><mi>C</mi><mi>τ</mi></msub></mrow><annotation encoding="application/x-tex">c_0\in C_\tau</annotation></semantics></math>
+and compute from the public key</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mrow><mi mathvariant="normal">HighBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><msub><mi>c</mi><mn>0</mn></msub><mi>g</mi><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+u=\operatorname{HighBits}(-c_0gb_1 2^d,m).
+</annotation></semantics></math></p>
+<p>For each candidate message
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>,
+compute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><msub><mi>H</mi><mi>μ</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mi>r</mi><mo>,</mo><mi>M</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mu=H_\mu(tr,M)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo>=</mo><msub><mi>H</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>u</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\widetilde c=H_{ch}(\mu,u)</annotation></semantics></math>.
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">SampleInBall</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>c</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\operatorname{SampleInBall}(\widetilde c)=c_0</annotation></semantics></math>,
+output the canonical encoding of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo>,</mo><mi>z</mi><mo>=</mo><mn>0</mn><mo>,</mo><mi>h</mi><mo>=</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\widetilde c,z=0,h=0)</annotation></semantics></math>.</p>
+<p>The verifier recomputes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><msub><mi>c</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">c=c_0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mi>−</mi><msub><mi>c</mi><mn>0</mn></msub><mi>g</mi><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup></mrow><annotation encoding="application/x-tex">v=-c_0gb_1 2^d</annotation></semantics></math>.
+Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">UseHint</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>v</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">HighBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>v</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{UseHint}(0,v,m)=\operatorname{HighBits}(v,m)</annotation></semantics></math>,
+it obtains
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+and reconstructs the supplied
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>c</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde c</annotation></semantics></math>.
+The response and hint bounds hold. Therefore a successful trial is an
+accepted signature obtained without any signing query.</p>
+<p>In the ideal challenge-expansion model, a fresh trial succeeds with
+probability
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>τ</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">1/|C_\tau|</annotation></semantics></math>.
+For a fixed deterministic expander, the exact probability is the mass of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>0</mn></msub><annotation encoding="application/x-tex">c_0</annotation></semantics></math>
+under a uniformly sampled challenge seed; uniformity is the modeling
+assumption behind the stated entropy. This construction also applies to
+the implementation’s alternative sign-stream map.</p>
+<h2 id="work-bounds-and-units">4.2 Work bounds and units</h2>
+<p>Classical search needs approximately
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>τ</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|C_\tau|</annotation></semantics></math>
+trials. Grover search reduces this to order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>τ</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{|C_\tau|}</annotation></semantics></math>
+predicate queries [G96]. The entropy calculation in [E1] gives:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Profile</th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">|</mo><msub><mi>C</mi><mi>τ</mi></msub><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">\log_2\lvert C_\tau\rvert</annotation></semantics></math></th>
+<th style="text-align: right;">Classical trial exponent</th>
+<th style="text-align: right;">Grover query exponent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">128</td>
+<td style="text-align: right;">131.579934</td>
+<td style="text-align: right;">131.579934</td>
+<td style="text-align: right;">65.789967</td>
+</tr>
+<tr>
+<td style="text-align: left;">256</td>
+<td style="text-align: right;">257.007637</td>
+<td style="text-align: right;">257.007637</td>
+<td style="text-align: right;">128.503819</td>
+</tr>
+<tr>
+<td style="text-align: left;">512</td>
+<td style="text-align: right;">512.004143</td>
+<td style="text-align: right;">512.004143</td>
+<td style="text-align: right;">256.002071</td>
+</tr>
+</tbody>
+</table>
+<p>The 128 profile is 14.21 bits below an 80-bit quantum-<em>query</em>
+target. A comparison with an 80-bit logical-<em>gate</em> target
+requires a reversible circuit, success-probability convention, memory
+model, and depth accounting. None is supplied here. In particular, a
+query exponent is not an unconditional gate-count break.</p>
+<p>The 256 and 512 profiles exceed their corresponding nominal targets
+by only 1.008 and 0.004 classical trial bits, or 0.504 and 0.002
+Grover-query bits. These are single-route differences, not certified
+margins against every attack. The longer stored challenge seed does not
+change the search space used by this construction.</p>
+<p>The theorem’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>−</mi><mo stretchy="false" form="prefix">|</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="prefix">|</mo></mrow></msup><annotation encoding="application/x-tex">2^{-|\widetilde c|}</annotation></semantics></math>
+term can bound an unqueried random-oracle guess. It does not bound the
+attack above, which makes the relevant query and searches for a matching
+expanded challenge.</p>
+<p>For illustration,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>21</mn></mrow><annotation encoding="application/x-tex">\tau=21</annotation></semantics></math>
+is the first weight giving at least 80 Grover-query bits at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">n=1024</annotation></semantics></math>;
+it gives 82.616220 bits. This is not a validated replacement profile. At
+level 128 it also raises
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+from 64 to 84, the two-test expected repetition count from 2.129771 to
+2.692582, and the stated EUF residual bound from 393,217 to 434,177
+[E1]. Compression and hint behavior must be analyzed again.</p>
+<h1 id="a-344-bit-descriptor-for-an-equivalent-sm3-signing-secret">5. A
+344-bit descriptor for an equivalent SM3 signing secret</h1>
+<h2 id="byte-layout">5.1 Byte layout</h2>
+<p>The compact secret-XOF encoding in the SM3 implementations has the
+following form before the outer counter:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Field</th>
+<th style="text-align: right;">Bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Fixed prefix, role, level, rank, output
+length, seed length</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr>
+<td style="text-align: left;">Secret seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>ρ</mi><mo>′</mo></msup><annotation encoding="application/x-tex">\rho&#39;</annotation></semantics></math></td>
+<td style="text-align: right;">128</td>
+</tr>
+<tr>
+<td style="text-align: left;">Polynomial index</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;">Lane index, zero for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;">Total</td>
+<td style="text-align: right;">141</td>
+</tr>
+</tbody>
+</table>
+<p>The first 128 input bytes are two complete SM3 blocks. They contain
+the fixed header and the first 117 bytes of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>ρ</mi><mo>′</mo></msup><annotation encoding="application/x-tex">\rho&#39;</annotation></semantics></math>,
+and are shared by every polynomial expansion in one profile. The
+polynomial index occurs later.</p>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+be the 256-bit chaining state after those two blocks. Every remaining
+secret-dependent input byte is in the final 11 bytes of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>ρ</mi><mo>′</mo></msup><annotation encoding="application/x-tex">\rho&#39;</annotation></semantics></math>.
+Hence</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>,</mo><msup><mi>ρ</mi><mo>′</mo></msup><mo stretchy="false" form="prefix">[</mo><mn>117</mn><mo>:</mo><mn>128</mn><mo stretchy="false" form="postfix">]</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+D=(V,\rho&#39;[117:128])
+</annotation></semantics></math></p>
+<p>is a descriptor of length
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn><mo>+</mo><mn>88</mn><mo>=</mo><mn>344</mn></mrow><annotation encoding="application/x-tex">256+88=344</annotation></semantics></math>
+bits from which the complete
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>
+can be generated. Polynomial indices, lane identifiers, counter values,
+total input lengths, and padding are fixed or public. This is an exact
+data-flow property of the implemented construction.</p>
+<h2 id="equivalent-key-search">5.2 Equivalent-key search</h2>
+<p>An adversary can enumerate all descriptors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>,
+continue SM3 from the candidate state, and decode the resulting streams
+into a candidate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>.
+With
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+regenerated from the public seed, it can compute the candidate rounded
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
+compress to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>1</mn></msub><annotation encoding="application/x-tex">b_1</annotation></semantics></math>,
+and compare with the target public key.</p>
+<p>The actual descriptor is included in this finite search. A candidate
+yielding the public key supplies the same KeyGen relations: derive
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>2</mn></msub><mo>=</mo><mi>A</mi><msub><mi>s</mi><mn>1</mn></msub><mo>−</mo><mi>g</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">s_2=As_1-gb</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>0</mn></msub><mo>=</mo><mi>b</mi><mo>−</mo><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup></mrow><annotation encoding="application/x-tex">b_0=b-b_1 2^d</annotation></semantics></math>,
+retain the public seed and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">tr</annotation></semantics></math>,
+and choose a new signing-randomness key
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>.
+Verification does not test the original
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
+or require that the new secret fields arose from the original KeyGen
+seed.</p>
+<p>Thus an equivalent signing key has a search bound of at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>344</mn></msup><annotation encoding="application/x-tex">2^{344}</annotation></semantics></math>
+descriptor evaluations, or order
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>172</mn></msup><annotation encoding="application/x-tex">2^{172}</annotation></semantics></math>
+Grover predicate queries. Candidate evaluation includes hash expansion
+and public-key arithmetic. The original key-generation seed, public-seed
+derivation, and stored secret-key bytes need not be recovered.</p>
+<p>This bound is incompatible with the 512-bit classical / 256-bit
+quantum target under the corresponding search conventions. It is
+separate from, and more expensive than, the SM3 message-collision
+forgery. It does not apply this particular descriptor calculation to
+SHAKE.</p>
+<p>The result is a search-space bound on an equivalent signing key. It
+is not a measurement of the entropy of every stored secret-key field,
+and no unknown-key recovery experiment is claimed. The relevant source
+locations are the compact encoding in <em>hash_domain.h</em>, secret
+expansion in <em>arith/uniform.c</em>, and <em>pseudoXOF</em> in
+<em>utils/auxfunc.c</em> [E9]. The executable check [E11] reconstructs
+every secret-expansion byte from this descriptor for a known test seed
+in all six SM3 implementation/profile combinations.</p>
+<h1 id="polynomial-solutions-of-the-relaxed-512-level-sis-instances">6.
+Polynomial solutions of the relaxed 512-level SIS instances</h1>
+<h2 id="the-estimated-problems">6.1 The estimated problems</h2>
+<p>The specification’s Appendix A passes ordinary homogeneous
+infinity-norm SIS instances to lattice-estimator. Their dimensions and
+single bounds are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>3</mn><mi>N</mi><mo>,</mo><mi>q</mi><mo>,</mo><msub><mi>B</mi><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>N</mi><mo>,</mo><mn>2</mn><mi>N</mi><mo>,</mo><mi>q</mi><mo>,</mo><msub><mi>B</mi><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+(N,3N,q,B_{\mathrm{EUF}}),\qquad (N,2N,q,B_{\mathrm{SUF}}),
+</annotation></semantics></math></p>
+<p>where</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><msub><mi>γ</mi><mn>1</mn></msub><mo>−</mo><mi>β</mi><mo>,</mo><mspace width="0.278em"></mspace><mn>2</mn><msub><mi>γ</mi><mn>2</mn></msub><mo>+</mo><mn>1</mn><mo>+</mo><mi>g</mi><mi>τ</mi><msup><mn>2</mn><mrow><mi>d</mi><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+B_{\mathrm{EUF}}=\max\{\gamma_1-\beta,\;2\gamma_2+1+g\tau 2^{d-1}\},
+</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><msub><mi>γ</mi><mn>1</mn></msub><mo>−</mo><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.278em"></mspace><mn>4</mn><msub><mi>γ</mi><mn>2</mn></msub><mo>+</mo><mn>2</mn><mo stretchy="false" form="postfix">}</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+B_{\mathrm{SUF}}=\max\{2(\gamma_1-\beta),\;4\gamma_2+2\}.
+</annotation></semantics></math></p>
+<p>At level 512,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>5120</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>B</mi><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo>=</mo><mn>4</mn><mo>,</mo><mn>947</mn><mo>,</mo><mn>969</mn><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>B</mi><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><mo>=</mo><mn>4</mn><mo>,</mo><mn>194</mn><mo>,</mo><mn>306</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+N=5120,\quad B_{\mathrm{EUF}}=4,947,969,\quad
+B_{\mathrm{SUF}}=4,194,306.
+</annotation></semantics></math></p>
+<p>Both bounds exceed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn><mo>=</mo><mn>4</mn><mo>,</mo><mn>194</mn><mo>,</mo><mn>304</mn></mrow><annotation encoding="application/x-tex">q/4=4,194,304</annotation></semantics></math>.</p>
+<h2 id="a-binary-linear-algebra-construction">6.2 A
+binary-linear-algebra construction</h2>
+<p><strong>Proposition.</strong> Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+be divisible by four. For a matrix
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+with at least
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>
+columns, suppose its first two
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>×</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">N\times N</annotation></semantics></math>
+blocks
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>,</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">B,C</annotation></semantics></math>
+are invertible modulo 2. A nonzero vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>X</mi><mo>=</mo><mn>0</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mi>q</mi></mrow></mrow><annotation encoding="application/x-tex">MX=0\bmod q</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>X</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">\|X\|_\infty=q/4</annotation></semantics></math>
+can be constructed in polynomial time.</p>
+<p><strong>Proof.</strong> Put
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>2</mn></msub><mo>=</mo><mi>B</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow></mrow><annotation encoding="application/x-tex">B_2=B\bmod2</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>2</mn></msub><mo>=</mo><mi>C</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow></mrow><annotation encoding="application/x-tex">C_2=C\bmod2</annotation></semantics></math>.
+Solve</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mn>2</mn></msub><mi>u</mi><mo>=</mo><msub><mi>C</mi><mn>2</mn></msub><mn mathvariant="bold">𝟏</mn></mrow><annotation encoding="application/x-tex">
+B_2u=C_2\mathbf 1
+</annotation></semantics></math></p>
+<p>over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">𝔽</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\mathbb F_2</annotation></semantics></math>
+and lift
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+to a binary integer vector. Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mi>u</mi><mo>+</mo><mi>C</mi><mn mathvariant="bold">𝟏</mn></mrow><annotation encoding="application/x-tex">Bu+C\mathbf1</annotation></semantics></math>
+is even. Define</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mn>2</mn></msub><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>B</mi><mi>u</mi><mo>+</mo><mi>C</mi><mn mathvariant="bold">𝟏</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow></mrow><annotation encoding="application/x-tex">
+d_2=(Bu+C\mathbf1)/2\bmod2
+</annotation></semantics></math></p>
+<p>and solve
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>2</mn></msub><mi>v</mi><mo>=</mo><msub><mi>d</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">C_2v=d_2</annotation></semantics></math>,
+again lifting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+to a binary vector. The vector</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mn mathvariant="bold">𝟏</mn><mo>−</mo><mn>2</mn><mi>v</mi><mo>,</mo><mn>0</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+w=(u,\mathbf1-2v,0,\ldots,0)
+</annotation></semantics></math></p>
+<p>satisfies</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>w</mi><mo>=</mo><mi>B</mi><mi>u</mi><mo>+</mo><mi>C</mi><mn mathvariant="bold">𝟏</mn><mo>−</mo><mn>2</mn><mi>C</mi><mi>v</mi><mo>=</mo><mn>0</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>4</mn></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+Mw=Bu+C\mathbf1-2Cv=0\bmod4.
+</annotation></semantics></math></p>
+<p>Its second block consists of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm1</annotation></semantics></math>,
+so it is nonzero and has infinity norm one. Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mi>w</mi></mrow><annotation encoding="application/x-tex">X=(q/4)w</annotation></semantics></math>.
+Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>X</mi><mo>=</mo><mn>0</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mi>q</mi></mrow></mrow><annotation encoding="application/x-tex">MX=0\bmod q</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>X</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>=</mo><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">\|X\|_\infty=q/4</annotation></semantics></math>.
+This uses two linear solves over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">𝔽</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\mathbb F_2</annotation></semantics></math>
+and elementary integer operations.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>▫</mi><annotation encoding="application/x-tex">\square</annotation></semantics></math></p>
+<p>For a uniformly random binary square matrix, the invertibility
+probability is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mn>2</mn><mrow><mi>−</mi><mi>j</mi></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mn>0.288788</mn><mi>…</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\prod_{j=1}^{N}(1-2^{-j})\longrightarrow 0.288788\ldots.
+</annotation></semantics></math></p>
+<p>The two-block event has limiting probability approximately 0.0834. It
+is publicly testable. Consequently, the construction succeeds in
+polynomial time on a constant fraction of uniformly random SIS
+instances. A constant success probability is sufficient to invalidate a
+cryptographic hardness claim for this distribution.</p>
+<p>The result applies to both Appendix A instances at level 512. Extra
+columns are assigned zero.</p>
+<h2 id="evidence-and-structured-extension">6.3 Evidence and structured
+extension</h2>
+<p>The artifact [E5] records an
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>5120</mn></mrow><annotation encoding="application/x-tex">N=5120</annotation></semantics></math>
+run with a norm-4,194,304 witness. It checks the relation modulo 4 and a
+random full-modulus lift modulo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>24</mn></msup><annotation encoding="application/x-tex">2^{24}</annotation></semantics></math>.
+The recorded run took 10.56 seconds including generation, solving,
+checking, and storage; this is one illustrative run, not a general
+benchmark. It samples each block until the public invertibility
+condition holds. The probability claim comes from the formula above, not
+from this conditioned experiment. The saved witness can be checked
+independently without trusting the reported timing.</p>
+<p>For the structured relation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi mathvariant="normal">Δ</mi><mi>z</mi><mo>−</mo><mi mathvariant="normal">Δ</mi><mi>r</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">A\Delta z-\Delta r=0</annotation></semantics></math>,
+assume multiplication by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow></mrow><annotation encoding="application/x-tex">A\bmod2</annotation></semantics></math>
+is invertible. Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+be the binary lift of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>A</mi><mn>2</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mn mathvariant="bold">𝟏</mn></mrow><annotation encoding="application/x-tex">A_2^{-1}\mathbf1</annotation></semantics></math>,
+and let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+be the centered lift of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>u</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>4</mn></mrow></mrow><annotation encoding="application/x-tex">Au\bmod4</annotation></semantics></math>.
+Every coefficient of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+is odd, hence in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{-1,1\}</annotation></semantics></math>.
+Then</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi mathvariant="normal">Δ</mi><mi>z</mi><mo>,</mo><mi mathvariant="normal">Δ</mi><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mi>/</mi><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">
+(\Delta z,\Delta r)=(q/4)(u,r)
+</annotation></semantics></math></p>
+<p>solves the relation with both block norms at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">q/4</annotation></semantics></math>.
+For a uniformly sampled
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>,
+the unit probability is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mi>/</mi><mn>32</mn></mrow><annotation encoding="application/x-tex">15/32</annotation></semantics></math>,
+as derived in Section 8.1.</p>
+<h2 id="why-this-does-not-yet-forge-a-signature">6.4 Why this does not
+yet forge a signature</h2>
+<p>The actual SUF extraction on pp. 31–33 retains separate
+conditions:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi mathvariant="normal">Δ</mi><mi>z</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><mn>2</mn><mo stretchy="false" form="prefix">(</mo><msub><mi>γ</mi><mn>1</mn></msub><mo>−</mo><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi mathvariant="normal">Δ</mi><mi>r</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mn>4</mn><msub><mi>γ</mi><mn>2</mn></msub><mo>+</mo><mn>2</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\|\Delta z\|_\infty&lt;2(\gamma_1-\beta),\qquad
+\|\Delta r\|_\infty\leq4\gamma_2+2.
+</annotation></semantics></math></p>
+<p>At level 512 the strict response threshold is 4,193,956. It is 348
+below
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">q/4</annotation></semantics></math>;
+the largest permitted integer coefficient is 4,193,955, or 349 below
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">q/4</annotation></semantics></math>.
+The structured witness has a response coefficient equal to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">q/4</annotation></semantics></math>
+and therefore fails this condition. Even a short solution of the
+extracted relation would still need to be turned into accepting
+signatures with consistent commitments, hashes, and hints.</p>
+<p>The EUF relation additionally restricts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+to an expanded sparse challenge and binds the target to the random
+oracle. Assigning zero to a relaxed challenge block does not satisfy
+that relation.</p>
+<p>The established conclusion is that the <em>relaxed SIS instances used
+in the estimates are easy</em>. Hardness of the more constrained
+signature relations remains unestablished. The 691/692-bit figures in
+Table 2 cannot be interpreted as hardness of the relaxed problems, even
+if they correctly price one lattice-reduction attack.</p>
+<p>All three profiles lie near analogous powers-of-two boundaries:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Profile</th>
+<th style="text-align: right;">Scale</th>
+<th style="text-align: right;">Strict response-difference threshold</th>
+<th style="text-align: right;">Residual bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">128</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>32</mn><mo>=</mo><mn>524</mn><mo>,</mo><mn>288</mn></mrow><annotation encoding="application/x-tex">q/32=524,288</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>524</mn><mo>,</mo><mn>160</mn></mrow><annotation encoding="application/x-tex">&lt;524,160</annotation></semantics></math></td>
+<td style="text-align: right;">524,290</td>
+</tr>
+<tr>
+<td style="text-align: left;">256</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>16</mn><mo>=</mo><mn>1</mn><mo>,</mo><mn>048</mn><mo>,</mo><mn>576</mn></mrow><annotation encoding="application/x-tex">q/16=1,048,576</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>1</mn><mo>,</mo><mn>048</mn><mo>,</mo><mn>432</mn></mrow><annotation encoding="application/x-tex">&lt;1,048,432</annotation></semantics></math></td>
+<td style="text-align: right;">1,048,578</td>
+</tr>
+<tr>
+<td style="text-align: left;">512</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>4</mn><mo>=</mo><mn>4</mn><mo>,</mo><mn>194</mn><mo>,</mo><mn>304</mn></mrow><annotation encoding="application/x-tex">q/4=4,194,304</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>4</mn><mo>,</mo><mn>193</mn><mo>,</mo><mn>956</mn></mrow><annotation encoding="application/x-tex">&lt;4,193,956</annotation></semantics></math></td>
+<td style="text-align: right;">4,194,306</td>
+</tr>
+</tbody>
+</table>
+<p>The modulo-4 construction does not automatically extend to the
+modulo-16 or modulo-32 problems needed for the first two rows. Those
+rows identify boundaries requiring analysis, not attacks on the 128 or
+256 profiles.</p>
+<h1 id="what-the-security-proof-still-needs">7. What the security proof
+still needs</h1>
+<h2 id="the-assumed-relations-are-more-specific-than-generic-sis">7.1
+The assumed relations are more specific than generic SIS</h2>
+<p>Theorem 4, pp. 31–32, assumes hardness of a self-targeted relation.
+Given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(A,b)</annotation></semantics></math>,
+the adversary must produce
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mi>z</mi><mo>,</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo>,</mo><mi>c</mi><mo>,</mo><mi>r</mi><mo>,</mo><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu,z,\widetilde c,c,r,w_1)</annotation></semantics></math>
+satisfying</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>z</mi><mo>−</mo><mi>c</mi><mi>g</mi><mi>b</mi><mo>−</mo><mi>r</mi><mo>=</mo><mi>m</mi><msub><mi>w</mi><mn>1</mn></msub><mo>,</mo><mspace width="2.0em"></mspace><mi>c</mi><mo>=</mo><mrow><mi mathvariant="normal">SampleInBall</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="2.0em"></mspace><mover><mi>c</mi><mo accent="true">̃</mo></mover><mo>=</mo><msub><mi>H</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+Az-cgb-r=mw_1,\qquad
+c=\operatorname{SampleInBall}(\widetilde c),\qquad
+\widetilde c=H_{ch}(\mu,w_1),
+</annotation></semantics></math></p>
+<p>together with the response, challenge, and residual constraints. This
+is neither ordinary homogeneous SIS nor a target problem with an
+independently uniform right-hand side. Theorem 5 also retains two
+separate norm bounds in the homogeneous relation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi mathvariant="normal">Δ</mi><mi>z</mi><mo>−</mo><mi mathvariant="normal">Δ</mi><mi>r</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">A\Delta z-\Delta r=0</annotation></semantics></math>.</p>
+<p>Appendix A estimates homogeneous SIS with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+rows,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">3N</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>
+columns, and one bound. Pricing lattice reduction on that relaxation
+does not establish hardness of the actual assumption. In particular, an
+efficient solution of the relaxation need not yield a forgery, while
+failure of one attack on the relaxation does not imply that all attacks
+on the original relation are expensive. Section 6 supplies an explicit
+omitted attack on the relaxation itself.</p>
+<p>The key-generation hybrid uses <em>decision</em> RR-LWR with the
+submitted small-secret distribution. A search-LWE estimate does not
+establish that decisional assumption without a reduction applicable to
+the ring, basis, distribution, sample count, and rounding
+parameters.</p>
+<h2 id="an-explicit-signing-simulator-is-possible-in-principle">7.2 An
+explicit signing simulator is possible in principle</h2>
+<p>The proof refers to a public transcript distribution without
+specifying an executable sampler or its acceptance probability. That
+omission should be repaired constructively.</p>
+<p>The reduction receives the full
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(A,b)</annotation></semantics></math>
+and can compute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>0</mn></msub><annotation encoding="application/x-tex">b_0</annotation></semantics></math>
+even though it publishes only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>1</mn></msub><annotation encoding="application/x-tex">b_1</annotation></semantics></math>.
+The following is a candidate simulator for a fresh idealized signing
+attempt with a fixed message representative
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>:</p>
+<ol type="1">
+<li>Sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>c</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde c</annotation></semantics></math>
+uniformly and expand
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>.</li>
+<li>Sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
+uniformly in the strict response box
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>z</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>1</mn></msub><mo>−</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\|z\|_\infty&lt;\gamma_1-\beta</annotation></semantics></math>.</li>
+<li>Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>A</mi><mi>z</mi><mo>−</mo><mi>c</mi><mi>g</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">t=Az-cgb</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mi>c</mi><mi>g</mi><msub><mi>b</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\delta=cgb_0</annotation></semantics></math>.
+Reject unless
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mrow><mi mathvariant="normal">LowBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>2</mn></msub><mo>−</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\|\operatorname{LowBits}(t,m)\|_\infty&lt;\gamma_2-\beta</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>δ</mi><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\|\delta\|_\infty&lt;\gamma_2</annotation></semantics></math>.</li>
+<li>Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mi>t</mi><mo>+</mo><mi>δ</mi></mrow><annotation encoding="application/x-tex">v=t+\delta</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><mrow><mi mathvariant="normal">MakeHint</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mi>δ</mi><mo>,</mo><mi>v</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h=\operatorname{MakeHint}(-\delta,v,m)</annotation></semantics></math>.
+Reject if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">HW</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>h</mi><mo stretchy="false" form="postfix">)</mo><mo>&gt;</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">\operatorname{HW}(h)&gt;\omega</annotation></semantics></math>.</li>
+<li>Set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">HighBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">w_1=\operatorname{HighBits}(t,m)</annotation></semantics></math>
+and program a fresh
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">H_{ch}(\mu,w_1)</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>c</mi><mo accent="true">̃</mo></mover><annotation encoding="application/x-tex">\widetilde c</annotation></semantics></math>.</li>
+</ol>
+<p>For a real key, write
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mi>z</mi><mo>−</mo><mi>c</mi><msub><mi>s</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">Y=z-cs_1</annotation></semantics></math>.
+The response box and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="postfix">∥</mo><mi>c</mi><msub><mi>s</mi><mn>1</mn></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>≤</mo><mi>β</mi></mrow><annotation encoding="application/x-tex">\|cs_1\|_\infty\leq\beta</annotation></semantics></math>
+place
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+in the original mask box. Also,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>Y</mi><mo>+</mo><mi>c</mi><msub><mi>s</mi><mn>2</mn></msub><mo>=</mo><mi>A</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>−</mo><mi>c</mi><msub><mi>s</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>c</mi><mo stretchy="false" form="prefix">(</mo><mi>A</mi><msub><mi>s</mi><mn>1</mn></msub><mo>−</mo><mi>g</mi><mi>b</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>t</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+AY+cs_2=A(z-cs_1)+c(As_1-gb)=t.
+</annotation></semantics></math></p>
+<p>Thus, for one fresh idealized attempt, the change of variables
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">)</mo><mo>↔</mo><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(Y,c)\leftrightarrow(z,c)</annotation></semantics></math>
+matches the tests and hints, after conditioning on the response test.
+This observation does not require
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>Y</mi></mrow><annotation encoding="application/x-tex">AY</annotation></semantics></math>
+for bounded
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+to be uniform modulo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.
+It gives a plausible route to a proof; it is not a completed adaptive
+simulation.</p>
+<p>A full argument must handle rejected attempts, prior oracle queries,
+repeated messages, the seeded mask stream and its lane indices, counter
+exhaustion, and the acceptance probability after replacing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+by uniform. One useful proof order is to establish the simulator in the
+real-key distribution and then analyze the RR-LWR hybrid. The
+specification must make clear which distributions and oracle interfaces
+each step uses.</p>
+<h2 id="uninstantiated-statistical-losses">7.3 Uninstantiated
+statistical losses</h2>
+<p>Theorem 4 introduces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Δ</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">m</mi></mrow></msub><annotation encoding="application/x-tex">\Delta_{\mathrm{sim}}</annotation></semantics></math>
+and a commitment point-probability bound
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>−</mi><mi>α</mi></mrow></msup><annotation encoding="application/x-tex">2^{-\alpha}</annotation></semantics></math>,
+but supplies no concrete values. The resulting loss includes</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>S</mi></msub><msub><mi mathvariant="normal">Δ</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">m</mi></mrow></msub><mo>+</mo><msub><mi>Q</mi><mi>S</mi></msub><mo stretchy="false" form="prefix">(</mo><msub><mi>Q</mi><mi>H</mi></msub><mo>+</mo><msub><mi>Q</mi><mi>S</mi></msub><mo stretchy="false" form="postfix">)</mo><msup><mn>2</mn><mrow><mi>−</mi><mi>α</mi></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+Q_S\Delta_{\mathrm{sim}}+Q_S(Q_H+Q_S)2^{-\alpha}.
+</annotation></semantics></math></p>
+<p>These terms cannot be omitted when assigning concrete security
+levels. For example, if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Q</mi><mi>S</mi></msub><mo>=</mo><msub><mi>Q</mi><mi>H</mi></msub><mo>=</mo><msup><mn>2</mn><mn>64</mn></msup></mrow><annotation encoding="application/x-tex">Q_S=Q_H=2^{64}</annotation></semantics></math>,
+making the programming term alone at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>−</mi><mi>λ</mi></mrow></msup><annotation encoding="application/x-tex">2^{-\lambda}</annotation></semantics></math>
+requires</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>≥</mo><mi>λ</mi><mo>+</mo><mn>129</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\alpha\geq\lambda+129.
+</annotation></semantics></math></p>
+<p>The required values are 257, 385, and 641 for the three nominal
+classical targets. Making the simulation term alone at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mrow><mi>−</mi><mi>λ</mi></mrow></msup><annotation encoding="application/x-tex">2^{-\lambda}</annotation></semantics></math>
+requires
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">Δ</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">m</mi></mrow></msub><mo>≤</mo><msup><mn>2</mn><mrow><mi>−</mi><mo stretchy="false" form="prefix">(</mo><mi>λ</mi><mo>+</mo><mn>64</mn><mo stretchy="false" form="postfix">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">\Delta_{\mathrm{sim}}\leq2^{-(\lambda+64)}</annotation></semantics></math>.
+These are illustrative necessary budgets for the individual terms, not a
+complete security calculation.</p>
+<p>A basic counting argument can help with a commitment bound. For fixed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>,
+let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>A</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">ker</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>:</mo><msub><mi>S</mi><mi>q</mi></msub><mo>→</mo><msub><mi>S</mi><mi>q</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">K_A=|\ker(A:S_q\to S_q)|</annotation></semantics></math>.
+If
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+is uniform in the full mask box, then each value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>Y</mi></mrow><annotation encoding="application/x-tex">AY</annotation></semantics></math>
+has at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>K</mi><mi>A</mi></msub><annotation encoding="application/x-tex">K_A</annotation></semantics></math>
+preimages in that box. A high-bit vector has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>m</mi><mi>N</mi></msup><annotation encoding="application/x-tex">m^N</annotation></semantics></math>
+possible low-bit lifts. Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>γ</mi><mn>1</mn></msub><mo>=</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">\gamma_1=m</annotation></semantics></math>,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munder><mi mathvariant="normal">max</mi><mi>u</mi></munder><mrow><mi mathvariant="normal">Pr</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">[</mo><mrow><mi mathvariant="normal">HighBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mi>Y</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>u</mi><mo stretchy="false" form="postfix">]</mo><mo>≤</mo><mfrac><mrow><msub><mi>K</mi><mi>A</mi></msub><msup><mi>m</mi><mi>N</mi></msup></mrow><mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><msub><mi>γ</mi><mn>1</mn></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>N</mi></msup></mrow></mfrac><mo>=</mo><msub><mi>K</mi><mi>A</mi></msub><msup><mn>2</mn><mrow><mi>−</mi><mi>N</mi></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\max_u\Pr[\operatorname{HighBits}(AY,m)=u]
+\leq\frac{K_A m^N}{(2\gamma_1)^N}
+=K_A2^{-N}.
+</annotation></semantics></math></p>
+<p>Conditioning on an acceptance event of probability
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+can enlarge this bound by a factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">1/a</annotation></semantics></math>.
+This is a starting point for analysis, not a bound on every adaptive
+simulator transcript. It requires control of the kernel, acceptance
+probability, and conditioning on oracle history.</p>
+<p>The theorem defines worst-case quantities over keys in the
+post-RR-LWR hybrid. Degenerate keys, such as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mi>b</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">A=b=0</annotation></semantics></math>,
+show why an unrestricted uniform high-entropy claim cannot hold: the
+candidate commitment is then fixed. Such keys may have negligible
+probability, but a proof must explicitly isolate bad-key events and
+charge their probabilities.</p>
+<h2 id="the-public-seed-remains-observable">7.4 The public seed remains
+observable</h2>
+<p>The public key contains
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>,
+from which an adversary can recompute
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
+Replacing the expanded
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+by an independently uniform element while retaining an unprogrammed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ρ</mi><annotation encoding="application/x-tex">\rho</annotation></semantics></math>
+is distinguishable by that recomputation.</p>
+<p>A seeded-sampler hybrid needs an explicit interface: for example,
+programming the selected public-expansion oracle calls and bounding the
+probability that those inputs were queried earlier. Merely assigning a
+symbol
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="normal">Δ</mi><mi>A</mi></msub><annotation encoding="application/x-tex">\Delta_A</annotation></semantics></math>
+to this step does not quantify its cost. Exact uniformity of
+coefficients produced by an ideal stream, which is particularly simple
+for a power-of-two modulus, is a different issue from consistency with
+the public seed.</p>
+<h2 id="lwr-to-lwe-comparisons-require-their-actual-hypotheses">7.5
+LWR-to-LWE comparisons require their actual hypotheses</h2>
+<p>The bounded-error LWR result of Bogdanov et al. [BGM16, Theorems 1–2]
+uses an auxiliary error bound
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+and the strict condition
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>&gt;</mo><mn>2</mn><mi>p</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">q&gt;2pB</annotation></semantics></math>.
+Its comparison includes a factor of the form</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mn>2</mn><mi>p</mi><mi>B</mi><mi>/</mi><mi>q</mi><msup><mo stretchy="false" form="postfix">)</mo><msub><mi>m</mi><mi>s</mi></msub></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">
+(1+2pB/q)^{m_s},
+</annotation></semantics></math></p>
+<p>as well as a square of the relevant success probability. Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>m</mi><mi>s</mi></msub><annotation encoding="application/x-tex">m_s</annotation></semantics></math>
+counts scalar coordinates in the comparison. The parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+is not automatically the scheme’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>.</p>
+<p>For the submitted parameters, setting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mi>η</mi><mo>=</mo><mi>q</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">B=\eta=q/(2p)</annotation></semantics></math>
+violates the strict inequality. Setting
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">B=1</annotation></semantics></math>
+satisfies it, but changes the error distribution being compared. For
+illustration, taking
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>s</mi></msub><mo>=</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">m_s=N</annotation></semantics></math>
+gives</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mn>2</mn><mi>p</mi><mi>/</mi><mi>q</mi><msup><mo stretchy="false" form="postfix">)</mo><mi>N</mi></msup><mo>=</mo><mi>N</mi><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mn>1</mn><mi>/</mi><mi>η</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">
+\log_2(1+2p/q)^N=N\log_2(1+1/\eta),
+</annotation></semantics></math></p>
+<p>which is approximately 329.65, 1198.00, and 2995.01 bits. These
+figures describe the size of this factor under that substitution; they
+are not standalone security losses for a fully instantiated radical-ring
+reduction.</p>
+<p>The convenient sufficient condition
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>≥</mo><mn>2</mn><msub><mi>m</mi><mi>s</mi></msub><mi>B</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">q\geq2m_sBp</annotation></semantics></math>
+keeps this factor at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>;
+failure of that sufficient condition does not invalidate every possible
+reduction. The ring theorem additionally assumes a secret supported on
+units. The submitted secret distribution has substantial nonunit mass,
+and its coefficient representation must be matched to the theorem. The
+required decisional, distributional, and basis arguments remain to be
+supplied.</p>
+<h2 id="classical-rom-deterministic-signing-and-stronger-properties">7.6
+Classical ROM, deterministic signing, and stronger properties</h2>
+<p>The specification explicitly limits Theorems 4–5 to the classical
+random-oracle model. Its quantum attack estimates are not a QROM proof.
+A revised document should distinguish a conjectured post-quantum work
+factor from a proven QROM reduction.</p>
+<p>The signing interface also permits deterministic operation. The
+specification correctly states that the randomized signing oracle used
+in its proof excludes this case. Repeated deterministic signing of the
+same message must repeat the signature, with the corresponding oracle
+and seed correlations. Claims covering that interface require a separate
+argument.</p>
+<p>Theorem 6’s collision-based reasoning for stronger binding properties
+is useful in the stated ideal model. Its instantiation still needs the
+actual primitive collision bounds and any high-min-entropy assumptions
+used for the weak non-resignability experiment. Neither a 1024-bit
+digest length nor the existence of a classical ROM unforgeability
+argument discharges those assumptions. No two-key exclusive-ownership
+attack is established in this document.</p>
+<h1 id="ring-structure-basis-geometry-and-challenge-algebra">8. Ring
+structure, basis geometry, and challenge algebra</h1>
+<h2 id="reduction-modulo-2-and-nonunits">8.1 Reduction modulo 2 and
+nonunits</h2>
+<p>Eliminating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+gives</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>q</mi></msub><mo>≅</mo><mo stretchy="false" form="prefix">(</mo><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>q</mi><mi mathvariant="double-struck">ℤ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mi>/</mi><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mi>k</mi></msup><mo>−</mo><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>1024</mn></msup><mo>+</mo><mn>1</mn><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+S_q\cong(\mathbb Z/q\mathbb Z)[X]/\big((X^k-2)^{1024}+1\big).
+</annotation></semantics></math></p>
+<p>Modulo 2 the defining polynomial factors as follows:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>k</mi><mo>=</mo><mn>1</mn><mo>:</mo><mspace width="1.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>1024</mn></msup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>k</mi><mo>=</mo><mn>2</mn><mo>:</mo><mspace width="1.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2048</mn></msup><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>k</mi><mo>=</mo><mn>5</mn><mo>:</mo><mspace width="1.0em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>1024</mn></msup><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mn>4</mn></msup><mo>+</mo><msup><mi>X</mi><mn>3</mn></msup><mo>+</mo><msup><mi>X</mi><mn>2</mn></msup><mo>+</mo><mi>X</mi><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>1024</mn></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+k=1:\quad &amp;(X+1)^{1024},\\
+k=2:\quad &amp;(X+1)^{2048},\\
+k=5:\quad &amp;(X+1)^{1024}
+  (X^4+X^3+X^2+X+1)^{1024}.
+\end{aligned}
+</annotation></semantics></math></p>
+<p>The quartic is irreducible over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">𝔽</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\mathbb F_2</annotation></semantics></math>.
+An element modulo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>24</mn></msup><annotation encoding="application/x-tex">2^{24}</annotation></semantics></math>
+is a unit exactly when its reduction modulo 2 is coprime to these
+distinct factors. Hence the unit probabilities for a uniformly random
+element are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>,</mo><mspace width="1.0em"></mspace><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mn>2</mn><mrow><mi>−</mi><mn>4</mn></mrow></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>15</mn><mn>32</mn></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac12,\quad\frac12,\quad
+(1-2^{-1})(1-2^{-4})=\frac{15}{32}.
+</annotation></semantics></math></p>
+<p>The same probabilities hold in the ideal independent-coefficient
+model for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>,
+because its coefficient intervals give unbiased independent parity bits.
+These facts are verified in [E2, E6].</p>
+<p>For a fixed nonunit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>,
+a uniform
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+gives
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><msub><mi>s</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">As_1</annotation></semantics></math>
+in the proper ideal generated by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>,
+rather than uniformly over the ring. Thus an unconditional
+uniform-product heuristic is false. This does not itself refute RR-LWR:
+rounding can obscure ideal membership, and the assumption concerns
+rounded samples.</p>
+<h2 id="a-decomposition-of-the-k5-ring">8.2 A decomposition of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>
+ring</h2>
+<p>In
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>q</mi></msub><annotation encoding="application/x-tex">R_q</annotation></semantics></math>,
+set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><msup><mi>y</mi><mn>1229</mn></msup></mrow><annotation encoding="application/x-tex">t=y^{1229}</annotation></semantics></math>.
+Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>⋅</mo><mn>1229</mn><mo>=</mo><mn>1</mn><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2048</mn></mrow></mrow><annotation encoding="application/x-tex">5\cdot1229=1\bmod2048</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>y</mi><mn>2048</mn></msup><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">y^{2048}=1</annotation></semantics></math>,
+one has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>t</mi><mn>5</mn></msup><mo>=</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">t^5=y</annotation></semantics></math>.
+Therefore</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>x</mi><mo>−</mo><mi>t</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>b</mi><mo>=</mo><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><mi>t</mi><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><msup><mi>t</mi><mn>2</mn></msup><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>t</mi><mn>3</mn></msup><mi>x</mi><mo>+</mo><msup><mi>t</mi><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">
+a=x-t,\qquad
+b=x^4+tx^3+t^2x^2+t^3x+t^4
+</annotation></semantics></math></p>
+<p>satisfy the exact identity
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>b</mi><mo>=</mo><msup><mi>x</mi><mn>5</mn></msup><mo>−</mo><msup><mi>t</mi><mn>5</mn></msup><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">ab=x^5-t^5=2</annotation></semantics></math>.
+In particular,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>a</mi><mn>24</mn></msup><msup><mi>b</mi><mn>24</mn></msup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a^{24}b^{24}=0</annotation></semantics></math>
+modulo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>24</mn></msup><annotation encoding="application/x-tex">2^{24}</annotation></semantics></math>.</p>
+<p>There is also a coprime factorization. Hensel lifting starts from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow></mrow><annotation encoding="application/x-tex">t\bmod2</annotation></semantics></math>
+and produces
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∈</mo><msub><mi>R</mi><mi>q</mi></msub></mrow><annotation encoding="application/x-tex">r\in R_q</annotation></semantics></math>
+such that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>r</mi><mn>5</mn></msup><mo>=</mo><mi>y</mi><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">r^5=y+2</annotation></semantics></math>,
+since the derivative
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><msup><mi>t</mi><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">5t^4</annotation></semantics></math>
+is a unit. Then</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>x</mi><mn>5</mn></msup><mo>−</mo><mi>y</mi><mo>−</mo><mn>2</mn><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>−</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>x</mi><mn>4</mn></msup><mo>+</mo><mi>r</mi><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><msup><mi>r</mi><mn>2</mn></msup><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>r</mi><mn>3</mn></msup><mi>x</mi><mo>+</mo><msup><mi>r</mi><mn>4</mn></msup><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+x^5-y-2=(x-r)
+(x^4+rx^3+r^2x^2+r^3x+r^4).
+</annotation></semantics></math></p>
+<p>The quartic evaluated at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">x=r</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><msup><mi>r</mi><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">5r^4</annotation></semantics></math>,
+a unit, so the factors are comaximal. The Chinese remainder theorem
+decomposes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>q</mi></msub><annotation encoding="application/x-tex">S_q</annotation></semantics></math>
+into components of ranks 1024 and 4096 over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℤ</mi><mi>/</mi><mi>q</mi><mi mathvariant="double-struck">ℤ</mi></mrow><annotation encoding="application/x-tex">\mathbb Z/q\mathbb Z</annotation></semantics></math>.</p>
+<p>This is an exact algebraic decomposition. Its usefulness for an
+attack depends on what it does to the small-secret distribution and
+coefficient norm. In the diagnostic [E6], projecting one vector with
+original coefficients in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>2</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-2,1]</annotation></semantics></math>
+produced a maximum centered coefficient of 8,386,517, close to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mi>/</mi><mn>2</mn><mo>=</mo><mn>8</mn><mo>,</mo><mn>388</mn><mo>,</mo><mn>608</mn></mrow><annotation encoding="application/x-tex">q/2=8,388,608</annotation></semantics></math>.
+The explicit annihilators above had norms 8,370,000 and 8,260,608.
+Neither example supplies a short response satisfying the signature
+bounds.</p>
+<p>These observations rule out using those particular projected vectors
+as immediate attacks. They do not rule out other projections, smaller
+annihilators, multilevel lifting, or attacks exploiting the two
+components jointly.</p>
+<h2 id="even-weight-challenges-are-nonunits">8.3 Even-weight challenges
+are nonunits</h2>
+<p>Over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi mathvariant="double-struck">𝔽</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\mathbb F_2</annotation></semantics></math>,
+signs disappear and a
+weight-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+challenge satisfies</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>τ</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>2</mn></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+c(1)=\tau\bmod2.
+</annotation></semantics></math></p>
+<p>At levels 128 and 256, every challenge has even weight, so it is
+divisible by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">y+1</annotation></semantics></math>
+and is a nonunit. Multiplication by such a challenge has a nontrivial
+kernel. At level 512, the odd weight makes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+a unit in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>q</mi></msub><annotation encoding="application/x-tex">R_q</annotation></semantics></math>
+and hence in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mi>q</mi></msub><annotation encoding="application/x-tex">S_q</annotation></semantics></math>.</p>
+<p>Nonunit challenges are not, by themselves, a forgery. The extraction
+displayed in the specification does not simply invert
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>.
+Nevertheless, this deterministic restriction matters for distribution
+claims and for any argument involving multiplication by a challenge or
+challenge difference. Changing the parity of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
+would require a fresh parameter and rejection analysis; it would not
+repair the other issues.</p>
+<h2 id="maximality-should-be-proved-for-the-submitted-parameters">8.4
+Maximality should be proved for the submitted parameters</h2>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mi>k</mi></msup><mo>−</mo><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mi>n</mi></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f(X)=(X^k-2)^n+1</annotation></semantics></math>,
+direct resultant calculation gives</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mrow><mi mathvariant="normal">disc</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mi>k</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>n</mi><mi>k</mi></mrow></msup><mo stretchy="false" form="prefix">(</mo><msup><mn>2</mn><mi>n</mi></msup><mo>+</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+|\operatorname{disc}(f)|=(nk)^{nk}(2^n+1)^{k-1}.
+</annotation></semantics></math></p>
+<p>The defining polynomial is irreducible for the relevant radical-ring
+family [BRVW26, Lemma 1]. To identify
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℤ</mi><mo stretchy="false" form="prefix">[</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbb Z[X]/(f)</annotation></semantics></math>
+with the full ring of integers, one must additionally exclude primes
+dividing the index.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">n=1024</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>∈</mo><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>5</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">k\in\{1,2,5\}</annotation></semantics></math>,
+the calculations in [E2] establish the required local checks at 2 and,
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>,
+at 5. At a prime dividing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>1024</mn></msup><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{1024}+1</annotation></semantics></math>,
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∤</mo><mi>n</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">p\nmid nk</annotation></semantics></math>,
+the Dedekind criterion reduces to whether
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mn>2</mn></msup><annotation encoding="application/x-tex">p^2</annotation></semantics></math>
+divides that Fermat number. Its published complete factorization
+contains four distinct prime factors [B99]. Together, these facts
+establish maximality for the submitted profiles. The code checks the
+arithmetic of the factors; the primality of the largest factor relies on
+the published factorization.</p>
+<p>A general claim for arbitrary ranks needs additional hypotheses. For
+example, take
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n=2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>17</mn></mrow><annotation encoding="application/x-tex">k=17</annotation></semantics></math>,
+and</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msup><mi>X</mi><mn>17</mn></msup><mo>−</mo><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><mi>g</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>−</mo><mn>2</mn><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+f=(X^{17}-2)^2+1,\qquad g=(X-2)^2+1.
+</annotation></semantics></math></p>
+<p>Modulo 17,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><msup><mi>g</mi><mn>17</mn></msup></mrow><annotation encoding="application/x-tex">f=g^{17}</annotation></semantics></math>.
+For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>f</mi><mo>−</mo><msup><mi>g</mi><mn>17</mn></msup><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>17</mn></mrow><annotation encoding="application/x-tex">T=(f-g^{17})/17</annotation></semantics></math>,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo></mrow><mn>17</mn><mo>,</mo><mi>g</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>8</mn><mo>+</mo><mn>10</mn><mi>X</mi><mo>,</mo><mspace width="2.0em"></mspace><mrow><mi mathvariant="normal">gcd</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo>,</mo><mi>g</mi><mo stretchy="false" form="postfix">)</mo><mrow><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">mod</mi><mo>⁡</mo></mrow><mspace width="0.222em"></mspace><mn>17</mn></mrow><mo>=</mo><mi>X</mi><mo>−</mo><mn>6</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T\bmod(17,g)=8+10X,\qquad
+\gcd(T,g)\bmod17=X-6.
+</annotation></semantics></math></p>
+<p>Since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>g</mi><annotation encoding="application/x-tex">g</annotation></semantics></math>
+is squarefree modulo 17, Dedekind’s index criterion implies that 17
+divides the index. The exact calculation and irreducibility check appear
+in [E10]. This is a counterexample to unrestricted extrapolation; it is
+not an index defect in any submitted profile.</p>
+<p>Even when the global index question is settled, maximality alone is
+not a hardness theorem. For arithmetic modulo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>24</mn></msup><annotation encoding="application/x-tex">2^{24}</annotation></semantics></math>,
+the local analysis at 2 is the directly relevant order check.</p>
+<h2 id="exact-embedding-distortion">8.5 Exact embedding distortion</h2>
+<p>Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ζ</mi><mi>j</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>j</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>π</mi><mi>i</mi><mi>/</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\zeta_j=\exp((2j+1)\pi i/n)</annotation></semantics></math>.
+In the coefficient basis
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>y</mi><mi>a</mi></msup><msup><mi>x</mi><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">y^a x^b</annotation></semantics></math>,
+with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>a</mi><mo>&lt;</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">0\leq a&lt;n</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>b</mi><mo>&lt;</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">0\leq b&lt;k</annotation></semantics></math>,
+the singular values of the full complex evaluation matrix are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow><mi>n</mi><mi>k</mi></mrow></msqrt><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">|</mo><mn>2</mn><mo>+</mo><msub><mi>ζ</mi><mi>j</mi></msub><msup><mo stretchy="false" form="prefix">|</mo><mrow><mi>b</mi><mi>/</mi><mi>k</mi></mrow></msup><mo>,</mo><mspace width="2.0em"></mspace><mn>0</mn><mo>≤</mo><mi>j</mi><mo>&lt;</mo><mi>n</mi><mo>,</mo><mspace width="1.0em"></mspace><mn>0</mn><mo>≤</mo><mi>b</mi><mo>&lt;</mo><mi>k</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\sqrt{nk}\,|2+\zeta_j|^{b/k},
+\qquad 0\leq j&lt;n,\quad0\leq b&lt;k.
+</annotation></semantics></math></p>
+<p>To see this, group embeddings by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ζ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\zeta_j</annotation></semantics></math>
+and by the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+choices of the radical root. Fourier orthogonality in the root index
+separates the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+blocks; Fourier diagonalization in the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+index then gives the displayed values. This uses the usual Euclidean
+norm on all complex embeddings, equivalent to the standard
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mn>2</mn></msqrt><annotation encoding="application/x-tex">\sqrt2</annotation></semantics></math>-weighted
+real representation.</p>
+<p>The condition number is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>+</mo><mn>4</mn><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>π</mi><mi>/</mi><mi>n</mi><mo stretchy="false" form="postfix">)</mo><msup><mo stretchy="false" form="postfix">)</mo><mrow><mo stretchy="false" form="prefix">(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\kappa=(5+4\cos(\pi/n))^{(k-1)/(2k)}.
+</annotation></semantics></math></p>
+<p>At
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">n=1024</annotation></semantics></math>
+it is approximately 1, 1.732049902, and 2.408222670. Small numerical
+matrix checks are recorded in [E10]. The distortion is modest, but the
+transport is not isometric for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k&gt;1</annotation></semantics></math>;
+both covariance and volume factors must be accounted for in a reduction
+using canonical geometry. A generic estimator call does not incorporate
+them merely by setting the dimension to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">nk</annotation></semantics></math>.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>,
+the field is also not Galois over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="double-struck">ℚ</mi><annotation encoding="application/x-tex">\mathbb Q</annotation></semantics></math>.
+Normality would require all five radical roots and hence
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ζ</mi><mn>5</mn></msub><annotation encoding="application/x-tex">\zeta_5</annotation></semantics></math>,
+alongside the existing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ζ</mi><mn>2048</mn></msub><annotation encoding="application/x-tex">\zeta_{2048}</annotation></semantics></math>.
+The compositum has degree 4096, which cannot divide the field degree
+5120. Cyclotomic Ring-LWE arguments using a full automorphism group
+therefore cannot be imported without checking their hypotheses. Complex
+conjugation still exists; non-Galois does not mean the absence of every
+symmetry.</p>
+<h1 id="public-transcript-information-and-functional-checks">9. Public
+transcript information and functional checks</h1>
+<h2 id="signatures-give-bounded-observations-of-the-omitted-key-part">9.1
+Signatures give bounded observations of the omitted key part</h2>
+<p>An observer can reconstruct
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>1</mn></msub><annotation encoding="application/x-tex">w_1</annotation></semantics></math>
+from a valid signature and calculate</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><msub><mrow><mi mathvariant="normal">ctr</mi><mo>⁡</mo></mrow><mi>q</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mi>z</mi><mo>−</mo><mi>c</mi><mi>g</mi><msub><mi>b</mi><mn>1</mn></msub><msup><mn>2</mn><mi>d</mi></msup><mo>−</mo><mi>m</mi><msub><mi>w</mi><mn>1</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+e=\operatorname{ctr}_q(Az-cgb_1 2^d-mw_1).
+</annotation></semantics></math></p>
+<p>For an honest accepted signature, put
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mn>0</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">LowBits</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mi>z</mi><mo>−</mo><mi>c</mi><mi>g</mi><mi>b</mi><mo>,</mo><mi>m</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r_0=\operatorname{LowBits}(Az-cgb,m)</annotation></semantics></math>.
+The signing tests give</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mi>c</mi><mi>g</mi><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>r</mi><mn>0</mn></msub><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="postfix">∥</mo><msub><mi>r</mi><mn>0</mn></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>2</mn></msub><mo>−</mo><mi>β</mi><mo>,</mo><mspace width="2.0em"></mspace><mo stretchy="false" form="postfix">∥</mo><mi>c</mi><mi>g</mi><msub><mi>b</mi><mn>0</mn></msub><msub><mo stretchy="false" form="postfix">∥</mo><mi>∞</mi></msub><mo>&lt;</mo><msub><mi>γ</mi><mn>2</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+e=cgb_0+r_0,\qquad
+\|r_0\|_\infty&lt;\gamma_2-\beta,\qquad
+\|cgb_0\|_\infty&lt;\gamma_2.
+</annotation></semantics></math></p>
+<p>There is no centered-modulus ambiguity because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msub><mi>γ</mi><mn>2</mn></msub><mo>−</mo><mi>β</mi><mo>&lt;</mo><mi>q</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">2\gamma_2-\beta&lt;q/2</annotation></semantics></math>.
+Thus multiple signatures expose bounded linear observations of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>0</mn></msub><annotation encoding="application/x-tex">b_0</annotation></semantics></math>.</p>
+<p>The noise is affected by rejection and by the other transcript
+variables. It must not be treated as independent Gaussian noise without
+justification. A useful next experiment would measure the conditional
+distributions and attempt recovery of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>0</mn></msub><annotation encoding="application/x-tex">b_0</annotation></semantics></math>
+in controlled, known-key tests.</p>
+<p>Recovering
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>0</mn></msub><annotation encoding="application/x-tex">b_0</annotation></semantics></math>
+would reveal the full rounded value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>,
+which is already public in the stated RR-LWR assumption. It would not
+automatically recover
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>
+or supply a forgery. The purpose of this observation is to identify a
+concrete transcript-analysis problem and avoid silently treating the
+omitted key part as permanently hidden.</p>
+<h2 id="results-that-do-check-out">9.2 Results that do check out</h2>
+<p>The following arithmetic is internally consistent with the parameter
+macros and encodings [E1]:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: right;">128</th>
+<th style="text-align: right;">256</th>
+<th style="text-align: right;">512</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Public-key bytes</td>
+<td style="text-align: right;">1344</td>
+<td style="text-align: right;">2368</td>
+<td style="text-align: right;">5184</td>
+</tr>
+<tr>
+<td style="text-align: left;">Secret-key bytes</td>
+<td style="text-align: right;">2432</td>
+<td style="text-align: right;">4608</td>
+<td style="text-align: right;">11776</td>
+</tr>
+<tr>
+<td style="text-align: left;">Signature bytes</td>
+<td style="text-align: right;">2564</td>
+<td style="text-align: right;">5449</td>
+<td style="text-align: right;">14713</td>
+</tr>
+<tr>
+<td style="text-align: left;">Encoded hint bytes</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">265</td>
+<td style="text-align: right;">505</td>
+</tr>
+<tr>
+<td style="text-align: left;">Two-test expected repetitions</td>
+<td style="text-align: right;">2.129771</td>
+<td style="text-align: right;">2.338962</td>
+<td style="text-align: right;">3.590045</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>B</mi><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><annotation encoding="application/x-tex">B_{\mathrm{EUF}}</annotation></semantics></math></td>
+<td style="text-align: right;">393,217</td>
+<td style="text-align: right;">1,114,113</td>
+<td style="text-align: right;">4,947,969</td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>B</mi><mrow><mi mathvariant="normal">S</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><annotation encoding="application/x-tex">B_{\mathrm{SUF}}</annotation></semantics></math></td>
+<td style="text-align: right;">524,290</td>
+<td style="text-align: right;">1,048,578</td>
+<td style="text-align: right;">4,194,306</td>
+</tr>
+</tbody>
+</table>
+<p>The repetition calculation covers the stated response and low-bit
+model. It is not a measurement of the complete signer with all rejection
+tests and correlations.</p>
+<p>The key-generation residual bound and the accepted-signature
+verification identities are consistent with the centered rounding
+conventions. Exhaustive small-modulus checks in [E2] verify hint
+recovery, high-bit stability under the stated strict inequalities, and
+the residual bound for both hint values. The SUF argument’s
+nonzero-extraction step is consistent with canonical encodings and
+uniqueness of the hint when the high-bit moduli are 64, 32, and 8.</p>
+<p>The two NTT primes have product</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>152</mn><mo>,</mo><mn>837</mn><mo>,</mo><mn>945</mn><mo>,</mo><mn>367</mn><mo>,</mo><mn>908</mn><mo>,</mo><mn>353</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+1,152,837,945,367,908,353.
+</annotation></semantics></math></p>
+<p>Against the supplied worst-case CRT reconstruction bounds, the
+corresponding headroom factors are approximately 255.98, 32.00, and 2.46
+[E1]. This verifies the integer reconstruction range used in that
+calculation. It is not a proof that every implementation intermediate
+avoids overflow.</p>
+<p>These positive checks matter: the unsupported security claims should
+not be conflated with a demonstrated failure of the basic signing
+identity or an incorrect byte count.</p>
+<h1 id="specification-implementation-and-estimate-consistency">10.
+Specification, implementation, and estimate consistency</h1>
+<h2 id="a-reproducible-disagreement-in-the-challenge-map">10.1 A
+reproducible disagreement in the challenge map</h2>
+<p>Algorithm 2 on p. 22 requests
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">⌈</mo><mi>τ</mi><mi>/</mi><mn>8</mn><mo stretchy="false" form="postfix">⌉</mo></mrow><annotation encoding="application/x-tex">\lceil\tau/8\rceil</annotation></semantics></math>
+bytes for the sign stream: 2, 5, and 11 bytes. All nine implementation
+trees request 11 bytes. The requested output length is part of the
+hashed domain encoding. Consequently, requesting 11 bytes and then
+taking a prefix changes the hash input; it is not equivalent to
+requesting the shorter output.</p>
+<p>The source check [E7] covers the three levels in each of the
+reference, optimized, and additional families. The C regression [E8]
+executes the submitted wrappers in all nine combinations with an
+all-zero public challenge seed. The SM3 results, identical in the
+reference and optimized families, are:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Profile</th>
+<th style="text-align: right;">Specified bytes</th>
+<th style="text-align: right;">Implementation bytes</th>
+<th style="text-align: right;">Differing used sign bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">128</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td style="text-align: left;">256</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr>
+<td style="text-align: left;">512</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>At level 128 the specification-length stream is hexadecimal
+<em>3b80</em>, while the corresponding prefix of the implementation
+stream is <em>9bc5</em>. At level 256 the two values are
+<em>120021c7c5</em> and <em>82543e7c36</em>. The index stream is
+unchanged, so these sign differences alter the expanded challenge
+itself.</p>
+<p>The additional SHAKE family exhibits the same disagreement:
+<em>6da1</em> versus <em>3930</em> at level 128, and <em>40f92b5756</em>
+versus <em>3598e19826</em> at level 256. There are respectively 6 and 18
+differing used sign bits. At level 512, the specified and implemented
+lengths coincide in all families.</p>
+<p>This disagreement does not establish lower entropy for either map. It
+establishes that the PDF and implementations define different schemes at
+two levels. Agreement among implementations or known-answer tests
+sharing the same map would not resolve that discrepancy.</p>
+<h2 id="other-normative-ambiguities-and-interface-issues">10.2 Other
+normative ambiguities and interface issues</h2>
+<p>Several smaller differences should be resolved in a normative
+revision:</p>
+<ul>
+<li><em>UseHint</em> treats a zero low part differently: the PDF’s
+branch for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mn>0</mn></msub><mo>≤</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r_0\leq0</annotation></semantics></math>
+decrements, while the code increments when
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r_0=0</annotation></semantics></math>.
+Honest nonzero hints avoid this boundary under the signing bounds. An
+arbitrary candidate signature can contain such a hint, so the
+verification language still needs one definition.</li>
+<li>The document defines a generic <em>Pack</em> operation for keys and
+signatures. It should explicitly require
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mrow><mi>c</mi><mi>h</mi></mrow></msub><annotation encoding="application/x-tex">H_{ch}</annotation></semantics></math>
+to receive
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">Pack</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>w</mi><mn>1</mn></msub><mo>,</mo><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mi>/</mi><mi>m</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\operatorname{Pack}(w_1,\log_2(q/m))</annotation></semantics></math>,
+or state another exact encoding. The coefficient widths are 6, 5, and 3
+bits. The current hash notation leaves this connection to be
+inferred.</li>
+<li>The deterministic signing option needs a matching algorithm and
+security statement, as discussed in Section 7.6.</li>
+<li>Challenge-refill limits need one definition. Both the specification
+and wrapper encode the index-stream counter in 32 bits, but the code
+aborts after counter 255, having exhausted 256 buffers; Algorithm 2
+gives no such cap. Counter exhaustion or wraparound in sampling and
+signing needs specified behavior and a quantified failure
+probability.</li>
+<li>The current domain header identifies the level and rank. It does not
+bind every parameter. This separates the submitted profiles, but future
+parameter changes under the same identifiers would require explicit
+version separation.</li>
+</ul>
+<p>These items call for executable specification tests, including
+adversarial encodings and boundary inputs, as well as honest-signature
+test vectors.</p>
+<h2 id="randomness-and-side-channel-claims">10.3 Randomness and
+side-channel claims</h2>
+<p>The supplied SM3 random-generation wrapper uses global generator
+selection and error-return interfaces. Some callers do not propagate
+failure to the signing or key-generation API. A production interface
+must make initialization, entropy acquisition, generator selection, and
+error handling explicit.</p>
+<p>A 55-byte seed length is not evidence of 440-bit or 512-bit security.
+NIST SP 800-90A’s 440-bit seed length for SHA-256 Hash_DRBG is an
+internal-state parameter; the standard separately specifies security
+strength and approved hash instantiations [SP90A]. Substituting SM3 and
+reusing the seed length does not inherit an SP 800-90A validation claim.
+This is an integration and assurance issue; no additional mathematical
+forgery is inferred solely from the seed length.</p>
+<p>A power-of-two modulus can simplify arithmetic and permit
+constant-time implementations. It does not establish resistance to
+timing, cache, power, electromagnetic, or fault attacks. Such claims
+need implementation-specific evidence, particularly for secret
+expansion, rejection loops, arithmetic, and error paths.</p>
+<h2 id="estimator-output-is-not-a-security-lower-bound">10.4 Estimator
+output is not a security lower bound</h2>
+<p>Appendix A uses <em>lattice-estimator</em>, including a pinned source
+revision [LE]. That revision’s SIS implementation prices
+lattice-reduction strategies; it does not test the modulo-4 construction
+in Section 6. A large returned exponent is therefore compatible with an
+easy instance through another algorithm.</p>
+<p>The different numbers labeled Core-SVP, arithmetic operations, and
+refined attack costs need not be numerically equal. A Core-SVP exponent
+based on a block size omits algorithm-specific preprocessing and other
+overhead. Such differences should be explained using the exact attack
+variant, cost model, success probability, and operation convention,
+rather than treated automatically as contradictions or combined
+selectively.</p>
+<p>The supplied cost-fitting range ends at block size 1024, while
+reported 512-level choices reach roughly 2181–2788. This is
+extrapolation. The submission should publish the fitting data,
+residuals, extrapolation rule, uncertainty, estimator revision, full
+inputs, and unedited outputs. No fit can repair the use of an
+inapplicable problem model.</p>
+<h2 id="parameter-and-presentation-corrections">10.5 Parameter and
+presentation corrections</h2>
+<p>The following points also affect reproducibility or
+interpretation:</p>
+<ul>
+<li>Increasing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+changes the public-key compression error and the stated EUF bound. For
+example, changing the 128-level value from 11 to 12 changes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>B</mi><mrow><mi mathvariant="normal">E</mi><mi mathvariant="normal">U</mi><mi mathvariant="normal">F</mi></mrow></msub><annotation encoding="application/x-tex">B_{\mathrm{EUF}}</annotation></semantics></math>
+from 393,217 to 524,289. A claim that this change has no security effect
+is too broad. Increasing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+similarly enlarges the accepted hint set; its effect needs
+analysis.</li>
+<li><em>Power2Round</em> directly compresses the public key. Any
+signature-size benefit is indirect and must be explained through the
+chosen parameters.</li>
+<li>The appendix’s generic signature-size expression using a fixed
+64-byte challenge and omitting hints is not valid for all three
+profiles. The actual encoded sizes in Section 9.2 are consistent with
+the tables and code.</li>
+<li>An expected number of <em>additional</em> 64-word refill blocks must
+exclude the initial block and account for the discrete threshold. Under
+the stated sampling approximation the expectations are near 0, 0, and 1,
+rather than simply the expected word count divided by 64.</li>
+<li>Table 7 gives 204,968 signing cycles for Octarine-128 and 203,781
+for its ML-DSA comparison, contrary to a blanket signing-speed
+advantage. The difference is about 0.58%; differing compiler flags
+further limit the comparison. Performance claims need comparable builds,
+platform details, and dispersion across runs.</li>
+</ul>
+<h1 id="disposition-and-requirements-for-a-revision">11. Disposition and
+requirements for a revision</h1>
+<p>The submitted document should not be used to endorse the advertised
+security levels. The 512-bit classical claim must be withdrawn for both
+supplied hash families. The SM3 256-level implementation also has a
+direct generic signature-transfer bound around
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>128</mn></msup><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Family and profile</th>
+<th style="text-align: left;">Principal established obstruction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">SM3, 128</td>
+<td style="text-align: left;">Challenge-search bound of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>65.79</mn></msup><annotation encoding="application/x-tex">2^{65.79}</annotation></semantics></math>
+quantum queries; unresolved proof and conformance issues</td>
+</tr>
+<tr>
+<td style="text-align: left;">SM3, 256</td>
+<td style="text-align: left;">Message-collision signature transfer near
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>2</mn><mn>128</mn></msup><annotation encoding="application/x-tex">2^{128}</annotation></semantics></math>
+classical work</td>
+</tr>
+<tr>
+<td style="text-align: left;">SM3, 512</td>
+<td style="text-align: left;">Same collision bound; 344-bit
+equivalent-key descriptor; easy relaxed SIS instances</td>
+</tr>
+<tr>
+<td style="text-align: left;">SHAKE, 128</td>
+<td style="text-align: left;">Same challenge-search query bound and
+unresolved proof/conformance issues</td>
+</tr>
+<tr>
+<td style="text-align: left;">SHAKE, 256</td>
+<td style="text-align: left;">No below-target classical forgery
+established here; proof and model obligations remain</td>
+</tr>
+<tr>
+<td style="text-align: left;">SHAKE, 512</td>
+<td style="text-align: left;">Message-collision strength capped at 256
+bits; easy relaxed SIS instances</td>
+</tr>
+</tbody>
+</table>
+<p>The quantum-query entry for level 128 must retain the gate-cost
+qualification in Section 4.2. A profile without a below-target attack in
+this document is not thereby validated.</p>
+<p>A technically reviewable revision should satisfy the following
+requirements:</p>
+<ol type="1">
+<li><strong>Define the claim and the primitives.</strong> State
+classical and quantum resource models, allowable query counts, target
+advantages, and per-role hash requirements. Specify each XOF and
+generator completely.</li>
+<li><strong>Analyze the actual forgery relations.</strong> Preserve the
+separate response and residual bounds, challenge support, target
+dependence, and oracle consistency. Include powers-of-two methods,
+modular projections, and structured kernels alongside lattice
+reduction.</li>
+<li><strong>Complete the proof instantiation.</strong> Give an
+executable simulator, acceptance bounds, commitment entropy,
+seeded-oracle programming, bad-key terms, and the applicable LWR
+reduction or an explicitly stated independent decisional assumption.
+Separate randomized ROM, deterministic, and QROM claims.</li>
+<li><strong>Reconcile specification and code.</strong> Provide one
+challenge map, one rounding and hint convention, exact encodings,
+versioned domains, failure semantics, and conformance tests.</li>
+<li><strong>Re-estimate and reproduce.</strong> Publish parameter
+derivations, complete estimator inputs and outputs, benchmark settings,
+and test artifacts. Reassess rejection rates and signature sizes after
+changes.</li>
+<li><strong>Invite analysis of the revised construction.</strong>
+Priority questions are constrained powers-of-two attacks near the
+response thresholds, multitranscript information about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>b</mi><mn>0</mn></msub><annotation encoding="application/x-tex">b_0</annotation></semantics></math>,
+componentwise attacks at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>,
+and the real distribution of accepted commitments.</li>
+</ol>
+<p>Further research on a corrected SHAKE-based construction at lower
+claimed levels may be reasonable. It should proceed as an unvalidated
+candidate with revised claims and a frozen specification. The available
+evidence does not justify deployment or a claim that the current
+submission has survived cryptanalysis at its advertised levels.</p>
+<h1 id="reproducibility-and-evidence">12. Reproducibility and
+evidence</h1>
+<h2 id="evidence-inventory">12.1 Evidence inventory</h2>
+<p>Paths below are relative to the distribution root. They identify
+programs, source code, and data; none is a prerequisite for following
+the mathematical constructions in Sections 3–8.</p>
+<p><strong>[E1] Parameter arithmetic.</strong> <a href="code/verify_parameters.py"><em>verify_parameters.py</em></a>
+recomputes challenge entropies, byte counts, stated bounds, rejection
+approximations, and CRT ranges using Python’s standard library. Its <a href="evidence/verify_parameters.json">recorded output</a> is
+included.</p>
+<p><strong>[E2] Algebra and rounding checks.</strong> <a href="code/verify_algebra.py"><em>verify_algebra.py</em></a> checks the
+discriminant formula on small degrees, the relevant full-degree local
+index calculations, Fermat-factor arithmetic, parity identities, and
+exhaustive small-modulus hint properties. It does not independently
+prove the primality of the largest published Fermat factor. See <a href="evidence/verify_algebra.json">output</a>.</p>
+<p><strong>[E3] Collision-propagation model.</strong> <a href="code/verify_kdf_collision.py"><em>verify_kdf_collision.py</em></a>
+gives a toy state-collision experiment with a 12-bit state. Its reduced
+state size is intentional; it is not a collision in full SM3. See <a href="evidence/verify_kdf_collision.txt">output</a>.</p>
+<p><strong>[E4] SM3 continuation.</strong> <a href="code/verify_sm3_mechanism.c"><em>verify_sm3_mechanism.c</em></a>
+checks continuation against the supplied SM3 code. Any forced
+internal-state equality is a mechanism test, not a found collision.
+Results are in <a href="evidence/original_code.json"><em>original_code.json</em></a>.</p>
+<p><strong>[E5] Relaxed SIS witness.</strong> <a href="code/composite_sis.py"><em>composite_sis.py</em></a>, <a href="evidence/composite_sis_5120.json">run data</a>, and the <a href="data/sis_witness_5120.npz">saved witness</a> implement and record
+the full-dimension construction. The witness contains the two matrices
+modulo 4 and the nonzero vector; higher matrix bits are unnecessary for
+verification. A <a href="evidence/composite_sis_replay.json">publication
+replay</a> reproduced the matrices, vector, and full-modulus lift digest
+exactly, excluding timings from the comparison.</p>
+<p><strong>[E6] Modular structure.</strong> <a href="code/ring_structure.py"><em>ring_structure.py</em></a> and <a href="evidence/ring_structure.json">its data</a> verify the modular
+factorization, units, annihilators, Hensel factorization, and one
+projection diagnostic.</p>
+<p><strong>[E7] Source consistency.</strong> <a href="code/verify_additional_findings.py"><em>verify_additional_findings.py</em></a>
+checks threshold arithmetic and odd-weight challenge candidates. With a
+separately obtained submission, its source checker also checks
+challenge-stream lengths across nine source trees. <a href="code/verify_original_code.py"><em>verify_original_code.py</em></a>
+invokes that checker and records its results with the C experiments.</p>
+<p><strong>[E8] Executed sign-stream discrepancy.</strong> <a href="code/verify_challenge_stream.c"><em>verify_challenge_stream.c</em></a>
+and <a href="evidence/original_code.json">output</a> give the
+all-zero-seed examples in Section 10.1 for all nine
+implementation/profile combinations.</p>
+<p><strong>[E9] Artifact identities.</strong> <a href="data/submission-sha256.json"><em>submission-sha256.json</em></a>
+identifies 397 original files: the specification and the implementation
+source/build inputs. These third-party inputs are not bundled. <a href="SHA256SUMS"><em>SHA256SUMS</em></a> fingerprints the publication
+package itself. <a href="PROVENANCE.md"><em>PROVENANCE.md</em></a> gives
+acquisition links and the complete estimator revision.</p>
+<p><strong>[E10] Certificate and supplementary checks.</strong> <a href="code/verify_publication_supplement.py"><em>verify_publication_supplement.py</em></a>
+and <a href="evidence/verify_publication_supplement.json">output</a>
+verify the saved SIS witness directly, check the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>,</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>,</mo><mn>17</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n,k)=(2,17)</annotation></semantics></math>
+index counterexample, and numerically test the embedding formula on
+small instances. Witness verification proves the relation for every
+full-modulus lift of the saved modulo-4 matrices.</p>
+<p><strong>[E11] Equivalent-secret descriptor.</strong> <a href="code/verify_secret_descriptor.c"><em>verify_secret_descriptor.c</em></a>
+and <a href="evidence/original_code.json">output</a> check the 141-byte
+encoding, the common two-block prefix, and exact reconstruction of every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>1</mn></msub><annotation encoding="application/x-tex">s_1</annotation></semantics></math>
+expansion byte using a 344-bit descriptor in all six SM3 combinations.
+The seed is a deterministic test value; no unknown secret is
+recovered.</p>
+<p><strong>[E12] Separate SIS verifier and small demonstration.</strong>
+<a href="code/verify_sis_witness.py"><em>verify_sis_witness.py</em></a>
+checks every row, the norm, nonzero status, and response-bound failure
+of the saved certificate using NumPy without Sage. <a href="code/sis_mod4_demo.py"><em>sis_mod4_demo.py</em></a> implements
+the two binary solves at small dimensions using only standard Python.
+Both include a changed-vector rejection check. Their <a href="evidence/verify_sis_witness.json">certificate output</a> and <a href="evidence/sis_mod4_demo.json">small-example output</a> are
+included.</p>
+<h2 id="running-the-checks">12.2 Running the checks</h2>
+<p>From the distribution root, verify package integrity and run the
+standard-library checks:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> verify_package.py</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> run.py</span></code></pre></div>
+<p>The full mathematical replay additionally requires Sage and NumPy. It
+verifies the saved certificate, regenerates the full 5120-dimensional
+witness, and compares all mathematical data with the saved records:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> run.py <span class="at">--full</span> <span class="at">--sage</span> sage</span></code></pre></div>
+<p>Where the Sage launcher is unavailable, use <em>–sage-python
+/path/to/sage-env/bin/python</em> in place of <em>–sage sage</em>. Fresh
+results go to <em>verification-output/</em> by default;
+<em>–output-dir</em> selects another directory. Recorded publication
+evidence is preserved. Wall-clock timings are recorded separately from
+the comparisons.</p>
+<p>To execute [E4], [E7], [E8], and [E11] against the original C
+implementation, obtain the submission separately and point to its
+root:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> run.py <span class="at">--submission-root</span> /path/to/Octarine</span></code></pre></div>
+<p>This verifies all 397 original-file hashes before compilation. It
+compiles the small research drivers with GCC and runs the nine
+challenge-stream, six descriptor, and one SM3-continuation
+configurations. It does not run the submission’s build scripts or
+bundled executables. The source checks can be combined with the full
+replay:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> run.py <span class="at">--full</span> <span class="at">--sage</span> sage <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--submission-root</span> /path/to/Octarine</span></code></pre></div>
+<p>The <a href="evidence/summary.json">reproduction summary</a> records
+a successful run of all these checks. Full environment details,
+individual commands, and coverage limits are in <a href="REPRODUCING.md"><em>REPRODUCING.md</em></a>. The separate
+certificate verifier needs only Python and NumPy:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> code/verify_sis_witness.py</span></code></pre></div>
+<p>The artifact checks demonstrate the stated algebra, arithmetic,
+source behavior, and saved witness. They do not constitute a full
+implementation audit, a full-parameter SM3 collision, recovery of an
+unknown signing key, a practical Octarine forgery, or a QROM security
+proof.</p>
+<h2 id="ai-use-disclosure">12.3 AI-use disclosure</h2>
+<p>DeepSeek V4 Pro 0831 and Meta Muse Spark 1.3 were used in preparing
+the analysis. OpenAI Codex was used for additional technical analysis,
+cross-checking of claims, development and execution of reproducibility
+code, and preparation of this package. The computational evidence is
+available for inspection and replay. Mounir IDRASSI is responsible for
+the report and its conclusions. See <a href="AI_DISCLOSURE.md"><em>AI_DISCLOSURE.md</em></a>.</p>
+<h1 class="unnumbered" id="references">References</h1>
+<p><strong>[S]</strong> ARCANE team. <em>ARCANE-Octarine: Algorithm
+Specifications and Supporting Documentation</em>. Submission snapshot,
+53 PDF pages. <a href="https://github.com/ngcc-dev/ngcc-harness/blob/31de7d4d57aca530a65c2c9de6ddaeb25c66548d/sign-16/sign-16-spec.pdf">Pinned
+public copy</a>. SHA-256 is given in Section 1.1.</p>
+<p><strong>[F202]</strong> National Institute of Standards and
+Technology. <em>SHA-3 Standard: Permutation-Based Hash and
+Extendable-Output Functions</em>. FIPS PUB 202, August 2015, Appendix A,
+Table 4. <a href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf">Official
+publication</a>.</p>
+<p><strong>[G96]</strong> Lov K. Grover. <em>A Fast Quantum Mechanical
+Algorithm for Database Search</em>. Proceedings of STOC 1996,
+pp. 212–219. <a href="https://arxiv.org/abs/quant-ph/9605043">Author
+preprint</a>.</p>
+<p><strong>[BHT98]</strong> Gilles Brassard, Peter Høyer, and Alain
+Tapp. <em>Quantum Algorithm for the Collision Problem</em>. LATIN 1998,
+LNCS 1380, pp. 163–169; preprint 1997. <a href="https://arxiv.org/abs/quant-ph/9705002">Author preprint</a>.</p>
+<p><strong>[BGM16]</strong> Andrej Bogdanov, Siyao Guo, Daniel Masny,
+Silas Richelson, and Alon Rosen. <em>On the Hardness of Learning with
+Rounding over Small Modulus</em>. TCC 2016-A, LNCS 9562, pp. 209–224. <a href="https://people.csail.mit.edu/sirichel/lwr.pdf">Author-hosted
+paper</a>, <a href="https://doi.org/10.1007/978-3-662-49096-9_9">publisher
+record</a>.</p>
+<p><strong>[BRVW26]</strong> Joppe W. Bos, Joost Renes, Frederik
+Vercauteren, and Peng Wang. <em>Structured Module Lattice-based
+Cryptography: Fine-Grained Parameter Selection without Compromising
+Performance</em>. IACR Cryptology ePrint Archive, Report 2026/098. <a href="https://eprint.iacr.org/2026/098">Paper record</a>.</p>
+<p><strong>[B99]</strong> Richard P. Brent. <em>Factorization of the
+Tenth Fermat Number</em>. Mathematics of Computation 68 (1999),
+pp. 429–451. <a href="https://maths-people.anu.edu.au/~brent/pub/pub161.html">Author’s
+publication page</a>.</p>
+<p><strong>[LE]</strong> Martin R. Albrecht et
+al. <em>lattice-estimator</em>. Source snapshot identified in the
+submission by revision <em>be81b18</em>, resolved to
+<em>be81b183195fb0d62fd882c65620237c6218b981</em>. <a href="https://github.com/malb/lattice-estimator/blob/be81b183195fb0d62fd882c65620237c6218b981/estimator/sis_lattice.py">SIS
+implementation at that revision</a>.</p>
+<p><strong>[SP90A]</strong> Elaine Barker and John Kelsey.
+<em>Recommendation for Random Number Generation Using Deterministic
+Random Bit Generators</em>. NIST SP 800-90A Revision 1, June 2015. <a href="https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-90ar1.pdf">Official
+publication</a>.</p>
+</body>
+</html>

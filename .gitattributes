@@ -1,0 +1,5 @@
+# Preserve the bytes covered by the release manifest.
+* text=auto eol=lf
+*.pdf binary
+*.npz binary
+*.zip binary

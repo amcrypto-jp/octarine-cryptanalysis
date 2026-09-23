@@ -1,0 +1,20 @@
+# Reproduction output; retain distributed data/ and evidence/.
+verification-*/
+# Local publication drafts and release attachments.
+/GITHUB.md
+/ANNOUNCEMENT.md
+/AUTHOR_LETTER.txt
+/publisher-notes/
+/Octarine-Review-*.zip
+/Octarine-Review-*.zip.sha256
+__pycache__/
+*.py[cod]
+*.sage.py
+.venv/
+*.aux
+*.log
+!evidence/**/*.log
+*.toc
+*.out
+.DS_Store
+Thumbs.db

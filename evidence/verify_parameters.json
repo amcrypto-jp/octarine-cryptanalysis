@@ -1,0 +1,168 @@
+{
+  "P1_sizes": [
+    {
+      "level": 128,
+      "sk": 2432,
+      "pk": 1344,
+      "sig": 2564
+    },
+    {
+      "level": 256,
+      "sk": 4608,
+      "pk": 2368,
+      "sig": 5449
+    },
+    {
+      "level": 512,
+      "sk": 11776,
+      "pk": 5184,
+      "sig": 14713
+    }
+  ],
+  "P2_challenge_entropy": [
+    {
+      "level": 128,
+      "tau": 16,
+      "entropy": 131.57993416262804,
+      "quantum_search_exponent": 65.78996708131402,
+      "tau_minimal": true
+    },
+    {
+      "level": 256,
+      "tau": 36,
+      "entropy": 257.0076371972061,
+      "quantum_search_exponent": 128.50381859860306,
+      "tau_minimal": true
+    },
+    {
+      "level": 512,
+      "tau": 87,
+      "entropy": 512.0041429561304,
+      "quantum_search_exponent": 256.0020714780652,
+      "tau_minimal": true
+    },
+    {
+      "min_tau_for_160_bits": 21
+    }
+  ],
+  "P3_rejection_model": [
+    {
+      "level": 128,
+      "P_z": 0.7772570758675085,
+      "P_r0": 0.6040910932368045,
+      "expected_rounds": 2.1297708721297948
+    },
+    {
+      "level": 256,
+      "P_z": 0.7533519917638848,
+      "P_r0": 0.5675169917456939,
+      "expected_rounds": 2.3389621294011875
+    },
+    {
+      "level": 512,
+      "P_z": 0.6530881829723211,
+      "P_r0": 0.4265090527379983,
+      "expected_rounds": 3.5900452347016416
+    },
+    {
+      "tau_21_candidate": {
+        "expected_rounds": 2.6925816995751815,
+        "rounds_increase_percent": 26.4258862213929
+      }
+    }
+  ],
+  "P4_extraction_bounds": [
+    {
+      "level": 128,
+      "B_EUF": 393217,
+      "B_SUF": 524290,
+      "compression_term": 131072,
+      "gamma2": 131072,
+      "compression_term_gt_gamma2": false
+    },
+    {
+      "level": 256,
+      "B_EUF": 1114113,
+      "B_SUF": 1048578,
+      "compression_term": 589824,
+      "gamma2": 262144,
+      "compression_term_gt_gamma2": true
+    },
+    {
+      "level": 512,
+      "B_EUF": 4947969,
+      "B_SUF": 4194306,
+      "compression_term": 2850816,
+      "gamma2": 1048576,
+      "compression_term_gt_gamma2": true
+    },
+    {
+      "B_EUF_d11": 393217,
+      "B_EUF_d12": 524289,
+      "B_EUF_tau21": 434177
+    }
+  ],
+  "P5_challenge_search_margins": [
+    {
+      "level": 256,
+      "extra_classical_bits": 1.0076371972061224,
+      "classical_work_factor": 2.0106154762138804,
+      "extra_quantum_bits": 0.5038185986030612,
+      "quantum_work_factor": 1.4179617329864302
+    },
+    {
+      "level": 512,
+      "extra_classical_bits": 0.004142956130408493,
+      "classical_work_factor": 1.002875805579016,
+      "extra_quantum_bits": 0.0020714780652042464,
+      "quantum_work_factor": 1.0014368704911039
+    }
+  ],
+  "P6_crt_certificate": {
+    "p1": 1073707009,
+    "p2": 1073698817,
+    "M": 1152837945367908353,
+    "log2_M": 59.99989543531986,
+    "rows": [
+      {
+        "level": 128,
+        "log2_requirement": 52.0,
+        "margin": 255.98144612180204
+      },
+      {
+        "level": 256,
+        "log2_requirement": 55.0,
+        "margin": 31.997680765225255
+      },
+      {
+        "level": 512,
+        "log2_requirement": 58.70043971814109,
+        "margin": 2.461360058863481
+      }
+    ]
+  },
+  "P7_transcript_lift": [
+    {
+      "level": 128,
+      "lift_bound": 262080,
+      "unambiguous": true
+    },
+    {
+      "level": 256,
+      "lift_bound": 851896,
+      "unambiguous": true
+    },
+    {
+      "level": 512,
+      "lift_bound": 3899218,
+      "unambiguous": true
+    }
+  ],
+  "P8_toy_forgery": {
+    "challenge_space": 16,
+    "trials": 14,
+    "forgery_verifies": true,
+    "secret_key_used": false,
+    "warning": "toy parameters and toy hash only"
+  }
+}

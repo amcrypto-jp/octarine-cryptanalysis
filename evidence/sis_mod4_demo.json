@@ -1,0 +1,50 @@
+[
+  {
+    "rows": 16,
+    "columns": 32,
+    "q": 16777216,
+    "seed": 20260939,
+    "conditioned_invertible_block_trials": [
+      1,
+      4
+    ],
+    "norm_infinity": 4194304,
+    "full_modulus_equation_verified": true,
+    "changed_vector_rejected": true,
+    "fits_relaxed_512_SIS_bounds": true,
+    "fails_actual_strict_response_difference_bound": true,
+    "actual_signature_forgery": false
+  },
+  {
+    "rows": 32,
+    "columns": 64,
+    "q": 16777216,
+    "seed": 20260955,
+    "conditioned_invertible_block_trials": [
+      8,
+      1
+    ],
+    "norm_infinity": 4194304,
+    "full_modulus_equation_verified": true,
+    "changed_vector_rejected": true,
+    "fits_relaxed_512_SIS_bounds": true,
+    "fails_actual_strict_response_difference_bound": true,
+    "actual_signature_forgery": false
+  },
+  {
+    "rows": 64,
+    "columns": 128,
+    "q": 16777216,
+    "seed": 20260987,
+    "conditioned_invertible_block_trials": [
+      2,
+      1
+    ],
+    "norm_infinity": 4194304,
+    "full_modulus_equation_verified": true,
+    "changed_vector_rejected": true,
+    "fits_relaxed_512_SIS_bounds": true,
+    "fails_actual_strict_response_difference_bound": true,
+    "actual_signature_forgery": false
+  }
+]

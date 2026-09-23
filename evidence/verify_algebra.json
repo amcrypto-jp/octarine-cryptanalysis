@@ -1,0 +1,104 @@
+{
+  "A1_disc_closed_form_cases": [
+    [
+      2,
+      1,
+      4
+    ],
+    [
+      2,
+      2,
+      1280
+    ],
+    [
+      2,
+      3,
+      1166400
+    ],
+    [
+      2,
+      5,
+      6250000000000
+    ],
+    [
+      4,
+      2,
+      285212672
+    ],
+    [
+      4,
+      3,
+      2576753029545984
+    ]
+  ],
+  "A2_p2_dedekind_T_monomial": [
+    [
+      1,
+      [
+        1,
+        1
+      ],
+      1024,
+      512
+    ],
+    [
+      2,
+      [
+        1,
+        1
+      ],
+      2048,
+      1024
+    ],
+    [
+      5,
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      1024,
+      2560
+    ]
+  ],
+  "A3_p5_dedekind": {
+    "direct_gcd": [
+      1
+    ],
+    "w_factor": [
+      1,
+      4,
+      2
+    ],
+    "u^1024_mod_quad": [
+      3,
+      1
+    ]
+  },
+  "A4_F10_arithmetic": {
+    "small_factors_first_power": [
+      45592577,
+      6487031809,
+      4659775785220018543264560743076778192897
+    ],
+    "cofactor_bits": 835,
+    "cofactor_digits": 252
+  },
+  "A5_parity": {
+    "products_checked": 300
+  },
+  "A6_exhaustive": {
+    "hint_cases": 3584,
+    "stability_cases": 7070,
+    "residual_cases": 512
+  },
+  "notes": [
+    "A2/A3 prove 2 and 5 do not divide [O_K : Z[alpha]] for the submitted profiles.",
+    "A4 verifies divisibility only; primality of the 252-digit cofactor is the",
+    "published Brent (1999) result, so F_10 is squarefree and no F_10 prime divides",
+    "the index either (for p | F_10 the Dedekind condition reduces to p^2 | F_10)."
+  ]
+}

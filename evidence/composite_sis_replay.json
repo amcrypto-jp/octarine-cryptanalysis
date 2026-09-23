@@ -1,0 +1,24 @@
+{
+  "kind": "relaxed_SIS_counterexample_NOT_a_signature_forgery",
+  "q": 16777216,
+  "n": 5120,
+  "m": 10240,
+  "also_valid_at_m": 15360,
+  "seed": 20260922,
+  "invertible_block_sampling_trials": [
+    2,
+    2
+  ],
+  "norm_infinity": 4194304,
+  "nonzero_coordinates": 7683,
+  "verified_mod4": true,
+  "verified_random_full_q_lift": true,
+  "full_q_lift_sha256": "3761563dedbeb22e5eb38a4db6c73b55d14a95373862ef02ba228161d9f733f1",
+  "B_EUF_512": 4947969,
+  "B_SUF_512": 4194306,
+  "strict_Delta_z_limit_512": 4193956,
+  "fits_512_single_bound_SIS": true,
+  "is_actual_signature_forgery": false,
+  "seconds_including_generation_and_verification": 10.869319579000148,
+  "witness": "sis_witness_5120.npz"
+}

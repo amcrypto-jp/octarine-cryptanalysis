@@ -1,0 +1,1993 @@
+{
+  "format": 1,
+  "algorithm": "ARCANE-Octarine",
+  "reviewed_specification_sha256": "b88fbdd019beb8f0ae85c1554b48c87a42c5447b39171ce559ae30988c1bf09f",
+  "paths_relative_to": "original Octarine submission root",
+  "files": [
+    {
+      "path": "Algorithm Specifications/Octarine.pdf",
+      "bytes": 901663,
+      "sha256": "b88fbdd019beb8f0ae85c1554b48c87a42c5447b39171ce559ae30988c1bf09f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/Makefile",
+      "bytes": 4292,
+      "sha256": "470ad23c0f189cf9947e887b60252ceb93acc212a683fe266cf50e7f868b6ec3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/uniform.c",
+      "bytes": 5238,
+      "sha256": "c1c948dc240edf63eb0f04cde7390776931c363d303d2e1b697b134e253fb6bb"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/arith/uniform.h",
+      "bytes": 661,
+      "sha256": "397d980cdf9afc7f70b7afada547b00273099b5371b07f4268ef3abfdc08e289"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/parameters.h",
+      "bytes": 29632,
+      "sha256": "b29df042bba0a8ce618472d61d164b4ef02de4f326a01f1cefd13eca5d1ac82f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign_test.c",
+      "bytes": 20299,
+      "sha256": "68aa7e709e48574bb0ee7d534289292adf823a4b7be4e7a52a223d714b5027e0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/sign_test.h",
+      "bytes": 2194,
+      "sha256": "c5995f111f6ba99306177381fa22029252f0df56f60d9f3e4ee6c1966281bcfe"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/test_breakdown_SIGN.c",
+      "bytes": 4974,
+      "sha256": "75f5f4a74d0794b4cdba5fcf3038dc6e7f0f0c40ca4e300328f578d3bd2c6935"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/drng.c",
+      "bytes": 6832,
+      "sha256": "86f2fbab27db61171f36ebcf91d76db2d4986058da22a52fe512ff7df871cffc"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/fips202.c",
+      "bytes": 25276,
+      "sha256": "5df8461d9dc938d6a2960d72b0d331adbfa9beed4116f9d295eef6af238632ee"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/fips202.h",
+      "bytes": 2345,
+      "sha256": "02d8ea92008bfb3e19f2a4a30352d588f4a1df656eff80456e792430d2b3f520"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/fips202x4.c",
+      "bytes": 6123,
+      "sha256": "094a4ff194ea29e5006c49c011dc61e5a4954da825675404a01f45d0e4f79946"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/fips202x4.h",
+      "bytes": 2441,
+      "sha256": "ed697ee524ac5808e8a426c874c04fb916c58417cc0a188996d729a19c2e5e4f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-1600-times4-SIMD256.c",
+      "bytes": 40030,
+      "sha256": "5c1333c228bd34777c8b194afc56a5c00f972b15129a17fb82eeaf8d423a6ba6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-1600-times4-SnP.h",
+      "bytes": 4536,
+      "sha256": "bd75df22587eef8b72585d6c96eca2b855ed0660863200e4126fb7dd2d136ffd"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-1600-unrolling.macros",
+      "bytes": 6644,
+      "sha256": "0bf1a7910e7cf01cdb68d2f8f0886cf1ec306ad341f567f7bf9979f812a856df"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-SIMD256-config.h",
+      "bytes": 150,
+      "sha256": "2118d0bf6aa447bae934789610f2b1b61c29ed28702d470a64dc6b0d522bdb28"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-align.h",
+      "bytes": 955,
+      "sha256": "3a192ccf7db08ca6b71c9cb631727d24b09a2fc3be7fa9fb94dc9824c54743c4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-128/utils/keccak4x/KeccakP-brg_endian.h",
+      "bytes": 5562,
+      "sha256": "2f2d896925ed42f954902f488e63ebdf75787b77d635aa7639f26bad61b61988"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/Makefile",
+      "bytes": 4292,
+      "sha256": "a908b4be067b9a5f2ca473e703d70c3574aec9d457c994e11df829494a36c227"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/uniform.c",
+      "bytes": 5238,
+      "sha256": "c1c948dc240edf63eb0f04cde7390776931c363d303d2e1b697b134e253fb6bb"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/arith/uniform.h",
+      "bytes": 661,
+      "sha256": "397d980cdf9afc7f70b7afada547b00273099b5371b07f4268ef3abfdc08e289"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/parameters.h",
+      "bytes": 29633,
+      "sha256": "6628c28fe747a452c5f92165174ce809259fd69fd781a6620567da4336952e05"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign_test.c",
+      "bytes": 20299,
+      "sha256": "68aa7e709e48574bb0ee7d534289292adf823a4b7be4e7a52a223d714b5027e0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/sign_test.h",
+      "bytes": 2194,
+      "sha256": "c5995f111f6ba99306177381fa22029252f0df56f60d9f3e4ee6c1966281bcfe"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/test_breakdown_SIGN.c",
+      "bytes": 4974,
+      "sha256": "75f5f4a74d0794b4cdba5fcf3038dc6e7f0f0c40ca4e300328f578d3bd2c6935"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/drng.c",
+      "bytes": 6832,
+      "sha256": "86f2fbab27db61171f36ebcf91d76db2d4986058da22a52fe512ff7df871cffc"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/fips202.c",
+      "bytes": 25276,
+      "sha256": "5df8461d9dc938d6a2960d72b0d331adbfa9beed4116f9d295eef6af238632ee"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/fips202.h",
+      "bytes": 2345,
+      "sha256": "02d8ea92008bfb3e19f2a4a30352d588f4a1df656eff80456e792430d2b3f520"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/fips202x4.c",
+      "bytes": 6123,
+      "sha256": "094a4ff194ea29e5006c49c011dc61e5a4954da825675404a01f45d0e4f79946"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/fips202x4.h",
+      "bytes": 2441,
+      "sha256": "ed697ee524ac5808e8a426c874c04fb916c58417cc0a188996d729a19c2e5e4f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-1600-times4-SIMD256.c",
+      "bytes": 40030,
+      "sha256": "5c1333c228bd34777c8b194afc56a5c00f972b15129a17fb82eeaf8d423a6ba6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-1600-times4-SnP.h",
+      "bytes": 4536,
+      "sha256": "bd75df22587eef8b72585d6c96eca2b855ed0660863200e4126fb7dd2d136ffd"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-1600-unrolling.macros",
+      "bytes": 6644,
+      "sha256": "0bf1a7910e7cf01cdb68d2f8f0886cf1ec306ad341f567f7bf9979f812a856df"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-SIMD256-config.h",
+      "bytes": 150,
+      "sha256": "2118d0bf6aa447bae934789610f2b1b61c29ed28702d470a64dc6b0d522bdb28"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-align.h",
+      "bytes": 955,
+      "sha256": "3a192ccf7db08ca6b71c9cb631727d24b09a2fc3be7fa9fb94dc9824c54743c4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-256/utils/keccak4x/KeccakP-brg_endian.h",
+      "bytes": 5562,
+      "sha256": "2f2d896925ed42f954902f488e63ebdf75787b77d635aa7639f26bad61b61988"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/Makefile",
+      "bytes": 4292,
+      "sha256": "37ccef33e36f48df343a94d8e5ded7b5169b2d62fd5960b6d5b0af3f66643080"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/uniform.c",
+      "bytes": 5238,
+      "sha256": "c1c948dc240edf63eb0f04cde7390776931c363d303d2e1b697b134e253fb6bb"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/arith/uniform.h",
+      "bytes": 661,
+      "sha256": "397d980cdf9afc7f70b7afada547b00273099b5371b07f4268ef3abfdc08e289"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/parameters.h",
+      "bytes": 29632,
+      "sha256": "90b85673b5eaa914225b11596728e7a44ed221a9c368eb6ea6bd1734fbbb35fa"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign_test.c",
+      "bytes": 20299,
+      "sha256": "68aa7e709e48574bb0ee7d534289292adf823a4b7be4e7a52a223d714b5027e0"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/sign_test.h",
+      "bytes": 2194,
+      "sha256": "c5995f111f6ba99306177381fa22029252f0df56f60d9f3e4ee6c1966281bcfe"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/test_breakdown_SIGN.c",
+      "bytes": 4974,
+      "sha256": "75f5f4a74d0794b4cdba5fcf3038dc6e7f0f0c40ca4e300328f578d3bd2c6935"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/drng.c",
+      "bytes": 6832,
+      "sha256": "86f2fbab27db61171f36ebcf91d76db2d4986058da22a52fe512ff7df871cffc"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/fips202.c",
+      "bytes": 25276,
+      "sha256": "5df8461d9dc938d6a2960d72b0d331adbfa9beed4116f9d295eef6af238632ee"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/fips202.h",
+      "bytes": 2345,
+      "sha256": "02d8ea92008bfb3e19f2a4a30352d588f4a1df656eff80456e792430d2b3f520"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/fips202x4.c",
+      "bytes": 6123,
+      "sha256": "094a4ff194ea29e5006c49c011dc61e5a4954da825675404a01f45d0e4f79946"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/fips202x4.h",
+      "bytes": 2441,
+      "sha256": "ed697ee524ac5808e8a426c874c04fb916c58417cc0a188996d729a19c2e5e4f"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-1600-times4-SIMD256.c",
+      "bytes": 40030,
+      "sha256": "5c1333c228bd34777c8b194afc56a5c00f972b15129a17fb82eeaf8d423a6ba6"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-1600-times4-SnP.h",
+      "bytes": 4536,
+      "sha256": "bd75df22587eef8b72585d6c96eca2b855ed0660863200e4126fb7dd2d136ffd"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-1600-unrolling.macros",
+      "bytes": 6644,
+      "sha256": "0bf1a7910e7cf01cdb68d2f8f0886cf1ec306ad341f567f7bf9979f812a856df"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-SIMD256-config.h",
+      "bytes": 150,
+      "sha256": "2118d0bf6aa447bae934789610f2b1b61c29ed28702d470a64dc6b0d522bdb28"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-align.h",
+      "bytes": 955,
+      "sha256": "3a192ccf7db08ca6b71c9cb631727d24b09a2fc3be7fa9fb94dc9824c54743c4"
+    },
+    {
+      "path": "Implementations/Additional_Implementation/Octarine-512/utils/keccak4x/KeccakP-brg_endian.h",
+      "bytes": 5562,
+      "sha256": "2f2d896925ed42f954902f488e63ebdf75787b77d635aa7639f26bad61b61988"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/Makefile",
+      "bytes": 3982,
+      "sha256": "498b0c866289f6a2b461b353ea0884673cf583200fc6e8283b1a8ae8a714a07e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/uniform.c",
+      "bytes": 4137,
+      "sha256": "a13c9d4fe2c54aae90d19298da95392f5301e6c51b1104a8b99e2aa82cc3f15f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/arith/uniform.h",
+      "bytes": 617,
+      "sha256": "2fdd9757ca4438beb39a929b1117cc144a2c0d0dab2ccece7ec73e1254fa2686"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/parameters.h",
+      "bytes": 30087,
+      "sha256": "2a2b46a23271d3826215e013171ef96c83cad3c6adfdeebbc8ebf5970ecc20dc"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign_test.c",
+      "bytes": 20292,
+      "sha256": "42923494b3d3cdb523fc01d1e9503919e9c658c8649f671313c3e5eacddbb479"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/sign_test.h",
+      "bytes": 2187,
+      "sha256": "8237a6856048f66d48f88d15ffaf8857bfe4c14a188d3925c9837a060322fb63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/test_breakdown_SIGN.c",
+      "bytes": 4969,
+      "sha256": "5a5722c3b3c903588d3d3d29c2e8e97195223040781e58855ebc23915a0b57a7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/utils/drng.c",
+      "bytes": 11369,
+      "sha256": "395d834226e48b29d0b0f9bf1bbad6fb8e5419d2c39affd5b9af1038b40e3e1b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-128/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/Makefile",
+      "bytes": 3982,
+      "sha256": "e09e11dfe02f96793773bfe7b586e19a3409b209184c97ace4a109366a2e30be"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/uniform.c",
+      "bytes": 4137,
+      "sha256": "a13c9d4fe2c54aae90d19298da95392f5301e6c51b1104a8b99e2aa82cc3f15f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/arith/uniform.h",
+      "bytes": 617,
+      "sha256": "2fdd9757ca4438beb39a929b1117cc144a2c0d0dab2ccece7ec73e1254fa2686"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/parameters.h",
+      "bytes": 30087,
+      "sha256": "2a2b46a23271d3826215e013171ef96c83cad3c6adfdeebbc8ebf5970ecc20dc"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign_test.c",
+      "bytes": 20292,
+      "sha256": "42923494b3d3cdb523fc01d1e9503919e9c658c8649f671313c3e5eacddbb479"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/sign_test.h",
+      "bytes": 2187,
+      "sha256": "8237a6856048f66d48f88d15ffaf8857bfe4c14a188d3925c9837a060322fb63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/test_breakdown_SIGN.c",
+      "bytes": 4969,
+      "sha256": "5a5722c3b3c903588d3d3d29c2e8e97195223040781e58855ebc23915a0b57a7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/utils/drng.c",
+      "bytes": 11369,
+      "sha256": "395d834226e48b29d0b0f9bf1bbad6fb8e5419d2c39affd5b9af1038b40e3e1b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-256/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/Makefile",
+      "bytes": 3982,
+      "sha256": "350409665715053dae9fbb9dfeb0067c882a9a8d5d6a79ad356da8d53b1594c4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/intt.S",
+      "bytes": 7928,
+      "sha256": "b6ce69e84995dfd72302f5e121fe3d8d64dd18ba0f90598866365de358d4e49c"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/intt_param.h",
+      "bytes": 122278,
+      "sha256": "dcf167f4a93d4756e5d427a0f8ffac4a262c21227f12cf3fc95c56f5b34e875d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ntt.S",
+      "bytes": 6763,
+      "sha256": "17d1c37540b79b5e860c6301a1f16115e95c59626c60db0cea19c77e896d9c96"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ntt.h",
+      "bytes": 412,
+      "sha256": "9badc75b5ea83bbfd62f2e380593ecac6989a29821dbae09ff806a5d0d9469f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ntt_avx_macros.inc",
+      "bytes": 630,
+      "sha256": "1b153aa0580241925d4e1d322ede9d85bb822fe889fd4ba24b62be1c3d58003e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ntt_param.h",
+      "bytes": 61629,
+      "sha256": "f24c56b793bd938486641c1f9d0b5bf38d5b9d2e0e16eead41ed53ed108696f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/packing.c",
+      "bytes": 24257,
+      "sha256": "4323eb996b6eba7b1a08adf1ae7053ccf78b5c53d4e772a3ae5af68371a689f0"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/packing.h",
+      "bytes": 432,
+      "sha256": "b012786773c3d502eab3c3dcbd1091a7859c290bf9332ce65c88daaa96fe5c63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/packing_avx.S",
+      "bytes": 37597,
+      "sha256": "e87f92b4224319101607bfd433cbcb3468ab254eedfc9849582ef9a545a1b6e6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/pointwise.S",
+      "bytes": 1421,
+      "sha256": "60f9bcc474d333aabb410000147a9117946e24e413a621c7c72e5ba79881ad5e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/poly.c",
+      "bytes": 2445,
+      "sha256": "4d29ce1dc9ea5f9b4c50088c797051c53b24b753dc3cea6f75408ba3566f3df2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/poly.h",
+      "bytes": 994,
+      "sha256": "f2de8fda538467f8e398f09c338837e22aad861048049f58bb4e814428900fb4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/poly_avx.S",
+      "bytes": 8084,
+      "sha256": "0f819b5448028d36d7db9708f59d03fe9e2fce9b85611dadf448eed2058e4b3f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ring.c",
+      "bytes": 5324,
+      "sha256": "3116bc392692b9fdc930a652c1ed8627d4421f5032e58f039991751e9be49759"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/ring.h",
+      "bytes": 1210,
+      "sha256": "fdbee84e4232905d1a5011351dc6c5c63c3e61db7b7ddd6d9108fc5d3deb471a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/uniform.c",
+      "bytes": 4137,
+      "sha256": "a13c9d4fe2c54aae90d19298da95392f5301e6c51b1104a8b99e2aa82cc3f15f"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/arith/uniform.h",
+      "bytes": 617,
+      "sha256": "2fdd9757ca4438beb39a929b1117cc144a2c0d0dab2ccece7ec73e1254fa2686"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/crt.c",
+      "bytes": 5780,
+      "sha256": "532f1240680dc96170d01b77c8fa091aac8e20427580dfd2913dc3ca132d4e4e"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/crt.h",
+      "bytes": 1162,
+      "sha256": "76b700c4c249dc4bae9281cfc5d89102e779375f88ff67cf8fb9ea883a0c2f6d"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/crt_avx.S",
+      "bytes": 2939,
+      "sha256": "1450be4f02975e24290c2c90eac5ffc70c839498d983407f1aa2b531f2aa2da7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/parameters.h",
+      "bytes": 30087,
+      "sha256": "2a2b46a23271d3826215e013171ef96c83cad3c6adfdeebbc8ebf5970ecc20dc"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign.c",
+      "bytes": 12772,
+      "sha256": "b5e79df455658b3fdf154c2f81d8f56ec6eeb1a9d6f7c1cadc16c95b95967c61"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign_ring.c",
+      "bytes": 31380,
+      "sha256": "e70ee08696a1896e752770c11696c52b68bc08fdf82f3a80a88ff56961d33940"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign_test.c",
+      "bytes": 20292,
+      "sha256": "42923494b3d3cdb523fc01d1e9503919e9c658c8649f671313c3e5eacddbb479"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/sign_test.h",
+      "bytes": 2187,
+      "sha256": "8237a6856048f66d48f88d15ffaf8857bfe4c14a188d3925c9837a060322fb63"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/test_breakdown_SIGN.c",
+      "bytes": 4969,
+      "sha256": "5a5722c3b3c903588d3d3d29c2e8e97195223040781e58855ebc23915a0b57a7"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/test_packing_avx.c",
+      "bytes": 12272,
+      "sha256": "1aa3b6a65ad358fe037526df515ef78586bb4c63b59c0419686f077da18ea652"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/test_speed_SIGN.c",
+      "bytes": 2523,
+      "sha256": "431515f64a8dd3603a038d420299e579978699b5113c6fcd8d8d21d46b7641f1"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/test/unit_tests_SIGN.c",
+      "bytes": 15008,
+      "sha256": "8aa3c28d8e3c08e89a7983e2c20ce71488a8bb275a1742333964121446b234c2"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/utils/drng.c",
+      "bytes": 11369,
+      "sha256": "395d834226e48b29d0b0f9bf1bbad6fb8e5419d2c39affd5b9af1038b40e3e1b"
+    },
+    {
+      "path": "Implementations/Optimized_Implementation/Octarine-512/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/Makefile",
+      "bytes": 2980,
+      "sha256": "7c2600ae0e04dc9445a03e211537ae45df1ea1103990999ffe37b631c83cdefe"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/packing.c",
+      "bytes": 22911,
+      "sha256": "4ad548f1a279342aeb143d702db16a08401e0834b6c68f7db609d102ba94912e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/packing.h",
+      "bytes": 534,
+      "sha256": "24ffa9fa20285d4da6699b278ab7ab6c782e523b7f98d48793418bbb543968e6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/poly.c",
+      "bytes": 3569,
+      "sha256": "1aba767e3312ce3f1fb84eedb95a96edf1ff2651dec69bfc4af7b2dc3a7a95d3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/poly.h",
+      "bytes": 953,
+      "sha256": "e0ecf339d3e5d6903caaf963192a54708c68e3681aff48563456757f5388a7ac"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/ring.c",
+      "bytes": 3799,
+      "sha256": "0b4f5a92bdefb9c353164ad4a9cc3ca45892041a1065d71024fbea0d31c22726"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/ring.h",
+      "bytes": 739,
+      "sha256": "30b0d3ddd973dc7ea01f34e564adfddb3a0b5fa4afb77f13fb79c523423c8711"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/uniform.c",
+      "bytes": 5318,
+      "sha256": "3f694a4d9c7e4dc0896826166d8e6f7c0929192d34d4b7bf30ba3a111009c690"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/arith/uniform.h",
+      "bytes": 502,
+      "sha256": "0ed8cc3399cd3f7c90a0b59b9301f17fa4cf7a18b13918dd839de9f066a04302"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/crt.c",
+      "bytes": 4531,
+      "sha256": "ea2873de4379da5b369834ec69445bc6d88c2397c52920100d9b7da112eaa0c1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/crt.h",
+      "bytes": 773,
+      "sha256": "fc99c00f693ee02559ade9dcb7f4b5e154776f592bf340905936cac628ff9fcd"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/parameters.h",
+      "bytes": 30157,
+      "sha256": "caad8372c412e414cd85c789a6670e9382e5124fa0246b784715f52e7a8d06a4"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign.c",
+      "bytes": 12817,
+      "sha256": "32dbb6326b8f3635e7e061fa8ea806500fa26676a7396a1ab743b079e71f95ec"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign_ring.c",
+      "bytes": 31580,
+      "sha256": "f5477a7695d5b55d44850733f2b3592d4cc31f46f6db9331df14346a6879b6d6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign_test.c",
+      "bytes": 19978,
+      "sha256": "7f0f7a512d7f64481f9a4c958c976e11f6ed6c5e56760ac7be997b6bf065aeee"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/sign_test.h",
+      "bytes": 2095,
+      "sha256": "ce068a15cde66723551e7e90b70a3f515e25b7a55f7e91a71214590d90345f6b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/test_breakdown_SIGN.c",
+      "bytes": 4905,
+      "sha256": "6ef4bfdafdde598bc510fe70360e16c92d3e686c0f3ca1209768cb83265aacb3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/test_speed_SIGN.c",
+      "bytes": 1365,
+      "sha256": "447de19b470f9abf23e551d4a10da12b4e5d9836e8146fcd4cef767027ecddf7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/test/unit_tests_SIGN.c",
+      "bytes": 14568,
+      "sha256": "6dca97f81ed139d25559f889a4fb10818d842b7bd881696df9b090a8a145eee2"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/utils/drng.c",
+      "bytes": 11239,
+      "sha256": "0df0ac78c828bd43bf05724398fa530767d753aa7801a1d1fa5d621321ec797e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-128/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/Makefile",
+      "bytes": 2980,
+      "sha256": "e5d583f5a460676e5fd28e80bc7790e5f7b04fea0b45c20ae02d23cf3cd4a8e9"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/packing.c",
+      "bytes": 22911,
+      "sha256": "4ad548f1a279342aeb143d702db16a08401e0834b6c68f7db609d102ba94912e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/packing.h",
+      "bytes": 534,
+      "sha256": "24ffa9fa20285d4da6699b278ab7ab6c782e523b7f98d48793418bbb543968e6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/poly.c",
+      "bytes": 3569,
+      "sha256": "1aba767e3312ce3f1fb84eedb95a96edf1ff2651dec69bfc4af7b2dc3a7a95d3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/poly.h",
+      "bytes": 953,
+      "sha256": "e0ecf339d3e5d6903caaf963192a54708c68e3681aff48563456757f5388a7ac"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/ring.c",
+      "bytes": 3799,
+      "sha256": "0b4f5a92bdefb9c353164ad4a9cc3ca45892041a1065d71024fbea0d31c22726"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/ring.h",
+      "bytes": 739,
+      "sha256": "30b0d3ddd973dc7ea01f34e564adfddb3a0b5fa4afb77f13fb79c523423c8711"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/uniform.c",
+      "bytes": 5318,
+      "sha256": "3f694a4d9c7e4dc0896826166d8e6f7c0929192d34d4b7bf30ba3a111009c690"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/arith/uniform.h",
+      "bytes": 502,
+      "sha256": "0ed8cc3399cd3f7c90a0b59b9301f17fa4cf7a18b13918dd839de9f066a04302"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/crt.c",
+      "bytes": 4531,
+      "sha256": "ea2873de4379da5b369834ec69445bc6d88c2397c52920100d9b7da112eaa0c1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/crt.h",
+      "bytes": 773,
+      "sha256": "fc99c00f693ee02559ade9dcb7f4b5e154776f592bf340905936cac628ff9fcd"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/parameters.h",
+      "bytes": 30156,
+      "sha256": "27c9f401837cd760541ed30bff6de7596633efbb604d1edaaa09a2dc4eab94f0"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign.c",
+      "bytes": 12817,
+      "sha256": "32dbb6326b8f3635e7e061fa8ea806500fa26676a7396a1ab743b079e71f95ec"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign_ring.c",
+      "bytes": 31580,
+      "sha256": "f5477a7695d5b55d44850733f2b3592d4cc31f46f6db9331df14346a6879b6d6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign_test.c",
+      "bytes": 19978,
+      "sha256": "7f0f7a512d7f64481f9a4c958c976e11f6ed6c5e56760ac7be997b6bf065aeee"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/sign_test.h",
+      "bytes": 2095,
+      "sha256": "ce068a15cde66723551e7e90b70a3f515e25b7a55f7e91a71214590d90345f6b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/test_breakdown_SIGN.c",
+      "bytes": 4905,
+      "sha256": "6ef4bfdafdde598bc510fe70360e16c92d3e686c0f3ca1209768cb83265aacb3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/test_speed_SIGN.c",
+      "bytes": 1365,
+      "sha256": "447de19b470f9abf23e551d4a10da12b4e5d9836e8146fcd4cef767027ecddf7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/test/unit_tests_SIGN.c",
+      "bytes": 14569,
+      "sha256": "f327cb7ba8da19f0cdf322a635cc85856caf987f9a520fb10bf83d6394d14252"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/utils/drng.c",
+      "bytes": 11239,
+      "sha256": "0df0ac78c828bd43bf05724398fa530767d753aa7801a1d1fa5d621321ec797e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-256/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/KAT/KAT_SIG.c",
+      "bytes": 7147,
+      "sha256": "1c25884edeebf2f74e1a3d7167a58c0d3d7ca6ef5df881fdbea545a87da43ea3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/Makefile",
+      "bytes": 2980,
+      "sha256": "3bfcbac4265b11b8d9da795bc86a629d5becbb8df7e9a4a09a7e401b71128f54"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/fprime.c",
+      "bytes": 2441,
+      "sha256": "c1b8ba4f1c3b4db22b41b3c4a8defd0dfd24b8fd9a8bda41ae102ac38df0ec0b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/fprime.h",
+      "bytes": 449,
+      "sha256": "48ed78e5251a740230678a04ff20f85edd9552f7908bb364d4fc7c1607b7c049"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/packing.c",
+      "bytes": 22911,
+      "sha256": "4ad548f1a279342aeb143d702db16a08401e0834b6c68f7db609d102ba94912e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/packing.h",
+      "bytes": 534,
+      "sha256": "24ffa9fa20285d4da6699b278ab7ab6c782e523b7f98d48793418bbb543968e6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/poly.c",
+      "bytes": 3569,
+      "sha256": "1aba767e3312ce3f1fb84eedb95a96edf1ff2651dec69bfc4af7b2dc3a7a95d3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/poly.h",
+      "bytes": 953,
+      "sha256": "e0ecf339d3e5d6903caaf963192a54708c68e3681aff48563456757f5388a7ac"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/ring.c",
+      "bytes": 3799,
+      "sha256": "0b4f5a92bdefb9c353164ad4a9cc3ca45892041a1065d71024fbea0d31c22726"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/ring.h",
+      "bytes": 739,
+      "sha256": "30b0d3ddd973dc7ea01f34e564adfddb3a0b5fa4afb77f13fb79c523423c8711"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/uniform.c",
+      "bytes": 5318,
+      "sha256": "3f694a4d9c7e4dc0896826166d8e6f7c0929192d34d4b7bf30ba3a111009c690"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/arith/uniform.h",
+      "bytes": 502,
+      "sha256": "0ed8cc3399cd3f7c90a0b59b9301f17fa4cf7a18b13918dd839de9f066a04302"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/crt.c",
+      "bytes": 4531,
+      "sha256": "ea2873de4379da5b369834ec69445bc6d88c2397c52920100d9b7da112eaa0c1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/crt.h",
+      "bytes": 773,
+      "sha256": "fc99c00f693ee02559ade9dcb7f4b5e154776f592bf340905936cac628ff9fcd"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/hash_domain.h",
+      "bytes": 17833,
+      "sha256": "374c380affa5cb830e606631ccabf585ecd73115ce67285914568f11d6408cc1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/parameters.h",
+      "bytes": 30156,
+      "sha256": "7cfd688c5b51f5191816b22c3ba91f5967a2451a6b94384594b828c7e075c111"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign.c",
+      "bytes": 12817,
+      "sha256": "32dbb6326b8f3635e7e061fa8ea806500fa26676a7396a1ab743b079e71f95ec"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign.h",
+      "bytes": 3242,
+      "sha256": "c888a1f781b311c550d208bb26244fb0deea875f22c4da4afd08196b2921803a"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign_ring.c",
+      "bytes": 31580,
+      "sha256": "f5477a7695d5b55d44850733f2b3592d4cc31f46f6db9331df14346a6879b6d6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign_ring.h",
+      "bytes": 1056,
+      "sha256": "eec673c41ad9fd28943a36d3c6cdb0a82acb57194b1895a69962d55b0d8010d1"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign_test.c",
+      "bytes": 19978,
+      "sha256": "7f0f7a512d7f64481f9a4c958c976e11f6ed6c5e56760ac7be997b6bf065aeee"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/sign_test.h",
+      "bytes": 2095,
+      "sha256": "ce068a15cde66723551e7e90b70a3f515e25b7a55f7e91a71214590d90345f6b"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/cpucycles.c",
+      "bytes": 311,
+      "sha256": "8a5d449ff6e8899932e33d7a65ade13464bda573b5ddec2d0361b29549c1f0b6"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/cpucycles.h",
+      "bytes": 281,
+      "sha256": "10622b942e7401ecf8895c4685a329d79e4c271529fc5965dc61eee4d8bebbe4"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/speed_print.c",
+      "bytes": 1154,
+      "sha256": "533fc7bd12204078a5390cfb58c05d550b214850876609f8e98f7377b9d4f1b3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/speed_print.h",
+      "bytes": 155,
+      "sha256": "bf71105f8e28e23bd83c0f359bbd2707859f818ea7cc84b6012de37befcf64de"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/test_SIGN.c",
+      "bytes": 4162,
+      "sha256": "cfa6f60a65165a4dbd9d3523f8ab4ca3442eb10136779a000324fe11f136b599"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/test_breakdown_SIGN.c",
+      "bytes": 4905,
+      "sha256": "6ef4bfdafdde598bc510fe70360e16c92d3e686c0f3ca1209768cb83265aacb3"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/test_speed_SIGN.c",
+      "bytes": 1365,
+      "sha256": "447de19b470f9abf23e551d4a10da12b4e5d9836e8146fcd4cef767027ecddf7"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/test/unit_tests_SIGN.c",
+      "bytes": 14569,
+      "sha256": "f327cb7ba8da19f0cdf322a635cc85856caf987f9a520fb10bf83d6394d14252"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/utils/auxfunc.c",
+      "bytes": 17421,
+      "sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/utils/auxfunc.h",
+      "bytes": 2464,
+      "sha256": "39986e91d9af503eafb568b0c18e50eb9ab5fceca140ddd26924343a09284e74"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/utils/drng.c",
+      "bytes": 11239,
+      "sha256": "0df0ac78c828bd43bf05724398fa530767d753aa7801a1d1fa5d621321ec797e"
+    },
+    {
+      "path": "Implementations/Reference_Implementation/Octarine-512/utils/drng.h",
+      "bytes": 1641,
+      "sha256": "d758aa7f5618bb781960fb7193b536897a09b1fdd7acca5ad8a45495d0e147a7"
+    }
+  ]
+}

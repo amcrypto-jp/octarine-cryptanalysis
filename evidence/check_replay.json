@@ -1,0 +1,7 @@
+{
+  "saved_mod4_matrices_reproduced_exactly": true,
+  "saved_SIS_vector_reproduced_exactly": true,
+  "random_full_modulus_lift_digest_reproduced_exactly": true,
+  "ring_diagnostic_reproduced": true,
+  "excluded_from_comparison": "wall-clock timings"
+}

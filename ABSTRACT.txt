@@ -1,0 +1,27 @@
+Security Analysis of ARCANE-Octarine
+Mounir IDRASSI
+Version 1.0.0, 23 September 2026
+
+ARCANE-Octarine is a Fiat–Shamir signature scheme using learning with rounding
+over a radical ring and a power-of-two modulus. This report examines the
+submitted 128-, 256-, and 512-level profiles and all three implementation
+families. The SM3 counter construction admits a generic chosen-message
+signature-transfer attack near 2^128 classical work, despite its extended
+output. A 344-bit descriptor determines the complete SM3-expanded secret
+polynomial vector, bounding equivalent-key search. Binary linear algebra
+solves the relaxed homogeneous SIS instances used in the 512-level estimates
+on a constant fraction of random instances; a 5,120-row certificate and
+separate verifier are provided. That certificate violates the actual
+signature's stricter response bound and is not a forgery.
+
+The report also derives a secret-free challenge-search forgery strategy,
+distinguishes quantum query counts from gate costs, examines quantitative
+proof obligations and ring geometry, and confirms that Algorithm 2 and the
+implementations define different challenge maps at levels 128 and 256.
+Neither supplied hash family supports 512-bit message-collision strength.
+The evidence does not establish a practical forgery or recovery of an
+unknown signing key. Revised claims, primitives, normative specifications,
+and analysis of the actual verification relations are required.
+
+Repository: https://github.com/amcrypto-jp/octarine-cryptanalysis
+Contact: mounir@amcrypto.jp

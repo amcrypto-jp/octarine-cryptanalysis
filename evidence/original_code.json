@@ -1,0 +1,243 @@
+{
+  "original_files_verified": 397,
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "compile_flags": [
+    "-O2",
+    "-std=c99",
+    "-UNDEBUG"
+  ],
+  "source_checks": [
+    {
+      "family": "Reference_Implementation",
+      "level": 128,
+      "pdf_sign_stream_bytes": 2,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Reference_Implementation",
+      "level": 256,
+      "pdf_sign_stream_bytes": 5,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Reference_Implementation",
+      "level": 512,
+      "pdf_sign_stream_bytes": 11,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": true
+    },
+    {
+      "family": "Optimized_Implementation",
+      "level": 128,
+      "pdf_sign_stream_bytes": 2,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Optimized_Implementation",
+      "level": 256,
+      "pdf_sign_stream_bytes": 5,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Optimized_Implementation",
+      "level": 512,
+      "pdf_sign_stream_bytes": 11,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": true
+    },
+    {
+      "family": "Additional_Implementation",
+      "level": 128,
+      "pdf_sign_stream_bytes": 2,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Additional_Implementation",
+      "level": 256,
+      "pdf_sign_stream_bytes": 5,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": false
+    },
+    {
+      "family": "Additional_Implementation",
+      "level": 512,
+      "pdf_sign_stream_bytes": 11,
+      "implementation_sign_stream_bytes": 11,
+      "domain_header_includes_output_length": true,
+      "same_challenge_map_as_pdf": true
+    }
+  ],
+  "challenge_streams": [
+    {
+      "level": 128,
+      "tau": 16,
+      "seed": "all-zero",
+      "specified_bytes": 2,
+      "shipped_bytes": 11,
+      "specified_stream": "3b80",
+      "shipped_prefix": "9bc5",
+      "different_used_sign_bits": 5,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 256,
+      "tau": 36,
+      "seed": "all-zero",
+      "specified_bytes": 5,
+      "shipped_bytes": 11,
+      "specified_stream": "120021c7c5",
+      "shipped_prefix": "82543e7c36",
+      "different_used_sign_bits": 18,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 512,
+      "tau": 87,
+      "seed": "all-zero",
+      "specified_bytes": 11,
+      "shipped_bytes": 11,
+      "specified_stream": "d16d7ab477772f0ed11577",
+      "shipped_prefix": "d16d7ab477772f0ed11577",
+      "different_used_sign_bits": 0,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 128,
+      "tau": 16,
+      "seed": "all-zero",
+      "specified_bytes": 2,
+      "shipped_bytes": 11,
+      "specified_stream": "3b80",
+      "shipped_prefix": "9bc5",
+      "different_used_sign_bits": 5,
+      "family": "Optimized_Implementation"
+    },
+    {
+      "level": 256,
+      "tau": 36,
+      "seed": "all-zero",
+      "specified_bytes": 5,
+      "shipped_bytes": 11,
+      "specified_stream": "120021c7c5",
+      "shipped_prefix": "82543e7c36",
+      "different_used_sign_bits": 18,
+      "family": "Optimized_Implementation"
+    },
+    {
+      "level": 512,
+      "tau": 87,
+      "seed": "all-zero",
+      "specified_bytes": 11,
+      "shipped_bytes": 11,
+      "specified_stream": "d16d7ab477772f0ed11577",
+      "shipped_prefix": "d16d7ab477772f0ed11577",
+      "different_used_sign_bits": 0,
+      "family": "Optimized_Implementation"
+    },
+    {
+      "level": 128,
+      "tau": 16,
+      "seed": "all-zero",
+      "specified_bytes": 2,
+      "shipped_bytes": 11,
+      "specified_stream": "6da1",
+      "shipped_prefix": "3930",
+      "different_used_sign_bits": 6,
+      "family": "Additional_Implementation"
+    },
+    {
+      "level": 256,
+      "tau": 36,
+      "seed": "all-zero",
+      "specified_bytes": 5,
+      "shipped_bytes": 11,
+      "specified_stream": "40f92b5756",
+      "shipped_prefix": "3598e19826",
+      "different_used_sign_bits": 18,
+      "family": "Additional_Implementation"
+    },
+    {
+      "level": 512,
+      "tau": 87,
+      "seed": "all-zero",
+      "specified_bytes": 11,
+      "shipped_bytes": 11,
+      "specified_stream": "266eb06bc620d47a29e1c5",
+      "shipped_prefix": "266eb06bc620d47a29e1c5",
+      "different_used_sign_bits": 0,
+      "family": "Additional_Implementation"
+    }
+  ],
+  "secret_descriptors": [
+    {
+      "level": 128,
+      "polynomials": 1,
+      "bytes_per_polynomial": 384,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 256,
+      "polynomials": 2,
+      "bytes_per_polynomial": 256,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 512,
+      "polynomials": 5,
+      "bytes_per_polynomial": 256,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Reference_Implementation"
+    },
+    {
+      "level": 128,
+      "polynomials": 1,
+      "bytes_per_polynomial": 384,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Optimized_Implementation"
+    },
+    {
+      "level": 256,
+      "polynomials": 2,
+      "bytes_per_polynomial": 256,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Optimized_Implementation"
+    },
+    {
+      "level": 512,
+      "polynomials": 5,
+      "bytes_per_polynomial": 256,
+      "descriptor_bits": 344,
+      "all_stream_bytes_match": true,
+      "family": "Optimized_Implementation"
+    }
+  ],
+  "sm3_continuation": [
+    "states differ (sanity): yes",
+    "digest_from_state model matches sm3_bit(X||ct) for ct=1..4",
+    "state collision + equal length => all 64 counter blocks collide: yes (mechanism confirmed on shipped SM3)"
+  ],
+  "full_sm3_collision_found": false,
+  "unknown_signing_key_recovered": false,
+  "actual_signature_forgery": false,
+  "full_sign_verify_or_KAT_campaign": false
+}
