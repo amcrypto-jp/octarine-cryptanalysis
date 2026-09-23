@@ -12,7 +12,7 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-RELEASE = "Octarine-Review-v1.0.0"
+RELEASE = "Octarine-Review-v1.0.1"
 ROOT_FILES = """
 .gitattributes .gitignore
 README.md REPORT.md REPORT.tex REPORT.html REPORT.pdf

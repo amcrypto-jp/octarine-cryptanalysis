@@ -24,7 +24,7 @@ facts or other material free of copyright or similar rights.
 
 **Attribution.** A suggested credit is:
 
-> Mounir IDRASSI, *Security Analysis of ARCANE-Octarine*, version 1.0.0,
+> Mounir IDRASSI, *Security Analysis of ARCANE-Octarine*, version 1.0.1,
 > 23 September 2026. Licensed under
 > [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 

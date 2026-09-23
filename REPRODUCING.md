@@ -129,29 +129,96 @@ the submission's Makefiles or supplied executables.
 | [verify_challenge_stream.c](code/verify_challenge_stream.c) | Three levels in each of reference SM3, optimized SM3, and additional SHAKE |
 | [verify_secret_descriptor.c](code/verify_secret_descriptor.c) | Three levels in each of reference and optimized SM3 |
 | [verify_sm3_mechanism.c](code/verify_sm3_mechanism.c) | SM3 continuation in the reference level-128 utility implementation |
+| [verify_sm3_reduced_collision.c](code/verify_sm3_reduced_collision.c) | Supplied-state CT-RSA 2013 Table 3 pair under a 20-step adapter; cross-checks and negative controls call the unmodified 64-step function |
+| [signature_transfer/run_signature_transfer.py](code/signature_transfer/run_signature_transfer.py) | Optional 48-bit reduced-state signature-transfer model, full-width replay, independent public-artifact verification, and finite-width birthday measurements |
+
+The original-source driver runs the reduced-collision check automatically.
+To run it alone, the two original reference level-128 utility files,
+*auxfunc.c* and *auxfunc.h*, suffice. The complete submission archive is
+required by the inventory-checking driver above, but not by this manual build:
+
+~~~sh
+OCTARINE_UTILS="/path/to/Octarine/Implementations/Reference_Implementation/Octarine-128/utils"
+gcc -O2 -std=c99 -UNDEBUG -I"$OCTARINE_UTILS" \
+  code/verify_sm3_reduced_collision.c -o /tmp/verify_sm3_reduced_collision
+/tmp/verify_sm3_reduced_collision
+~~~
+
+Expected result: `concrete_20step_collision=yes`,
+`adapter_64step_matches_submitted=yes`,
+`equal_20step_counter_blocks=64`, `states_equal_after_64=no`, and
+`full_sm3_collision=no`. These are checked outcomes; a violated collision
+condition or negative control makes the program exit with failure.
+
+The 20-step function is an adapter with XOR feed-forward and a rotation helper
+defined at count zero. The unmodified submitted function always runs 64 steps.
+The replay supplies the published chaining input directly and uses custom-IV
+padding; it does not establish an Octarine prefix collision. The final
+`octarine_signature_campaign_executed=no` and
+`octarine_signature_transferred=no` lines describe the scope, not results of
+a signing/verification campaign by this reduced-step driver. The separate
+48-bit model described below does run key generation, one signing query, and
+verification using a modified SM3 primitive.
 
 The compilation driver is [verify_original_code.py](code/verify_original_code.py).
-The descriptor and continuation drivers include the SM3 utility source
+The descriptor, continuation, and reduced-collision drivers include the SM3 utility source
 directly; the driver avoids linking a second copy. All C results, including
 the exact challenge streams, are captured in *original_code.json*.
 
-To run both optional groups:
+To run the original-source checks with the full mathematical replay:
 
 ~~~sh
 python3 run.py --full --sage sage \
   --submission-root /path/to/Octarine
 ~~~
 
-These are targeted mechanism and conformance checks. They do not execute a full
-key-generation/sign/verify or KAT campaign, find a full SM3 collision, recover
-an unknown signing key, demonstrate a practical forgery, or audit side-channel
-behavior.
+### Reduced-state signature-transfer model
+
+The optional model uses the complete submitted source tree and verifies all
+397 file hashes before building. Run it together with the other source checks:
+
+~~~sh
+python3 run.py --submission-root /path/to/Octarine \
+  --signature-transfer --output-dir /tmp/octarine-reproduction
+~~~
+
+Allow about two minutes and up to 3 GB of memory. The experiment changes the
+SM3 utility in two ways: it masks each chaining state to 48 bits after every
+compression, then tiles the six live state bytes across the 32-byte digest.
+Both changes affect every SM3 role; the scheme's key-generation, signing,
+verification, and domain-encoding code is unchanged. This is a reduced-state
+model, not the submitted 256-bit hash profile.
+
+The deterministic campaign searches a freely chosen 64-byte block at offset
+192 of the actual `H_MU` pseudoXOF input. Its recorded collision takes
+12,894,937 trials. The two equal-length messages produce equal 1,024-bit
+representatives, and one signature query on the first message is accepted for
+the never-signed second message. A different-suffix message, a truncated
+signature, and a corrupted full-length signature are rejected. An independent
+verifier uses only the public key, recorded signature, and messages; the
+synthetic test secret key is not distributed in campaign evidence.
+
+The full-width control replays the same pair using the submitted utility; its
+states and representatives differ and the signature does not transfer. At
+256 bits the reduced generator's conditional code is inactive, and the runner
+checks known-answer and deterministic key/signature outputs plus preprocessed
+code equality after normalizing only source paths and line numbers in error
+diagnostics. Widths 8 through 48 provide finite-run birthday measurements;
+they illustrate the model and do not empirically establish a 256-bit cost.
+The approximately 2^128 estimate is the generic birthday bound for a
+256-bit state.
+
+The original-source checks are targeted mechanism and conformance tests. Even
+with this model campaign, the package does not find a full-width SM3 collision,
+recover an unknown signing key, demonstrate a practical forgery against the
+submitted profile, or audit side-channel behavior.
 
 ## 4. Recorded publication run
 
-The distributed [summary](evidence/summary.json) records success of all quick,
-full mathematical, and original-source checks. Individual machine-readable
-outputs are in [evidence/](evidence/).
+The distributed [summary](evidence/summary.json) records success of the quick,
+full mathematical, and original-source checks. The reduced-state experiment
+has a separate [reproduction record](evidence/signature_transfer/signature_transfer.json)
+and transcripts. Individual machine-readable outputs are in [evidence/](evidence/).
 
 | Component | Recorded version |
 |---|---|

@@ -5,6 +5,8 @@ Quick mode needs Python >=3.10 and its standard library.
 --full adds the saved certificate, exact Sage algebra, and seeded 5120-row replay.
 Use --sage-python for the Python executable in a Sage environment, or --sage
 for a standard Sage launcher. --submission-root adds hash-verified C checks.
+--signature-transfer adds the OCT-01 reduced-state model experiment (about two
+minutes and up to 3 GB RAM) and requires --submission-root.
 """
 import argparse
 import json
@@ -27,11 +29,15 @@ def main():
     sage.add_argument("--sage", help="Standard Sage executable")
     sage.add_argument("--sage-python", help="Python executable in a Sage environment")
     parser.add_argument("--submission-root", type=Path)
+    parser.add_argument("--signature-transfer", action="store_true",
+                        help="run the OCT-01 48-bit reduced-state model campaign")
     parser.add_argument("--cc", default="gcc")
     parser.add_argument("--output-dir", type=Path, default=Path("verification-output"))
     args = parser.parse_args()
     if args.full and not (args.sage or args.sage_python):
         parser.error("--full requires --sage sage or --sage-python /path/to/python.")
+    if args.signature_transfer and not args.submission_root:
+        parser.error("--signature-transfer requires --submission-root /path/to/Octarine.")
     if not args.full and (args.sage or args.sage_python):
         parser.error("Use --full with the Sage interpreter option.")
     output = args.output_dir.resolve()
@@ -77,6 +83,12 @@ def main():
     if args.submission_root:
         execute("original_code", [sys.executable, str(ROOT / "code/verify_original_code.py"),
                 "--submission-root", str(args.submission_root.resolve()), "--cc", args.cc])
+    if args.signature_transfer:
+        execute("signature_transfer_model", [sys.executable,
+                str(ROOT / "code/signature_transfer/run_signature_transfer.py"),
+                "--submission-root", str(args.submission_root.resolve()),
+                "--output-dir", str(output / "signature-transfer-model"),
+                "--cc", args.cc])
     if args.full:
         for name in ("verify_sis_witness", "verify_publication_supplement", "ring_structure"):
             execute(name, [*interpreter, str(ROOT / "code" / (name + ".py"))])
@@ -86,12 +98,13 @@ def main():
                 str(output / "sis-replay/sis_witness_5120.npz")])
         execute("check_replay", [*interpreter, str(ROOT / "code/check_replay.py"), str(output)])
     summary = {
-        "release": "1.0.0",
+        "release": "1.0.1",
         "python": sys.version.split()[0],
         "platform": platform.platform(),
         "quick_checks": True,
         "full_mathematical_replay": args.full,
         "original_source_C_checks": args.submission_root is not None,
+        "reduced_state_signature_transfer_model": args.signature_transfer,
         "steps": steps,
         "all_requested_checks_passed": True,
     }

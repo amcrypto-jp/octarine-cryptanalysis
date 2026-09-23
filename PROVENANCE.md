@@ -1,6 +1,6 @@
 # Provenance and scope
 
-**Report:** *Security Analysis of ARCANE-Octarine*, version 1.0.0  
+**Report:** *Security Analysis of ARCANE-Octarine*, version 1.0.1  
 **Author:** Mounir IDRASSI, [mounir@amcrypto.jp](mailto:mounir@amcrypto.jp)  
 **Package date:** 23 September 2026  
 **Repository:** https://github.com/amcrypto-jp/octarine-cryptanalysis
@@ -83,7 +83,12 @@ submission.
 
 The research programs implement mathematical constructions and targeted
 checks described in the report. The C research drivers use separately obtained
-submission utilities at compile time.
+submission utilities at compile time. The OCT-01 signature-transfer model
+checks all 397 inventoried source inputs, generates a reduced-state SM3 utility
+from the submitted Octarine-256 reference utility, and writes build outputs to
+an external directory. Its 48-bit state truncation and tiled digest
+serialization change every SM3 role in that model; its signature result does
+not apply to the submitted 256-bit profile.
 
 The saved full-dimension SIS certificate and its
 [generation record](evidence/composite_sis_5120.json) use seed 20260922. The
@@ -110,6 +115,29 @@ descriptor check uses a fixed, known test seed. The SM3 continuation check
 forces equal internal states. These are reproducible mechanism tests and
 must not be represented as an unknown-key recovery or a computed full SM3
 collision.
+
+The separate reduced-step replay uses the two second blocks and chaining
+values from Mendel, Nad, and Schläffer, *Finding Collisions for Round-Reduced
+SM3*, CT-RSA 2013, Section 5.1, Table 3, p. 182
+([publisher record](https://doi.org/10.1007/978-3-642-36095-4_12),
+[institutional copy](https://pure.tugraz.at/ws/portalfiles/portal/80044228/sm3.pdf)).
+The collision itself is prior work. The checker supplies the table's chaining
+input directly, adapts the submitted operations to 20 steps, and cross-checks
+the adapter against the unmodified function at 64 steps. It makes no claim
+to reproduce the table's first-block connection from the standard IV.
+The text output in *evidence/verify_sm3_reduced_collision.txt* is extracted
+from the same recorded run as *original_code.json*.
+
+The separate 48-bit signature-transfer campaign uses a deterministic test key
+and records the public key, signature, messages, states, representatives, and
+verification outcomes. Its campaign transcript does not include the synthetic
+secret key. A second verifier independently checks the public artifacts and
+negative controls without a signing key. The generator and patch are included
+under *code/signature_transfer/* and *evidence/signature_transfer/*. The
+recorded full-width control uses the submitted SM3 utility on the campaign's
+recorded message pair; state and representative equality do not hold there.
+The finite-width measurements from 8 to 48 bits are model observations, not
+an empirical estimate at 256 bits.
 
 The exact integer and finite-ring checks are distinguished from floating-point
 embedding diagnostics and idealized attack-cost calculations. Published

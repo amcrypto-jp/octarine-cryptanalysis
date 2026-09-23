@@ -2,7 +2,7 @@
 
 **Security Analysis of ARCANE-Octarine**  
 Mounir IDRASSI · [mounir@amcrypto.jp](mailto:mounir@amcrypto.jp)  
-Version 1.0.0 · 23 September 2026
+Version 1.0.1 · 23 September 2026
 
 This repository contains a standalone technical report, research programs, and
 reproducible evidence for the submitted ARCANE-Octarine signature scheme. It
@@ -17,7 +17,7 @@ can be opened locally in a modern browser without a network connection.
 
 | ID | Result | Interpretation |
 |---|---|---|
-| OCT-01 | SM3 counter expansion permits a generic message-collision signature-transfer attack near 2^128 classical work. SHAKE256 also caps message-collision strength at 256 bits. | The SM3 256- and 512-level claims, and the SHAKE 512-level claim, exceed these bounds. No full SM3 collision was computed. |
+| OCT-01 | SM3 counter expansion permits a generic message-collision signature-transfer attack near 2^128 classical work. SHAKE256 also caps message-collision strength at 256 bits. | The SM3 256- and 512-level claims, and the SHAKE 512-level claim, exceed these bounds. A reproducible 48-bit reduced-state model executes signature transfer end to end; it changes the SM3 primitive and does not forge under the submitted 256-bit profile. |
 | OCT-02 | Binary linear algebra solves the relaxed homogeneous SIS problems used in the 512-level estimates on a constant fraction of random instances. A full-dimension certificate is included. | This invalidates hardness of the estimated auxiliary problem. The certificate fails the actual signature response bound and is not a forgery. |
 | OCT-03 | A 344-bit descriptor determines the complete SM3-expanded signing secret polynomial vector. | Equivalent-key search takes at most 2^344 candidates, below the 512-bit claim. The demonstration uses a known seed; it does not recover an unknown key. |
 | OCT-04 | Algorithm 2 and all three implementation families expand challenges differently at levels 128 and 256. | Executed C checks confirm a specification-conformance defect. No entropy loss is inferred from it alone. |
@@ -29,7 +29,9 @@ Quantum query counts are distinguished from gate costs. See
 
 The evidence does not establish a practical Octarine forgery. It does establish
 concrete limits below several advertised security levels and a failure of the
-512-level relaxed SIS hardness model.
+512-level relaxed SIS hardness model. The included end-to-end signature
+transfer campaign deliberately reduces the SM3 state to 48 bits and is a
+mechanism demonstration, not a full-width attack.
 
 ## Reproduce
 
@@ -44,18 +46,24 @@ python3 run.py
 For the full mathematical replay, including the 5,120-row SIS certificate:
 
 ~~~sh
-python3 run.py --full --sage sage
+python3 run.py --full --sage-python /path/to/sage-env/bin/python
 ~~~
 
-Alternatively, replace *--sage sage* with
-*--sage-python /path/to/sage-env/bin/python*. Sage and NumPy must be available
-in that interpreter. Results are written to *verification-output/*.
+Sage and NumPy must be available in that interpreter. Results are written to
+*verification-output/*.
 
 The original specification and implementations are not bundled. To execute the
 C checks against a separately obtained submission:
 
 ~~~sh
 python3 run.py --submission-root /path/to/Octarine
+~~~
+
+Add `--signature-transfer` to run the 48-bit reduced-state model campaign as
+well. It takes about two minutes and can use up to 3 GB of memory:
+
+~~~sh
+python3 run.py --submission-root /path/to/Octarine --signature-transfer
 ~~~
 
 The runner verifies 397 original-file hashes before compiling any C driver.
@@ -70,7 +78,7 @@ and the optional original-source C checks passed in the recorded
 |---|---|
 | [REPORT.pdf](REPORT.pdf), [REPORT.md](REPORT.md), [REPORT.html](REPORT.html), [REPORT.tex](REPORT.tex) | Standalone report and rendered editions |
 | [FINDINGS.md](FINDINGS.md) | Finding index, affected profiles, evidence, and limits |
-| [code/](code/) | Inspectable research and verification programs |
+| [code/](code/) | Inspectable research and verification programs, including the reduced-state transfer model |
 | [data/](data/) | Full SIS witness and input identities |
 | [evidence/](evidence/) | Recorded outputs and reproduction summary |
 | [PROVENANCE.md](PROVENANCE.md) | Evaluated snapshot, acquisition links, and evidence provenance |
@@ -84,7 +92,7 @@ and the optional original-source C checks passed in the recorded
 
 Suggested citation:
 
-> Mounir IDRASSI. *Security Analysis of ARCANE-Octarine*. Version 1.0.0,
+> Mounir IDRASSI. *Security Analysis of ARCANE-Octarine*. Version 1.0.1,
 > 23 September 2026. https://github.com/amcrypto-jp/octarine-cryptanalysis
 
 Original research software is licensed under [MIT](LICENSE). The report,

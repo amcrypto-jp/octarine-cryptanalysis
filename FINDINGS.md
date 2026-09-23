@@ -1,6 +1,6 @@
 # Finding index
 
-This index accompanies *Security Analysis of ARCANE-Octarine*, version 1.0.0.
+This index accompanies *Security Analysis of ARCANE-Octarine*, version 1.0.1.
 OCT-01 through OCT-04 are identifiers local to this repository. They are not
 identifiers assigned by an external evaluation project, and no external
 confirmation or author acknowledgment is claimed.
@@ -32,12 +32,33 @@ limit for the message-hash role, not an asserted defect in SHAKE256.
 [verify_kdf_collision.py](code/verify_kdf_collision.py); actual SM3 continuation
 checks in [verify_sm3_mechanism.c](code/verify_sm3_mechanism.c);
 [toy output](evidence/verify_kdf_collision.txt) and
-[C results](evidence/original_code.json).
+[C results](evidence/original_code.json). A supplied-state 20-step compression
+collision is checked using an adaptation of the submitted function in
+[verify_sm3_reduced_collision.c](code/verify_sm3_reduced_collision.c), with
+[recorded output](evidence/verify_sm3_reduced_collision.txt). An end-to-end
+one-query transfer is also executed in the [48-bit reduced-state model](code/signature_transfer/run_signature_transfer.py),
+with its [campaign](evidence/signature_transfer/campaign_48.json),
+[full-width replay](evidence/signature_transfer/probe_fullwidth.json), and
+[independent public-artifact checks](evidence/signature_transfer/public_artifact_verification.json).
 
-**Limit:** no full SM3 collision or actual signature-transfer instance was
-computed. The C test forces internal-state equality to check continuation.
-The classical work figures are generic bounds; the quantum collision estimate
-in the report counts queries and requires substantial additional resources.
+The example uses the two second blocks from Mendel, Nad, and Schläffer,
+[CT-RSA 2013, Table 3](https://doi.org/10.1007/978-3-642-36095-4_12).
+They differ in eight bytes and collide at the published output after 20
+steps and XOR feed-forward from the supplied chaining input. The adapter is
+cross-checked against the unmodified submitted function at 64 steps, where
+the pair does not collide. Common padding and all 64 tested counter
+continuations preserve equality in the custom-IV, 20-step variant.
+
+**Limit:** the 20-step replay supplies the paper's chaining input directly and
+is not an Octarine signature transfer. The separate end-to-end experiment
+reduces the SM3 state to 48 bits and tiles its live bytes into a digest; both
+changes apply to all SM3 roles. It demonstrates the transfer mechanism on that
+variant, not a forgery under the submitted 256-bit profile. The full-width
+replay of the same pair has different states and representatives. The
+classical work figures for the deployed function remain generic bounds; the
+quantum collision estimate in the report counts queries and requires
+substantial additional resources. The published reduced-step collision is
+attributed prior work, not a new attack on reduced-step SM3.
 
 **Required correction:** define every hash role and its required strength,
 replace inadequate instantiations or lower the security claims, and revise

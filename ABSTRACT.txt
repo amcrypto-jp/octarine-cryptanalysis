@@ -1,6 +1,6 @@
 Security Analysis of ARCANE-Octarine
 Mounir IDRASSI
-Version 1.0.0, 23 September 2026
+Version 1.0.1, 23 September 2026
 
 ARCANE-Octarine is a Fiat–Shamir signature scheme using learning with rounding
 over a radical ring and a power-of-two modulus. This report examines the
@@ -13,6 +13,10 @@ solves the relaxed homogeneous SIS instances used in the 512-level estimates
 on a constant fraction of random instances; a 5,120-row certificate and
 separate verifier are provided. That certificate violates the actual
 signature's stricter response bound and is not a forgery.
+
+A reproducible 48-bit reduced-state model executes signature transfer with one
+signing query. It changes the SM3 primitive in all hash roles and is not a
+forgery against the submitted 256-bit profile.
 
 The report also derives a secret-free challenge-search forgery strategy,
 distinguishes quantum query counts from gate costs, examines quantitative

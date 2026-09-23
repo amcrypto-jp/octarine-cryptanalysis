@@ -1,0 +1,70 @@
+--- a/utils/auxfunc.c (shipped, sha256 27446371...)
++++ b/utils/auxfunc_reduced.c (OCT-01 reduced-state variant)
+@@ -46,6 +46,35 @@
+ 	init_digest[6] = 0xE38DEE4D;
+ 	init_digest[7] = 0xB0FB0E4E;
+ }
++
++/* ==== BEGIN OCT-01 review instrumentation (reduced chaining state) ====
++ * OCTARINE_STATE_BITS (default 256): when < 256, the SM3 chaining value is
++ * truncated to its first OCTARINE_STATE_BITS bits in serialization order
++ * after every compression, and the digest is rendered by tiling the live
++ * state bytes across the 32-byte block (see sm3_bit below). At the default
++ * the reduced-state branches are inactive in the 256-bit build (SHA-256
++ * 27446371eccf1438...). Added for the executed OCT-01 signature-transfer
++ * instance; not part of the submission. */
++#ifndef OCTARINE_STATE_BITS
++#define OCTARINE_STATE_BITS 256
++#endif
++#if (OCTARINE_STATE_BITS < 256)
++#define OCTARINE_STATE_LIVE_BYTES ((OCTARINE_STATE_BITS + 7) / 8)
++static void octarine_mask_state(unsigned int dgst[8])
++{
++	unsigned int remaining = (unsigned int)OCTARINE_STATE_BITS;
++	int octarine_i;
++	for (octarine_i = 0; octarine_i < 8; octarine_i++) {
++		if (remaining >= 32U) {
++			remaining -= 32U;
++			continue;
++		}
++		dgst[octarine_i] &= (remaining == 0U) ? 0U : (0xFFFFFFFFU << (32U - remaining));
++		remaining = 0U;
++	}
++}
++#endif
++/* ==== END OCT-01 review instrumentation ==== */
+ 
+ static void sm3_bit_compress(unsigned int dgst[8], const unsigned char *msg, unsigned long long blocks)
+ {
+@@ -115,6 +144,9 @@
+ 		dgst[5] ^= F;
+ 		dgst[6] ^= G;
+ 		dgst[7] ^= H;
++#if (OCTARINE_STATE_BITS < 256)
++		octarine_mask_state(dgst);
++#endif
+ 		msg += 64;
+ 	}
+ }
+@@ -154,10 +186,21 @@
+ 	/**********************Round function************************/
+ 	sm3_bit_compress(digest, block, 1);
+ 	/*********************Output hash value**********************/
++#if (OCTARINE_STATE_BITS < 256)
++	/* reduced model: render the t-bit final state by tiling its live bytes
++	   across the 32-byte digest block (injective serialization of the
++	   state; keeps hash streams byte-dense for the shipped scheme) */
++	for (int octarine_j = 0; octarine_j < 32; octarine_j++)
++	{
++		int octarine_src = octarine_j % OCTARINE_STATE_LIVE_BYTES;
++		dgst[octarine_j] = (unsigned char)(digest[octarine_src >> 2] >> (24 - 8 * (octarine_src & 3)));
++	}
++#else
+ 	for (int i = 0; i < 8; i++)
+ 	{
+ 		PUT32(dgst + i * 4, digest[i]);
+ 	}
++#endif
+ }
+ 
+ // key = SM3(UTF-8("3.14159265358979")) || SM3(UTF-8("2.71828182845904"))

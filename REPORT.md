@@ -1,6 +1,6 @@
 ---
 title: "Security Analysis of ARCANE-Octarine"
-subtitle: "Concrete attack bounds, proof obligations, and specification consistency — Version 1.0.0"
+subtitle: "Concrete attack bounds, proof obligations, and specification consistency — Version 1.0.1"
 author: "Mounir IDRASSI"
 date: "23 September 2026"
 lang: en-US
@@ -100,7 +100,7 @@ EUF-CMA means existential unforgeability under chosen-message attack; SUF-CMA ad
 
 | Finding | Established result | Scope limit |
 | :--- | :--- | :--- |
-| SM3 message-hash construction | An equal-length internal-state collision transfers a signature; generic classical work is about $2^{128}$ | No full SM3 collision was computed |
+| SM3 message-hash construction | An equal-length internal-state collision transfers a signature; generic classical work is about $2^{128}$. A 48-bit reduced-state experiment executes the transfer end to end | The experiment changes the SM3 primitive in every hash role; it is a reduced-state model, not a forgery against the submitted 256-bit profile |
 | Challenge search | A fixed challenge with $z=h=0$ gives a complete generic forgery strategy | Quantum figures count oracle queries, not logical gates |
 | SM3 secret expansion | A 344-bit descriptor generates the complete $s_1$; equivalent-key search needs at most $2^{344}$ candidates | No unknown-key search was performed |
 | 512-level relaxed SIS | A nonzero norm-$q/4$ vector is found by binary linear algebra with constant success probability | The vector fails the actual stricter response bound |
@@ -132,7 +132,23 @@ This argument requires a collision before the common suffix. Equality of only th
 
 For an idealized 256-bit state map, birthday search gives about $2^{128}$ classical evaluations. Generic quantum collision algorithms give an approximately $2^{256/3}=2^{85.33}$ query bound, with substantial storage and coherent-computation requirements [BHT98]. These are generic resource bounds, not measured attack implementations. For an output shorter than 256 bits, its ordinary output-length collision bound must also be included.
 
-The toy program [E3] exhibits a state collision and its propagation through 64 output blocks. The C program [E4] checks SM3 continuation against the submitted implementation. It forces the same internal state to validate propagation; it does not find colliding SM3 messages.
+The toy program [E3] exhibits a state collision and its propagation through 64 output blocks. The C program [E4] checks SM3 continuation against the submitted implementation. It forces the same internal state to validate propagation; it does not find colliding full-round SM3 messages.
+
+A concrete reduced-step example replays the two second blocks from Mendel, Nad, and Schläffer [MNS13, Table 3]. The blocks differ in eight bytes. Starting from the table's supplied chaining input $h_1$, an adaptation of the submitted *sm3_bit_compress* with 20 steps and XOR feed-forward sends both blocks to
+
+`b2033829677c16d2a6de9db9fd898668a9119d20476364d6a0838adc08d3833d`
+
+matching the published $h_2$. The adapter's 64-step outputs are cross-checked against the unmodified submitted function, which gives different states for this pair. The computed 20-step states retain equality through common padding and 64 counter continuations in the custom-IV variant [E4a].
+
+This replay supplies $h_1$ directly; it does not establish a path to $h_1$ from the standard SM3 IV or from the state after Octarine's public-key-dependent prefix. The submitted hash executes 64 steps, and no Octarine signing or verification operation is run. The example is an attributed illustration of collision propagation, not a new collision attack or an improvement over the generic bound for Octarine.
+
+A separate experiment now executes the transfer mechanism end to end in a deliberately reduced-state model [E4b]. It starts from the hash-verified Octarine-256 reference utility and changes the SM3 primitive in two ways: after each compression it retains only the first 48 chaining-state bits, and it serializes the live six state bytes by repetition across the 32-byte digest. This serialization is injective on the reduced state. Both changes affect every SM3 use in the experiment; Octarine's domain encoders and key-generation, signing, and verification routines are unchanged. The resulting hash is not the submitted SM3 profile.
+
+For a deterministic test key, the search finds two distinct 64-byte blocks that collide at block offset 3 of the actual $H_\mu$ input after 12,894,937 candidate blocks. The resulting equal-length 120-byte messages have an identical 1024-bit $\mu$. One signature query on the first message yields a signature accepted for both it and the never-signed second message. A different-suffix message, a truncated signature, and an independently checked full-length corrupted signature are rejected. The independent verifier consumes only the public key, signature, and messages; the generated test secret key is not included in the recorded campaign evidence.
+
+At 256 bits the instrumentation's reduced-state branches are inactive: known-answer tests and deterministic key, signature, and verification outputs match the submitted utility. Preprocessed code also matches after normalizing only source-file paths and line numbers embedded in error diagnostics. Replaying the recorded pair with the submitted 256-bit SM3 instead gives different states and different $\mu$ values; the signature does not transfer in that full-width control. Birthday trials at widths 8 through 48 are recorded as finite-width observations. They illustrate search scaling but do not empirically establish a cost at 256 bits; the approximately $2^{128}$ estimate follows from the generic birthday argument.
+
+This model experiment supports the end-to-end connection between an internal-state collision and signature transfer. It is not a full-width collision, does not transfer a signature under the submitted parameters, and does not reduce the generic work factor for those parameters. The 20-step published collision above is a separate illustration and should not be confused with this scaled-state campaign.
 
 ## 3.2 Consequence for unforgeability
 
@@ -716,6 +732,10 @@ Paths below are relative to the distribution root. They identify programs, sourc
 
 **[E4] SM3 continuation.** [*verify_sm3_mechanism.c*](code/verify_sm3_mechanism.c) checks continuation against the supplied SM3 code. Any forced internal-state equality is a mechanism test, not a found collision. Results are in [*original_code.json*](evidence/original_code.json).
 
+**[E4a] Supplied-state 20-step collision.** [*verify_sm3_reduced_collision.c*](code/verify_sm3_reduced_collision.c) replays the second-block pair from [MNS13, Table 3] with an adaptation of the submitted compression function. It counts the differing bytes, checks the published output and 64 common counter continuations, and requires the unmodified 64-step function to give different states. Four inputs cross-check the adapter against that function. [Recorded output](evidence/verify_sm3_reduced_collision.txt) is also captured by the original-source driver in [*original_code.json*](evidence/original_code.json). The supplied chaining input and reduced step count preclude treating this as an Octarine signature-transfer instance.
+
+**[E4b] Reduced-state signature-transfer model.** [*run_signature_transfer.py*](code/signature_transfer/run_signature_transfer.py) generates a 48-bit state variant from the hash-verified submitted utility, runs one chosen-message signing query, and checks transfer to a never-signed equal-length message. The [campaign transcript](evidence/signature_transfer/campaign_48.json), [full-width controls](evidence/signature_transfer/probe_fullwidth.json), [independent public-artifact checks](evidence/signature_transfer/public_artifact_verification.json), and [finite-width scaling measurements](evidence/signature_transfer/scale.json) are included. The source instrumentation is recorded in [the diff](evidence/signature_transfer/auxfunc-reduced-state.patch). This changes every SM3 role in the reduced-state experiment and is not a forgery against the submitted 256-bit profile.
+
 **[E5] Relaxed SIS witness.** [*composite_sis.py*](code/composite_sis.py), [run data](evidence/composite_sis_5120.json), and the [saved witness](data/sis_witness_5120.npz) implement and record the full-dimension construction. The witness contains the two matrices modulo 4 and the nonzero vector; higher matrix bits are unnecessary for verification. A [publication replay](evidence/composite_sis_replay.json) reproduced the matrices, vector, and full-modulus lift digest exactly, excluding timings from the comparison.
 
 **[E6] Modular structure.** [*ring_structure.py*](code/ring_structure.py) and [its data](evidence/ring_structure.json) verify the modular factorization, units, annihilators, Hensel factorization, and one projection diagnostic.
@@ -744,22 +764,30 @@ python3 run.py
 The full mathematical replay additionally requires Sage and NumPy. It verifies the saved certificate, regenerates the full 5120-dimensional witness, and compares all mathematical data with the saved records:
 
 ~~~sh
-python3 run.py --full --sage sage
+python3 run.py --full --sage-python /path/to/sage-env/bin/python
 ~~~
 
-Where the Sage launcher is unavailable, use *--sage-python /path/to/sage-env/bin/python* in place of *--sage sage*. Fresh results go to *verification-output/* by default; *--output-dir* selects another directory. Recorded publication evidence is preserved. Wall-clock timings are recorded separately from the comparisons.
+Sage and NumPy must be available in that interpreter. Fresh results go to *verification-output/* by default; *--output-dir* selects another directory. Recorded publication evidence is preserved. Wall-clock timings are recorded separately from the comparisons.
 
-To execute [E4], [E7], [E8], and [E11] against the original C implementation, obtain the submission separately and point to its root:
+To execute [E4], [E4b], [E7], [E8], and [E11] against the original C implementation, obtain the submission separately and point to its root:
 
 ~~~sh
 python3 run.py --submission-root /path/to/Octarine
 ~~~
 
-This verifies all 397 original-file hashes before compilation. It compiles the small research drivers with GCC and runs the nine challenge-stream, six descriptor, and one SM3-continuation configurations. It does not run the submission's build scripts or bundled executables. The source checks can be combined with the full replay:
+The optional signature-transfer model uses about two minutes and up to 3 GB of
+memory. Include it with `--signature-transfer`:
+
+~~~sh
+python3 run.py --submission-root /path/to/Octarine \
+  --signature-transfer --output-dir /tmp/octarine-reproduction
+~~~
+
+This verifies all 397 original-file hashes before compilation. It compiles the small research drivers with GCC and runs nine challenge-stream configurations, six descriptor configurations, the SM3-continuation check, and the supplied-state 20-step collision replay with 64-step controls. The optional 48-bit model builds shipped and reduced-state variants, validates the complete transfer instance, and runs full-width and public-artifact controls. It does not run the submission's build scripts or bundled executables. The source checks can be combined with the full replay:
 
 ~~~sh
 python3 run.py --full --sage sage \
-  --submission-root /path/to/Octarine
+  --submission-root /path/to/Octarine --signature-transfer
 ~~~
 
 The [reproduction summary](evidence/summary.json) records a successful run of all these checks. Full environment details, individual commands, and coverage limits are in [*REPRODUCING.md*](REPRODUCING.md). The separate certificate verifier needs only Python and NumPy:
@@ -783,6 +811,8 @@ DeepSeek V4 Pro 0831 and Meta Muse Spark 1.3 were used in preparing the analysis
 **[G96]** Lov K. Grover. *A Fast Quantum Mechanical Algorithm for Database Search*. Proceedings of STOC 1996, pp. 212–219. [Author preprint](https://arxiv.org/abs/quant-ph/9605043).
 
 **[BHT98]** Gilles Brassard, Peter Høyer, and Alain Tapp. *Quantum Algorithm for the Collision Problem*. LATIN 1998, LNCS 1380, pp. 163–169; preprint 1997. [Author preprint](https://arxiv.org/abs/quant-ph/9705002).
+
+**[MNS13]** Florian Mendel, Tomislav Nad, and Martin Schläffer. *Finding Collisions for Round-Reduced SM3*. CT-RSA 2013, LNCS 7779, pp. 174–188, Section 5.1, Table 3 (p. 182). [Publisher record](https://doi.org/10.1007/978-3-642-36095-4_12), [institutional copy](https://pure.tugraz.at/ws/portalfiles/portal/80044228/sm3.pdf).
 
 **[BGM16]** Andrej Bogdanov, Siyao Guo, Daniel Masny, Silas Richelson, and Alon Rosen. *On the Hardness of Learning with Rounding over Small Modulus*. TCC 2016-A, LNCS 9562, pp. 209–224. [Author-hosted paper](https://people.csail.mit.edu/sirichel/lwr.pdf), [publisher record](https://doi.org/10.1007/978-3-662-49096-9_9).
 

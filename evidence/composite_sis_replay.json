@@ -19,6 +19,6 @@
   "strict_Delta_z_limit_512": 4193956,
   "fits_512_single_bound_SIS": true,
   "is_actual_signature_forgery": false,
-  "seconds_including_generation_and_verification": 10.869319579000148,
+  "seconds_including_generation_and_verification": 12.013684936999198,
   "witness": "sis_witness_5120.npz"
 }

@@ -1,0 +1,87 @@
+{
+  "artifact": "OCT-01 executed signature-transfer instance (scaled SM3 state)",
+  "profile": "ARCANE-Octarine Octarine-256 reference scheme, 48-bit reduced-state SM3 model",
+  "state_bits_campaign": 48,
+  "original_files_verified": 397,
+  "environment": {
+    "python": "3.14.4",
+    "gcc": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43"
+  },
+  "source_hashes": {
+    "shipped_auxfunc_sha256": "27446371eccf14383e5a333dfed6333ed9a2232580d0a52c1c681bc2074a8368",
+    "auxfunc_reduced_sha256": "da38af4a5481c41300e85d6fc8b4f6f16ac379a943e1bf8c58e34b4d67a248ca",
+    "driver_sha256": "185c2627351c631cf20a12c3485aefbe0a150830c27a23d28585c3e82ca6f0a9",
+    "public_verifier_sha256": "d45d99d1aa71682839bac8be75771afd169c8a03f078750dce128e89310bd14f"
+  },
+  "inert_at_256": true,
+  "full_width_preprocessed_code": {
+    "equal_after_diagnostic_location_normalization": true,
+    "raw_preprocessed_lines_differing": 16,
+    "diagnostic_lines_normalized": 16
+  },
+  "campaign_file": "campaign_48.json",
+  "probe_file": "probe_fullwidth.json",
+  "cross_build_emulation": {
+    "emulated_header_state_matches": true,
+    "emulated_state_B0_matches": true,
+    "emulated_state_B1_matches": true,
+    "emulated_mu_matches": true
+  },
+  "public_artifact_checks": {
+    "state_bits": 48,
+    "signature_bytes": 5449,
+    "uses_signing_key": false,
+    "additional_signing_queries": 0,
+    "verify_M0_rc": 0,
+    "verify_M1_rc": 0,
+    "verify_M2_rc": -1,
+    "verify_corrupted_full_length_rc": -1,
+    "verify_truncated_rc": -1,
+    "all_controls_passed": true
+  },
+  "scaling_law_mean_ratio_vs_1.2533": {
+    "8": {
+      "reps": 16,
+      "mean_trials": 19.4375,
+      "mean_ratio": 1.21484375
+    },
+    "16": {
+      "reps": 16,
+      "mean_trials": 282.8125,
+      "mean_ratio": 1.104736328125
+    },
+    "24": {
+      "reps": 16,
+      "mean_trials": 4443.8125,
+      "mean_ratio": 1.0849151611328125
+    },
+    "32": {
+      "reps": 8,
+      "mean_trials": 63490.125,
+      "mean_ratio": 0.9687824249267578
+    },
+    "40": {
+      "reps": 4,
+      "mean_trials": 1405554.75,
+      "mean_ratio": 1.3404414653778076
+    },
+    "48": {
+      "reps": 2,
+      "mean_trials": 26822713.5,
+      "mean_ratio": 1.5987583100795746
+    }
+  },
+  "headline_results": {
+    "collision_search_trials": 12894937,
+    "states_equal": 1,
+    "mu_equal_over_1024_bits": 1,
+    "signing_oracle_queries": 1,
+    "verify_M0_rc": 0,
+    "verify_M1_rc": 0,
+    "signature_transferred": 1,
+    "full_width_states_differ": 1,
+    "full_width_mu_differ": 1,
+    "full_width_transfer_fails": true
+  }
+}

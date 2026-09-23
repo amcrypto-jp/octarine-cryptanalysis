@@ -1,0 +1,12 @@
+{
+  "mode": "selftest",
+  "auxfunc": "generated auxfunc_reduced.c",
+  "octarine_state_bits": 256,
+  "sm3_kat_0": "66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0",
+  "sm3_kat_1": "debe9ff92275b8a138604889c18e5a4d6fdb70e5387e5765293dcba39c0c5732",
+  "pk_sm3": "5bc5f3c135b4ea5ca42046e34db3ef6dfc64faaaddeef09c60463402d01362d4",
+  "sk_sm3": "965881beb43fcf1ca05a7081ca24571c3e2c09a17b8cf5c66cb613eba4053584",
+  "sig_sm3": "6e9e7b45e77504e464a8dec3cdf0f74d547f45f4a9a07e568e7ba5a050e49a3a",
+  "verify_rc": 0,
+  "status": 0
+}

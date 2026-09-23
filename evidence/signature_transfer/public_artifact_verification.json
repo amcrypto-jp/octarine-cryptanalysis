@@ -1,0 +1,12 @@
+{
+  "state_bits": 48,
+  "signature_bytes": 5449,
+  "uses_signing_key": false,
+  "additional_signing_queries": 0,
+  "verify_M0_rc": 0,
+  "verify_M1_rc": 0,
+  "verify_M2_rc": -1,
+  "verify_corrupted_full_length_rc": -1,
+  "verify_truncated_rc": -1,
+  "all_controls_passed": true
+}

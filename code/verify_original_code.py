@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Run focused C checks against a hash-verified, separately obtained submission.
 
-Builds nine challenge-stream checks, six SM3 descriptor checks, and one SM3
-continuation check. It executes no submitted Makefile, script, or binary.
+Builds nine challenge-stream checks, six SM3 descriptor checks, one SM3
+continuation check, and a supplied-state 20-step collision replay with
+submitted 64-step controls. It executes no submitted Makefile, script, or binary.
 """
 import require_checks
 import argparse
@@ -79,6 +80,20 @@ def run(root, cc):
                  str(CODE / "verify_sm3_mechanism.c"), "-o", str(binary)])
         continuation = checked([str(binary)])
         assert "model matches" in continuation and "yes (mechanism confirmed" in continuation
+        binary = Path(tmp) / "sm3-reduced-collision"
+        checked([cc, *flags, "-I" + str(base / "utils"),
+                 str(CODE / "verify_sm3_reduced_collision.c"), "-o", str(binary)])
+        reduced_collision = checked([str(binary)])
+        row = values(reduced_collision)
+        for key in ("concrete_20step_collision", "matches_published_h2",
+                    "adapter_64step_matches_submitted",
+                    "equal_20step_state_plus_identical_suffix_remains_equal"):
+            assert row[key] == "yes", (key, row)
+        for key in ("states_equal_after_64", "full_sm3_collision", "octarine_prefix_reached",
+                    "octarine_signature_campaign_executed", "octarine_signature_transferred"):
+            assert row[key] == "no", (key, row)
+        assert row["differing_bytes"] == 8
+        assert row["equal_20step_counter_blocks"] == row["checked_counters"] == 64
     return {
         "original_files_verified": verified_count,
         "compiler": checked([cc, "--version"]).splitlines()[0],
@@ -87,6 +102,7 @@ def run(root, cc):
         "challenge_streams": challenges,
         "secret_descriptors": descriptors,
         "sm3_continuation": continuation.splitlines(),
+        "sm3_reduced_collision": reduced_collision.splitlines(),
         "full_sm3_collision_found": False,
         "unknown_signing_key_recovered": False,
         "actual_signature_forgery": False,
